@@ -37,7 +37,6 @@ class KraitServiceProvider extends ServiceProvider
         }
     }
 
-
     /**
      * Register the package's commands.
      */
