@@ -26,7 +26,8 @@
   "scripts": {
     "lint": "eslint src/**/*.{ts,vue}",
     "lint:fix": "eslint --fix src/**/*.{ts,vue}",
-    "format": "npx prettier . --write",
+    "prettier": "prettier . --check",
+    "prettier:fix": "prettier . --write",
     "dev": "vite build --watch",
     "build": "vite build",
     "preview": "vite preview",
@@ -50,6 +51,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.26.0",
     "prettier": "3.3.2",
+    "sass": "^1.77.5",
     "storybook": "^8.1.3",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.13.0",
@@ -57,13 +59,15 @@
     "vite-plugin-dts": "^3.9.1"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "bootstrap": "^5.0.1",
     "vue": "^3.0.0",
     "vue3-spinner": "^0.0.16",
     "vuedraggable": "^4.1.0"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "bootstrap": "^5.0.1"
   },
   "engines": {
     "node": "18.20.3",
