@@ -1,10 +1,8 @@
-import { fn } from '@storybook/test';
-
 import DynamicTable from './DynamicTable.vue';
 
 export const ActionsData = {
-  onPinTask: fn(),
-  onArchiveTask: fn(),
+  tableName: 'test',
+  apiEndpoint: '/records',
 };
 
 export default {
@@ -19,10 +17,6 @@ export default {
 
 export const Default = {
   args: {
-    task: {
-      id: '1',
-      title: 'Test Task',
-      state: 'TASK_INBOX',
-    },
+    ...ActionsData,
   },
 };
