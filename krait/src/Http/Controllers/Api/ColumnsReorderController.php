@@ -11,9 +11,10 @@ class ColumnsReorderController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(ColumnsReorderRequest $request, KraitPreviewConfiguration $record): JsonResponse
+    public function __invoke(ColumnsReorderRequest $request, string $table): JsonResponse
     {
-        $record->update([
+        $configuration = $this->getPreviewConfiguration($table);
+        $configuration->update([
             "columns_order" => $request->get('columns')
         ]);
 
