@@ -28,12 +28,19 @@ class Krait
         $config = [
             'routeUri' => request()->route()->uri,
             'apiBaseUrl' => config('krait.api_base_url'),
-            'authToken' => config('krait.api_auth_token')
+            'authToken' => config('krait.api_auth_token'),
         ];
 
         if (config('krait.api_use_csrf')) {
             $config['csrfToken'] = csrf_token();
         }
+
+        $internalApiPath = config('krait.path', 'krait');
+        if (str_ends_with($internalApiPath, '/')) {
+            $internalApiPath = substr($internalApiPath, 0, -1);
+        }
+        $config['internalApiPath'] = $internalApiPath . '/api';
+
 
         return $config;
     }
