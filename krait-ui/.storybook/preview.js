@@ -57,11 +57,19 @@ const initCsrf = () => {
 
 const initConfig = () => {
   window.Krait = {
-    routeUri: '/current-route',
-    routes: {
-      reorderColumns: 'https://test.com/api/reorder-columns',
-      resizeColumn: 'https://test.com/api/resize-column',
+    apiBaseUrl: 'https://my-resource-api.com/api',
+    internalApiPath: '/krait/api',
+
+    kraitApi: {
+      use_csrf: true,
+      auth_token: null,
     },
+    resourceApi: {
+      use_csrf: true,
+      auth_token: null,
+    },
+
+    csrfToken: 'test-csrf-token',
   };
 };
 

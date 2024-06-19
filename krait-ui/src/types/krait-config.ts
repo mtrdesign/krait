@@ -1,8 +1,15 @@
 export interface IGlobalConfig {
-  appName: string;
-  routeUri: string;
-  routes: {
-    reorderColumns: string;
-    resizeColumn: string;
+  apiBaseUrl: string;
+  internalApiPath: string;
+
+  kraitApi: {
+    use_csrf: boolean;
+    auth_token: string | null;
   };
+  resourceApi: {
+    use_csrf: boolean;
+    auth_token: string | null;
+  };
+
+  csrfToken: string;
 }

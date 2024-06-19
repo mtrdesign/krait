@@ -26,21 +26,23 @@ class Krait
     public static function scriptVariables(): array
     {
         $config = [
-            'routeUri' => request()->route()->uri,
             'apiBaseUrl' => config('krait.api_base_url'),
-            'authToken' => config('krait.api_auth_token'),
+            'kraitApi' => config('krait.krait_api'),
+            'resourceApi' => config('krait.resource_api'),
+            'csrfToken' => csrf_token(),
+//            'routes' => [
+//                'hideColumns' => route('krait.preview-configuration.columns.hide'),
+//                'reorderColumns' => route('krait.preview-configuration.columns.reorder'),
+//                'resizeColumns' => route('krait.preview-configuration.columns.resize'),
+//                'sortColumns' => route('krait.preview-configuration.columns.sort'),
+//            ]
         ];
-
-        if (config('krait.api_use_csrf')) {
-            $config['csrfToken'] = csrf_token();
-        }
 
         $internalApiPath = config('krait.path', 'krait');
         if (str_ends_with($internalApiPath, '/')) {
             $internalApiPath = substr($internalApiPath, 0, -1);
         }
         $config['internalApiPath'] = $internalApiPath . '/api';
-
 
         return $config;
     }

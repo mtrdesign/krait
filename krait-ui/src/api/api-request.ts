@@ -34,6 +34,10 @@ class ApiRequest extends Request {
     this.headers.set('x-csrf-token', token);
   }
 
+  set authToken(token: string) {
+    this.headers.set('authorization', `Bearer ${token}`);
+  }
+
   get csrfToken(): string | null {
     return this.headers.get('x-csrf-token');
   }

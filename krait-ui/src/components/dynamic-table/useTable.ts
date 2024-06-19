@@ -1,5 +1,6 @@
 import { reactive, Ref, ref, UnwrapNestedRefs, UnwrapRef } from 'vue';
 import { Table, Responses } from '~/types';
+import { KraitUrls } from '~/api';
 
 interface IState {
   isLoading: Ref<UnwrapRef<boolean>>;
@@ -9,11 +10,12 @@ interface IState {
   records: Ref<UnwrapRef<Table.IRow[]>>;
   sorting: UnwrapNestedRefs<Table.ISorting> & {};
   visibleColumns: Ref<UnwrapRef<string[]>>;
+  urls: KraitUrls.ITableUrls;
 }
 
 const tables: Map<string, IState> = new Map();
 
-const getState = (): IState => {
+const getState = (tableName: string): IState => {
   const columns = ref<Table.IColumn[]>([]);
   const visibleColumns = ref<string[]>([]);
   const sorting = reactive<Table.ISorting>({
@@ -29,6 +31,7 @@ const getState = (): IState => {
   const records = ref<Table.IRow[]>([]);
   const isLoading = ref<boolean>(false);
   const links = ref<Responses.ILinks>({});
+  const urls = KraitUrls.getTableUrls(tableName);
 
   return {
     columns,
@@ -38,6 +41,7 @@ const getState = (): IState => {
     pagination,
     records,
     links,
+    urls,
   };
 };
 
@@ -47,7 +51,7 @@ export default (tableName: string) => {
     return table;
   }
 
-  const state = getState();
+  const state = getState(tableName);
   tables.set(tableName, state);
   return state;
 };

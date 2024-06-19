@@ -10,14 +10,14 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  selectable: {
+  actionsColumn: {
     type: Boolean,
     required: false,
     default: false,
   },
 });
 
-const { columns, visibleColumns, sorting } = useTable(props.tableName);
+const { columns, visibleColumns, sorting, urls } = useTable(props.tableName);
 const { ApiUrl, apiClient } = useRequest();
 
 const dragging = ref(false);
@@ -27,25 +27,19 @@ const reorderColumn = async ({ moved }: { moved: boolean }) => {
     return;
   }
 
-  const url = new ApiUrl(window.Krait.routes.reorderColumns);
   const data: {
-    route_uri: string;
-    table_name: string;
-    display_order_settings: string[];
+    columns: string[];
   } = {
-    route_uri: window.Krait.routeUri,
-    table_name: props.tableName,
-    display_order_settings: [],
+    columns: [],
   };
 
   columns.value.forEach((column) => {
     if (visibleColumns.value.includes(column.name)) {
-      data['display_order_settings'].push(column.name);
+      data.columns.push(column.name);
     }
   });
 
-  // @TODO! Improve the fetching here.
-  await apiClient.fetch(url, {
+  await apiClient.fetch(urls.reorderColumnsUrl, {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -59,21 +53,15 @@ const resizeColumn = async (e: any, column_name: string, width: number) => {
       return true;
     }
   });
-
   if (!column) {
     return;
   }
 
-  const url = new ApiUrl(window.Krait.routes.resizeColumn);
-
-  // @TODO! Improve the fetching here.
-  await apiClient.fetch(url, {
+  await apiClient.fetch(urls.resizeColumnsUrl, {
     method: 'POST',
     body: JSON.stringify({
-      route_uri: window.Krait.routeUri,
-      table_name: props.tableName,
-      column_name: column.name,
-      column_width: column.width!,
+      name: column.name,
+      width: column.width!,
     }),
   });
 };
@@ -107,7 +95,12 @@ const resizeColumn = async (e: any, column_name: string, width: number) => {
           ></DynamicColumn>
         </template>
       </draggable>
-      <th class="text-nowrap" scope="col" :style="`width: 100px`"></th>
+      <th
+        class="text-nowrap"
+        scope="col"
+        :style="`width: 100px`"
+        v-if="actionsColumn"
+      ></th>
     </tr>
   </thead>
 </template>

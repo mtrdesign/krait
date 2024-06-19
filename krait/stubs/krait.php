@@ -39,7 +39,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Api Base URL
+    | Resource Api Base URL
     |--------------------------------------------------------------------------
     |
     | This config variable sets the base API url path.
@@ -48,28 +48,30 @@ return [
 
     'api_base_url' => env('APP_URL') . '/api',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Krait Internal API Configurations
+    |--------------------------------------------------------------------------
+    |
+    | This config variable sets the internal Krait API settings.
+    |
+    */
+    'krait_api' => [
+        'use_csrf' => true,
+        'auth_token' => null,
+    ],
 
     /*
     |--------------------------------------------------------------------------
-    | Api CSRF Token
+    | Resource API Configurations
     |--------------------------------------------------------------------------
     |
-    | This config variable flags if the API requests should use the laravel
-    | CSRF token.
+    | This config variable sets the Resource API settings.
     |
     */
 
-    'api_use_csrf' => true,
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Api Auth Token
-    |--------------------------------------------------------------------------
-    |
-    | This config is for Bearer authorization token (if needed).
-    |
-    */
-
-    'api_auth_token' => null,
+    'resource_api' => [
+        'use_csrf' => true,
+        'auth_token' => null,
+    ],
 ];
