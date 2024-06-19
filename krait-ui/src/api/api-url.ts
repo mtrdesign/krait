@@ -9,7 +9,7 @@ interface IPagination {
   page?: number;
 }
 
-interface IFilter {
+export interface IFilter {
   name: string;
   value: string;
 }
@@ -73,16 +73,9 @@ class ApiUrl extends URL {
     return this._filters;
   }
 
-  set filtersQuery(query: string | IFilter[]) {
-    let parsedFilters: IFilter[];
-    if (typeof query === 'string') {
-      parsedFilters = ApiUrl.parseStringQuery(query);
-    } else {
-      parsedFilters = query;
-    }
-
+  set filtersQuery(query: IFilter[]) {
     const filters = [];
-    for (const { name, value } of parsedFilters) {
+    for (const { name, value } of query) {
       if (!value) {
         continue;
       }

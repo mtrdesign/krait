@@ -38,7 +38,10 @@ const {
   links,
 } = useTable(props.tableName);
 
-const fetchRecords = async (href: string | null = null) => {
+const fetchRecords = async (
+  href: string | null = null,
+  setColumns: boolean = true,
+) => {
   isLoading.value = true;
 
   const url = new ApiUrl(href ?? props.apiEndpoint, false);
@@ -47,7 +50,29 @@ const fetchRecords = async (href: string | null = null) => {
     sortDirection: sorting.direction ?? undefined,
     ipp: pagination.itemsPerPage ?? undefined,
   };
-  // url.filtersQuery = $(props.filtersForm).serializeArray();
+
+  if (props.filtersForm) {
+    const form = document.querySelector<HTMLFormElement>(props.filtersForm);
+    if (!form) {
+      throw new Error('No filters form found.');
+    }
+
+    // Create a new FormData object
+    const formData = new FormData(form);
+
+    // Create an array to hold the name/value pairs
+    const pairs = [];
+
+    // Add each name/value pair to the array
+    for (const [name, value] of formData) {
+      if (value instanceof File) {
+        continue;
+      }
+      pairs.push({ name, value });
+    }
+
+    url.filtersQuery = pairs;
+  }
 
   const response = await fetchApi(url, 'GET', null, false, true, true);
   const content = (await response.json()) as Responses.ITableResponse;
@@ -64,8 +89,10 @@ const fetchRecords = async (href: string | null = null) => {
   pagination.links = content.meta.links;
 
   /// Set the columns
-  columns.value = content.columns;
-  visibleColumns.value = content.preview_configuration.visible_columns;
+  if (setColumns) {
+    columns.value = content.columns;
+    visibleColumns.value = content.preview_configuration.visible_columns;
+  }
 
   /// Set the sorting
   sorting.sortBy = content.preview_configuration.sort_columns_by.column;
@@ -79,6 +106,22 @@ const fetchRecords = async (href: string | null = null) => {
 
 onMounted(async () => {
   await fetchRecords();
+
+  if (props.filtersForm) {
+    const form = document.querySelector<HTMLFormElement>(props.filtersForm);
+    if (!form) {
+      throw new Error('No filters form found.');
+    }
+
+    form.addEventListener(
+      'submit',
+      (e) => {
+        fetchRecords();
+        e.preventDefault();
+      },
+      false,
+    );
+  }
 });
 </script>
 
@@ -135,7 +178,7 @@ onMounted(async () => {
               active: link.active,
               disabled: (!link.url && !link.active) || isLoading,
             }"
-            @click="fetchRecords(link.url ? link.url : undefined)"
+            @click="fetchRecords(link.url ? link.url : undefined, false)"
             v-html="link.label"
           >
           </a>
