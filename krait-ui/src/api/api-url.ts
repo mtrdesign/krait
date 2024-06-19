@@ -1,5 +1,6 @@
-const CURRENT_URL = new URL(window.location.href);
-const API_URL = new URL(`${CURRENT_URL.origin}/api`);
+const RESOURCE_API_URL = new URL(window.Krait.apiBaseUrl);
+const KRAIT_URL = new URL(window.location.href);
+KRAIT_URL.pathname = window.Krait.internalApiPath;
 
 interface IPagination {
   sortColumn?: string;
@@ -16,14 +17,15 @@ interface IFilter {
 class ApiUrl extends URL {
   private _pagination: IPagination = {};
   private _filters: IFilter[] = [];
+  private _isInternal: boolean = true;
 
-  constructor(endpoint: string) {
+  constructor(endpoint: string, isInternal: boolean = true) {
     let url: URL;
 
     if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
       url = new URL(endpoint);
     } else {
-      url = new URL(API_URL);
+      url = new URL(isInternal ? KRAIT_URL : RESOURCE_API_URL);
 
       // Remove the start slash for consistency
       if (endpoint.startsWith('/')) {
@@ -34,10 +36,15 @@ class ApiUrl extends URL {
     }
 
     super(url.toString());
+    this._isInternal = isInternal;
   }
 
   get pagination(): IPagination {
     return this._pagination;
+  }
+
+  get isInternal(): boolean {
+    return this._isInternal;
   }
 
   set apiParams({ sortColumn, sortDirection, ipp, page }: IPagination) {

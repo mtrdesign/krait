@@ -20,6 +20,11 @@ const props = defineProps({
     required: false,
     default: undefined,
   },
+  actionsColumn: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const { fetchApi, ApiUrl } = useRequest();
@@ -33,10 +38,10 @@ const {
   links,
 } = useTable(props.tableName);
 
-const fetchRecords = async (href = null) => {
+const fetchRecords = async (href: string | null = null) => {
   isLoading.value = true;
 
-  const url = new ApiUrl(href ?? props.apiEndpoint);
+  const url = new ApiUrl(href ?? props.apiEndpoint, false);
   url.apiParams = {
     sortColumn: sorting.sortBy ?? undefined,
     sortDirection: sorting.direction ?? undefined,
@@ -75,17 +80,13 @@ const fetchRecords = async (href = null) => {
 onMounted(async () => {
   await fetchRecords();
 });
-
-const deleteRecord = async () => {
-  alert('Deleting....');
-};
 </script>
 
 <template>
   <ToastsList />
   <div class="table-responsive table-wrapper">
     <table ref="table" class="table table-hover table-striped dynamic-table">
-      <THead :table-name="tableName"></THead>
+      <THead :table-name="tableName" :actions-column="actionsColumn"></THead>
       <tr v-if="pagination.totalItems === 0 && !isLoading">
         <td colspan="100%">
           <div class="alert alert-secondary">No records found</div>
@@ -107,46 +108,52 @@ const deleteRecord = async () => {
               </slot>
             </td>
             <td class="text-nowrap align-middle">
-              <div class="d-flex justify-content-end">
-                <slot name="actions" :record="record">
-                  <a
-                    v-if="record.create_link_url"
-                    :href="record.create_link_url as string"
-                    class="btn btn-secondary btn-xs me-1"
-                    target="_blank"
-                  >
-                    <i class="fa fa-link"></i>
-                  </a>
-                  <a
-                    v-if="record.update_url"
-                    :href="record.update_url as string"
-                    class="btn btn-primary btn-xs me-1"
-                  >
-                    <i class="fa fa-pencil"></i>
-                  </a>
-                  <a
-                    v-else-if="record.preview_url"
-                    :href="record.preview_url as string"
-                    class="btn btn-primary btn-xs me-1"
-                  >
-                    <i class="fa-solid fa-eye"></i>
-                  </a>
-                </slot>
-                <button
-                  v-if="record.delete_url"
-                  class="btn btn-danger btn-xs"
-                  @click="deleteRecord(record)"
-                >
-                  <i class="fa fa-trash"></i>
-                </button>
-              </div>
+              <slot name="actions" :record="record"></slot>
             </td>
           </tr>
-          <slot name="additionalRows" :record="record" :columns="columns">
+          <slot
+            name="additionalRows"
+            :record="record"
+            :columns="columns"
+            v-if="actionsColumn"
+          >
           </slot>
         </template>
       </tbody>
     </table>
+  </div>
+  <div
+    class="d-flex justify-content-between mt-3"
+    v-if="pagination.totalItems && pagination.totalItems > 0"
+  >
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" v-for="link in pagination.links">
+          <a
+            class="page-link"
+            :class="{
+              active: link.active,
+              disabled: (!link.url && !link.active) || isLoading,
+            }"
+            @click="fetchRecords(link.url ? link.url : undefined)"
+            v-html="link.label"
+          >
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="form-group">
+      <select
+        v-model="pagination.itemsPerPage"
+        class="form-control form-select form-select-sm"
+        :disabled="isLoading"
+      >
+        <option value="30">30 records</option>
+        <option value="50">50 records</option>
+        <option value="100">100 records</option>
+        <option value="250">250 records</option>
+      </select>
+    </div>
   </div>
 </template>
 
