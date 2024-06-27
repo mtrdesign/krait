@@ -1,23 +1,8 @@
 name: Prerelease
 
 on:
-  workflow_dispatch:
-    inputs:
-      description:
-        description: 'Release notes'
-        type: string
-        default: ''
-        required: false
-      version-update:
-        description: 'Version update'
-        required: true
-        default: 'no update'
-        type: choice
-        options:
-          - major
-          - minor
-          - patch
-          - no update
+  release:
+    types: [published]
 
 env:
   NODE_VERSION: "18.15.0"
@@ -30,8 +15,8 @@ permissions:
   contents: write
 
 jobs:
-  prerelease:
-    name: Draft Github Release
+  deploy_release:
+    name: Deploy release
     runs-on: ubuntu-20.04
     outputs:
       release_id: ${{ steps.update_release.outputs.result }}
