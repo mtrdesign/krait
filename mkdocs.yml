@@ -1,6 +1,0 @@
-site_name: Krait
-theme: readthedocs
-nav:
-  - Overview: overview.md
-  - Quickstart: quickstart.md
-  - FAQ: faq.md
