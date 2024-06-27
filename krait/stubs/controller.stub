@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use MtrDesign\Krait\Http\Resources\TableCollection;
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ tableNamespace }}{{ tableClass }};
+
+class {{ class }} extends Controller
+{
+    public function __invoke(): TableCollection
+    {
+        $items = collect([]);
+
+        return {{ tableClass }}::from($items);
+    }
+}

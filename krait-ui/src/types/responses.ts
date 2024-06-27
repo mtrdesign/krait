@@ -1,4 +1,4 @@
-import { IRow } from './table';
+import { IColumn, IRow } from './table';
 
 export interface ILinks {
   [key: string]: string | null;
@@ -29,24 +29,17 @@ export interface ISortColumnsBy {
 
 export interface IPreviewConfiguration {
   uuid: string;
-  visible_columns: string[];
-  display_order_settings: string[];
-  sort_columns_by: ISortColumnsBy;
-}
-
-export interface IColumn {
-  label: string;
-  name: string;
-  hidden?: boolean | undefined;
-  sortable?: boolean | undefined;
-  fixed?: boolean | undefined;
-  width?: number;
+  sort_column: string | null;
+  sort_direction: string | null;
+  columns_order: string[] | null;
+  columns_width: { [key: string]: number } | null;
+  visible_columns: string[] | null;
 }
 
 export interface ITableResponse {
   data: IRow[];
   links: ILinks;
   meta: IMeta;
-  preview_configuration: IPreviewConfiguration;
+  preview_configuration: IPreviewConfiguration | null;
   columns: IColumn[];
 }

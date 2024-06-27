@@ -2,11 +2,14 @@
 
 namespace MtrDesign\Krait\Tables;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Laravel\Prompts\Table;
 use MtrDesign\Krait\DTO\TableColumnDTO;
 use MtrDesign\Krait\Http\Resources\TableCollection;
+use MtrDesign\Krait\Services\PreviewConfigService;
 
 abstract class BaseTable
 {
@@ -16,6 +19,13 @@ abstract class BaseTable
      * @var TableColumnDTO[] $columns
      */
     protected array $columns;
+
+    public PreviewConfigService $previewConfigService;
+
+    public function __construct(PreviewConfigService $previewConfigService)
+    {
+        $this->previewConfigService = $previewConfigService;
+    }
 
     /**
      * Returns the table name
@@ -73,8 +83,9 @@ abstract class BaseTable
         bool $fixed = false,
         ?string $classes = null,
         callable $process = null,
+        callable $sort = null,
     ): void {
-         $this->columns[] = new TableColumnDTO(
+         $this->columns[$name] = new TableColumnDTO(
             name: $name,
             label: $label,
             hideLabel: $hideLabel,
@@ -82,7 +93,8 @@ abstract class BaseTable
             sortable: $sortable,
             fixed: $fixed,
             classes: $classes,
-            process: $process
+            process: $process,
+            sort: $sort
         );
     }
 
@@ -97,7 +109,7 @@ abstract class BaseTable
             return $columns;
         }
 
-        if ($this->shouldRefresh()) {
+        if ($this->shouldRefresh() || empty($this->columns)) {
             $this->columns = [];
             $this->initColumns();
         }
@@ -107,6 +119,25 @@ abstract class BaseTable
         }
 
         return $this->columns;
+    }
+
+    /**
+     * Returns specific column
+     *
+     * @param string $columnName
+     * @return TableColumnDTO
+     * @throws Exception
+     */
+    public function getColumn(string $columnName): TableColumnDTO
+    {
+        $columns = $this->getColumns();
+
+        $column = $columns[$columnName] ?? null;
+        if (empty($column)) {
+            throw new Exception("Invalid column name $columnName.");
+        }
+
+        return $column;
     }
 
     /**
@@ -123,7 +154,11 @@ abstract class BaseTable
         return app(get_called_class());
     }
 
-    public function processRecord(Model $resource, mixed $placeholder = null) {
+    public function processRecord(Model|array $resource, mixed $placeholder = null) {
+        if (is_array($resource)) {
+            $resource = (object)$resource;
+        }
+
         $row = [];
         foreach ($this->getColumns() as $column) {
             $columnMethod = sprintf('get%s', Str::ucfirst($column->name));
@@ -140,21 +175,33 @@ abstract class BaseTable
         return $row;
     }
 
-    public static function process(Model $resource, mixed $placeholder = null): mixed
+    public static function process(mixed $resource, mixed $placeholder = null): mixed
     {
         return static::getFacade()->processRecord($resource, $placeholder);
     }
 
-    public static function from(mixed $resource): TableCollection
+    public static function from(mixed $records): TableCollection
     {
-        return new TableCollection($resource, static::getFacade());
+        $table = static::getFacade();
+        $user = request()->user();
+        $previewConfiguration = $table->previewConfigService->getConfiguration($user, $table->name());
+        $table->previewConfigService->sort($records, $previewConfiguration, $table);
+
+        return new TableCollection($records, $table);
     }
 
-    public function additionalData(Model $resource): array {
+    public static function getName(): string
+    {
+        return static::getFacade()->name();
+    }
+
+    public function additionalData(mixed $resource): array
+    {
         return [];
     }
 
-    public function getKeyName(): string {
+    public function getKeyName(): string
+    {
         return 'uuid';
     }
 }

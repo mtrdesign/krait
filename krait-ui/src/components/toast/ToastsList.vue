@@ -1,6 +1,8 @@
-<script setup>
-import { messages } from './useToast';
+<script setup lang="ts">
+import { useToast } from '~/mixins';
 import Toast from './Toast.vue';
+
+const { messages } = useToast();
 </script>
 
 <template>
@@ -16,6 +18,7 @@ import Toast from './Toast.vue';
 </template>
 
 <style scoped lang="scss">
+// @TODO: thing of a better way to ensure that the element is on top.
 .toast-container {
   z-index: 9999;
 }

@@ -29,6 +29,8 @@ return new class extends Migration
                 ->nullable();
             $table->string('sort_direction')
                 ->nullable();
+            $table->unsignedSmallInteger('items_per_page')
+                ->nullable();
             $table->json('columns_order')
                 ->nullable();
             $table->json('columns_width')

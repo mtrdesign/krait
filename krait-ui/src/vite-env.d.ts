@@ -5,3 +5,5 @@ declare module '*.vue' {
   const component: DefineComponent<object, object, object>;
   export default component;
 }
+
+declare module 'vue3-spinner';

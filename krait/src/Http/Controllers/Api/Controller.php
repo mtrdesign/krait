@@ -2,6 +2,7 @@
 
 namespace MtrDesign\Krait\Http\Controllers\Api;
 
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Routing\Controller as BaseController;
 use MtrDesign\Krait\Http\Middlewares\KraitApi;
 use MtrDesign\Krait\Models\KraitPreviewConfiguration;
@@ -22,9 +23,9 @@ abstract class Controller extends BaseController
     {
         $user = request()->user();
 
-        return KraitPreviewConfiguration::firstOrNew([
+        return KraitPreviewConfiguration::firstOrCreate([
             'table_name' => $tableName,
-            'user_id' => $user->user_id,
+            'user_id' => $user->id,
         ]);
     }
 }

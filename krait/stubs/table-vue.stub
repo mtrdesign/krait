@@ -1,0 +1,30 @@
+<script setup>
+// import { DynamicTable } from '@mtrdesign/krait-ui';
+
+defineProps({
+  'filtersForm': {
+    type: String,
+    required: false,
+    default: undefined,
+  }
+});
+</script>
+
+<template>
+  <DynamicTable
+    apiEndpoint="{table_name}"
+    tableName="{table_name}"
+    :filtersForm="filtersForm"
+  >
+    <template #row="{ record, column }">
+      <div class="cell" v-if="column.name === 'my_first_column'">
+        Krait is awesome!
+      </div>
+      <div class="cell" v-else>
+        {{ record[column.name] ?? 'N/A' }}
+      </div>
+    </template>
+  </DynamicTable>
+</template>
+
+<style scoped lang="scss"></style>

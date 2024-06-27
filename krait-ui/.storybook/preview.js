@@ -3,6 +3,7 @@
 // This should be implemented in the Main Laravel application,
 //      adding it here just for the preview purposes
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import * as records from './mocks/records.json';
 
 const recordsJSON = JSON.stringify(records);
@@ -29,7 +30,7 @@ const mockFetch = () => {
       url = new URL(target.url);
     }
 
-    if (url.pathname === '/api/records') {
+    if (url.pathname === '/tables/test') {
       response = new Response(recordsJSON, {
         headers: {
           'content-type': 'application/json',
@@ -43,7 +44,7 @@ const mockFetch = () => {
       );
     }
 
-    console.log('Requesting -> ', url);
+    console.log('Requesting -> ', url.toString());
     return response;
   };
 };
@@ -57,7 +58,7 @@ const initCsrf = () => {
 
 const initConfig = () => {
   window.Krait = {
-    apiBaseUrl: 'https://my-resource-api.com/api',
+    resourceApiPath: '/api',
     internalApiPath: '/krait/api',
 
     kraitApi: {

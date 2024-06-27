@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Debug Mode
@@ -22,7 +21,18 @@ return [
     |
     */
 
-    'path' => 'krait',
+    'krait_path' => 'krait',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Krait API Prefix
+    |--------------------------------------------------------------------------
+    |
+    | This config variable sets the internal Krait API prefix path.
+    |
+    */
+
+    'tables_path' => 'tables',
 
 
     /*
@@ -35,43 +45,17 @@ return [
     |
     */
 
-    'middleware' => null,
+    'middleware' => ['web', 'auth'],
+
 
     /*
     |--------------------------------------------------------------------------
-    | Resource Api Base URL
+    | CSRF Token
     |--------------------------------------------------------------------------
     |
-    | This config variable sets the base API url path.
+    | This config variable flags if the CSRF token should be passed to the endpoints.
     |
     */
 
-    'api_base_url' => env('APP_URL') . '/api',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Krait Internal API Configurations
-    |--------------------------------------------------------------------------
-    |
-    | This config variable sets the internal Krait API settings.
-    |
-    */
-    'krait_api' => [
-        'use_csrf' => true,
-        'auth_token' => null,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Resource API Configurations
-    |--------------------------------------------------------------------------
-    |
-    | This config variable sets the Resource API settings.
-    |
-    */
-
-    'resource_api' => [
-        'use_csrf' => true,
-        'auth_token' => null,
-    ],
+    'use_csrf' => true,
 ];

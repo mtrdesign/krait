@@ -9,11 +9,11 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: path.resolve(__dirname, 'src/main.ts'),
-      formats: ['es'],
-      name: 'Krait',
+      name: 'KraitUi',
+      fileName: 'krait-ui',
     },
     rollupOptions: {
-      external: ['vue', 'bootstrap'],
+      external: ['vue', 'bootstrap', 'vue3-spinner', 'vuedraggable'],
       output: {
         globals: {
           Vue: 'vue',

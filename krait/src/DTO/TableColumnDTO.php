@@ -2,7 +2,10 @@
 
 namespace MtrDesign\Krait\DTO;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 readonly class TableColumnDTO
 {
@@ -17,18 +20,28 @@ readonly class TableColumnDTO
         public bool $fixed = false,
         public ?string $classes = null,
         callable $process = null,
+        callable $sort = null,
     ) {
         $this->callbacks = [
-            'process' => $process
+            'process' => $process,
+            'sort' => $sort,
         ];
     }
 
-    public function process(Model $model): mixed {
+    public function process(mixed $model): mixed {
         if (empty($this->callbacks['process'])) {
             return null;
         }
 
         return $this->callbacks['process']($model);
+    }
+
+    public function sort(mixed $records, string $direction): mixed {
+        if (empty($this->callbacks['sort'])) {
+            return $records;
+        }
+
+        return $this->callbacks['sort']($records, $direction);
     }
 
     public function hasCallback(): bool{
