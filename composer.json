@@ -21,12 +21,12 @@
   },
   "autoload": {
     "psr-4": {
-      "MtrDesign\\Krait\\": "src/"
+      "MtrDesign\\Krait\\": "krait/src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "MtrDesign\\Krait\\Tests\\": "tests/"
+      "MtrDesign\\Krait\\Tests\\": "krait/tests/"
     }
   },
   "extra": {
