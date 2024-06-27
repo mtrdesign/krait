@@ -1,5 +1,4 @@
 import { Ref, ref } from 'vue';
-
 interface IMessage {
   content: string;
   type: MessageTypes;
@@ -41,4 +40,5 @@ const showMessage = (
 
 export default () => ({
   showMessage,
+  messages,
 });

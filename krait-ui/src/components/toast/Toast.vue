@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { Toast } from 'bootstrap';
 
@@ -19,9 +19,13 @@ defineProps({
   },
 });
 
-const domEl = ref(null);
+const domEl = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
+  if (!domEl.value) {
+    throw new Error('No Toast DOM element found.)');
+  }
+
   const toast = new Toast(domEl.value);
   toast.show();
 });

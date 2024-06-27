@@ -19,11 +19,13 @@ class KraitPreviewConfiguration extends Model
      */
     protected $fillable = [
         'uuid',
+        'user_id',
         'table_name',
         'sort_column',
         'sort_direction',
         'columns_order',
         'columns_width',
+        'items_per_page',
         'visible_columns',
     ];
 

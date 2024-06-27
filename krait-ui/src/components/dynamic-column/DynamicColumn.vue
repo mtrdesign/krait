@@ -1,5 +1,14 @@
-<script setup>
-import { defineEmits, defineProps, reactive } from 'vue';
+<script setup lang="ts">
+import { defineEmits, defineProps, reactive, UnwrapNestedRefs } from 'vue';
+import { ArrowDown, ArrowUp } from '@components/icons';
+
+interface IColumnState {
+  xAxisCurrentCoords: any;
+  xAxisNewCoords: any;
+  rect: any;
+  col: any;
+  colWidth: any;
+}
 
 const emit = defineEmits(['sort', 'resize']);
 const props = defineProps([
@@ -14,7 +23,7 @@ const props = defineProps([
   'width',
 ]);
 
-const state = reactive({
+const state: UnwrapNestedRefs<IColumnState> = reactive({
   xAxisCurrentCoords: null,
   xAxisNewCoords: null,
   rect: null,
@@ -26,8 +35,8 @@ const toggleSort = () => {
   if (!props.isSortable) {
     return;
   }
-  let nextDirection = 'asc';
 
+  let nextDirection = 'asc';
   if (props.sortDirection === 'asc') {
     nextDirection = 'desc';
   }
@@ -35,25 +44,30 @@ const toggleSort = () => {
   emit('sort', props.name, nextDirection);
 };
 
-const resizeCols = (event) => {
-  state.xAxisCurrentCoords = event.clientX;
-  state.col = event.target.parentNode;
-  state.rect = state.col.getBoundingClientRect();
-  document.addEventListener('mousemove', mousemove);
-  document.addEventListener('mouseup', resizeStop);
-  event.preventDefault();
-  event.stopPropagation();
-};
-
-const mousemove = (e) => {
+const mouseMove = (e: MouseEvent) => {
   state.xAxisNewCoords = state.xAxisCurrentCoords - e.clientX;
   state.colWidth = Math.floor(
     state.rect.width - (state.xAxisCurrentCoords - e.clientX),
   );
   emit('resize', e, props.name, state.colWidth);
 };
-const resizeStop = () => {
-  document.removeEventListener('mousemove', mousemove);
+
+const resizeCols = (event: MouseEvent) => {
+  if (!event.target) {
+    return;
+  }
+
+  state.xAxisCurrentCoords = event.clientX;
+  state.col = event.target.parentNode;
+  state.rect = state.col.getBoundingClientRect();
+  document.addEventListener('mousemove', mouseMove);
+  document.addEventListener('mouseup', resizeStop);
+  event.preventDefault();
+  event.stopPropagation();
+};
+
+const resizeStop = (): void => {
+  document.removeEventListener('mousemove', mouseMove);
   document.removeEventListener('mouseup', resizeStop);
 };
 </script>
@@ -76,22 +90,34 @@ const resizeStop = () => {
         </span>
       </div>
       <span v-if="isSortable" class="sort" style="z-index: 1">
-        <a
+        <ArrowDown
+          :color="isActive ? '#0D6EFD' : '#adb5bd'"
           v-if="isActive && sortDirection === 'desc'"
-          :class="{ active: isActive }"
-          href="javascript:void(0)"
-          @click="emit('sort', name, 'asc')"
-        >
-          <i class="fa fa-angle-down"></i>
-        </a>
-        <a
+          @click="() => emit('sort', name, 'asc')"
+        ></ArrowDown>
+        <ArrowUp
+          :color="isActive ? '#0D6EFD' : '#adb5bd'"
+          @click="() => emit('sort', name, 'desc')"
           v-else
-          href="javascript:void(0)"
-          :class="{ active: isActive }"
-          @click="emit('sort', name, 'desc')"
-        >
-          <i class="fa fa-angle-up"></i>
-        </a>
+        ></ArrowUp>
+        <!--        <a-->
+        <!--          v-if="isActive && sortDirection === 'desc'"-->
+        <!--          :class="{ active: isActive }"-->
+        <!--          href="javascript:void(0)"-->
+        <!--          @click="emit('sort', name, 'asc')"-->
+        <!--        >-->
+        <!--          <ArrowDown></ArrowDown>-->
+        <!--          <i class="fa fa-angle-down"></i>-->
+        <!--        </a>-->
+        <!--        <a-->
+        <!--          v-else-->
+        <!--          href="javascript:void(0)"-->
+        <!--          :class="{ active: isActive }"-->
+        <!--          @click="emit('sort', name, 'desc')"-->
+        <!--        >-->
+        <!--          &lt;!&ndash;          <ArrowUp color="#0D6EFD"></ArrowUp>&ndash;&gt;-->
+        <!--          <i class="fa fa-angle-up"></i>-->
+        <!--        </a>-->
       </span>
     </div>
     <div

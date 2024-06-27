@@ -14,37 +14,28 @@ class Krait
      */
     public static function js()
     {
-        $horizon = Js::from(static::scriptVariables());
+        $krait = Js::from(static::scriptVariables());
 
         return new HtmlString(<<<HTML
             <script type="module">
-                window.Horizon = {$horizon};
+                window.Krait = {$krait};
             </script>
             HTML);
     }
 
     public static function scriptVariables(): array
     {
-        $config = [
-            'apiBaseUrl' => config('krait.api_base_url'),
-            'kraitApi' => config('krait.krait_api'),
-            'resourceApi' => config('krait.resource_api'),
+        $kraitPath = config('krait.krait_path', 'krait');
+        self::sanityPath($kraitPath);
+        $tablesPath = config('krait.tables_path', 'krait');
+        self::sanityPath($tablesPath);
+
+        return [
+            'kraitPath' => $kraitPath,
+            'tablesPath' => $tablesPath,
+            'useCsrf' => config('krait.use_csrf', true),
             'csrfToken' => csrf_token(),
-//            'routes' => [
-//                'hideColumns' => route('krait.preview-configuration.columns.hide'),
-//                'reorderColumns' => route('krait.preview-configuration.columns.reorder'),
-//                'resizeColumns' => route('krait.preview-configuration.columns.resize'),
-//                'sortColumns' => route('krait.preview-configuration.columns.sort'),
-//            ]
         ];
-
-        $internalApiPath = config('krait.path', 'krait');
-        if (str_ends_with($internalApiPath, '/')) {
-            $internalApiPath = substr($internalApiPath, 0, -1);
-        }
-        $config['internalApiPath'] = $internalApiPath . '/api';
-
-        return $config;
     }
 
     public static function column(
@@ -57,5 +48,12 @@ class Krait
             $label,
             $hide,
         );
+    }
+
+    static function sanityPath(string &$path): void
+    {
+        if (str_ends_with($path, '/')) {
+            $path = substr($path, 0, -1);
+        }
     }
 }

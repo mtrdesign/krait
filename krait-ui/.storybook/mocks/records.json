@@ -11,11 +11,11 @@
       "last_password_changed_at": "05\\/14\\/2024, 11:55 pm",
       "created_at": "05\\/14\\/2024, 11:53 pm",
       "uuid": "2fe38524-1cc3-477c-b09c-df194cf223ed",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/2fe38524-1cc3-477c-b09c-df194cf223ed",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/2fe38524-1cc3-477c-b09c-df194cf223ed",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/2fe38524-1cc3-477c-b09c-df194cf223ed\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -29,11 +29,11 @@
       "last_password_changed_at": "06\\/03\\/2024, 2:43 pm",
       "created_at": "05\\/07\\/2024, 2:46 pm",
       "uuid": "5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/5e6ea7fc-2112-4cc6-9a50-dfcc2bd15239\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -47,11 +47,11 @@
       "last_password_changed_at": null,
       "created_at": "03\\/22\\/2024, 2:34 am",
       "uuid": "55842d09-94bf-4b73-8ddf-355ea5724e2b",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/55842d09-94bf-4b73-8ddf-355ea5724e2b",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/55842d09-94bf-4b73-8ddf-355ea5724e2b",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/55842d09-94bf-4b73-8ddf-355ea5724e2b\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -65,11 +65,11 @@
       "last_password_changed_at": null,
       "created_at": "03\\/04\\/2024, 10:32 am",
       "uuid": "6500fc9e-a3e4-40df-8b8e-4c9596409cee",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/6500fc9e-a3e4-40df-8b8e-4c9596409cee\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -83,11 +83,11 @@
       "last_password_changed_at": "02\\/29\\/2024, 2:43 pm",
       "created_at": "02\\/29\\/2024, 2:41 pm",
       "uuid": "06995591-5374-4118-9cfa-5c30488e726f",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/06995591-5374-4118-9cfa-5c30488e726f",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/06995591-5374-4118-9cfa-5c30488e726f",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/06995591-5374-4118-9cfa-5c30488e726f\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -101,11 +101,11 @@
       "last_password_changed_at": null,
       "created_at": "02\\/27\\/2024, 6:38 am",
       "uuid": "7571de10-fd5e-4c50-9f69-22e5b5e6bb71",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/7571de10-fd5e-4c50-9f69-22e5b5e6bb71\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -119,11 +119,11 @@
       "last_password_changed_at": null,
       "created_at": "02\\/19\\/2024, 10:52 am",
       "uuid": "a141f970-9ee4-4033-9854-3076b5ce4273",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/a141f970-9ee4-4033-9854-3076b5ce4273",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/a141f970-9ee4-4033-9854-3076b5ce4273",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/a141f970-9ee4-4033-9854-3076b5ce4273\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -137,11 +137,11 @@
       "last_password_changed_at": null,
       "created_at": "12\\/15\\/2023, 11:11 am",
       "uuid": "ac4687dc-c663-4ed9-b752-7b233bafccb7",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/ac4687dc-c663-4ed9-b752-7b233bafccb7",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/ac4687dc-c663-4ed9-b752-7b233bafccb7",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/ac4687dc-c663-4ed9-b752-7b233bafccb7\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -155,11 +155,11 @@
       "last_password_changed_at": null,
       "created_at": "12\\/13\\/2023, 12:31 pm",
       "uuid": "4009444a-1afb-4103-aa32-aa07a705e9f5",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/4009444a-1afb-4103-aa32-aa07a705e9f5",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/4009444a-1afb-4103-aa32-aa07a705e9f5",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/4009444a-1afb-4103-aa32-aa07a705e9f5\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -173,11 +173,11 @@
       "last_password_changed_at": "12\\/13\\/2023, 5:50 am",
       "created_at": "12\\/13\\/2023, 5:48 am",
       "uuid": "f656628b-983d-4793-b521-c7a7168e89f0",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/f656628b-983d-4793-b521-c7a7168e89f0",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/f656628b-983d-4793-b521-c7a7168e89f0",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/f656628b-983d-4793-b521-c7a7168e89f0\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -191,9 +191,9 @@
       "last_password_changed_at": "04\\/12\\/2024, 9:46 am",
       "created_at": "12\\/12\\/2023, 3:22 pm",
       "uuid": "15df9a5d-fda4-4b4e-84fa-23076e0f6f07",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/15df9a5d-fda4-4b4e-84fa-23076e0f6f07\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/15df9a5d-fda4-4b4e-84fa-23076e0f6f07",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/15df9a5d-fda4-4b4e-84fa-23076e0f6f07\\/update-status",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/15df9a5d-fda4-4b4e-84fa-23076e0f6f07\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/15df9a5d-fda4-4b4e-84fa-23076e0f6f07",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/15df9a5d-fda4-4b4e-84fa-23076e0f6f07\\/update-status",
       "is_forced_to_logout": false
     },
     {
@@ -207,11 +207,11 @@
       "last_password_changed_at": null,
       "created_at": "12\\/10\\/2023, 11:55 pm",
       "uuid": "89ccfe60-c502-4bd3-88b1-8bb518bedfa4",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/89ccfe60-c502-4bd3-88b1-8bb518bedfa4\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -225,11 +225,11 @@
       "last_password_changed_at": null,
       "created_at": "12\\/05\\/2023, 2:52 pm",
       "uuid": "f3295489-b849-4213-84ac-7e477d2c2ac5",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/f3295489-b849-4213-84ac-7e477d2c2ac5",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/f3295489-b849-4213-84ac-7e477d2c2ac5",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/f3295489-b849-4213-84ac-7e477d2c2ac5\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -243,11 +243,11 @@
       "last_password_changed_at": null,
       "created_at": "11\\/17\\/2023, 2:36 am",
       "uuid": "75bfecf1-caa6-49d0-85e6-2f087fa2bfb8",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/75bfecf1-caa6-49d0-85e6-2f087fa2bfb8\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -261,11 +261,11 @@
       "last_password_changed_at": null,
       "created_at": "07\\/10\\/2023, 10:34 am",
       "uuid": "76083ee5-7173-4ec2-a3b7-6896bd36c343",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/76083ee5-7173-4ec2-a3b7-6896bd36c343",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/76083ee5-7173-4ec2-a3b7-6896bd36c343",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/76083ee5-7173-4ec2-a3b7-6896bd36c343\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -279,11 +279,11 @@
       "last_password_changed_at": null,
       "created_at": "02\\/16\\/2023, 11:06 pm",
       "uuid": "a352310c-aeda-4a1b-ad49-81f2d56fca62",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/a352310c-aeda-4a1b-ad49-81f2d56fca62",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/a352310c-aeda-4a1b-ad49-81f2d56fca62",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/a352310c-aeda-4a1b-ad49-81f2d56fca62\\/force-logout",
       "is_forced_to_logout": false
     },
     {
@@ -297,17 +297,17 @@
       "last_password_changed_at": null,
       "created_at": "02\\/16\\/2023, 7:52 pm",
       "uuid": "fa864d5b-525d-4f8a-b614-9422f7e2b8c4",
-      "update_url": "https:\\/\\/test-mocked-site.com\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4\\/edit",
-      "delete_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4",
-      "update_status_url": "https:\\/\\/test-mocked-site.com\\/api\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4\\/update-status",
-      "impersonate_url": "https:\\/\\/test-mocked-site.com\\/user-operations\\/impersonate\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4",
-      "force_logout_url": "https:\\/\\/test-mocked-site.com\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4\\/force-logout",
+      "update_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4\\/edit",
+      "delete_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4",
+      "update_status_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4\\/update-status",
+      "impersonate_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/user-operations\\/impersonate\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4",
+      "force_logout_url": "http:\\/\\/localhost:6006\\/tables\\/test\\/admins\\/fa864d5b-525d-4f8a-b614-9422f7e2b8c4\\/force-logout",
       "is_forced_to_logout": false
     }
   ],
   "links": {
-    "first": "https:\\/\\/test-mocked-site.com\\/api\\/admins?page=1",
-    "last": "https:\\/\\/test-mocked-site.com\\/api\\/admins?page=1",
+    "first": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins?page=1",
+    "last": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins?page=1",
     "prev": null,
     "next": null
   },
@@ -322,12 +322,12 @@
         "active": false
       },
       {
-        "url": "https:\\/\\/test-mocked-site.com\\/api\\/admins?page=1",
+        "url": "http://localhost:6006/tables/test?page=1",
         "label": "1",
         "active": true
       },
       {
-        "url": "https:\\/\\/test-mocked-site.com\\/api\\/admins?page=1",
+        "url": "http://localhost:6006/tables/test?page=2",
         "label": "2",
         "active": false
       },
@@ -337,7 +337,7 @@
         "active": false
       }
     ],
-    "path": "https:\\/\\/test-mocked-site.com\\/api\\/admins",
+    "path": "http:\\/\\/localhost:6006\\/tables\\/test\\/api\\/admins",
     "per_page": 30,
     "to": 17,
     "total": 17
@@ -355,17 +355,15 @@
       "created_at",
       "is_active"
     ],
-    "display_order_settings": null,
-    "sort_columns_by": {
-      "ipp": 30,
-      "column": "created_at",
-      "direction": "desc"
-    }
+    "columns_order": null,
+    "columns_width": null,
+    "sort_column": null,
+    "sort_direction": null
   },
   "columns": [
     {
       "label": "Active status",
-      "hidden": true,
+      "hideLabel": true,
       "name": "is_active",
       "classes": "cell--is-active",
       "sortable": false,
@@ -373,7 +371,8 @@
     },
     {
       "label": "Name",
-      "name": "name"
+      "name": "name",
+      "sortable": true
     },
     {
       "label": "Email address",

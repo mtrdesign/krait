@@ -1,4 +1,5 @@
-import { IPaginationButton } from './responses';
+import { ILinks, IPaginationButton } from './responses';
+import { Ref, UnwrapNestedRefs, UnwrapRef } from 'vue';
 
 export interface ISorting {
   sortBy: string | null;
@@ -17,10 +18,22 @@ export interface IPagination {
 }
 
 export interface IColumn {
-  label: string;
   name: string;
-  hidden?: boolean;
-  sortable?: boolean;
-  fixed?: boolean;
+  label: string;
+  hideLabel: boolean;
+  datetime: boolean;
+  sortable: boolean;
+  fixed: boolean;
+  classes: string | null;
   width?: number;
+}
+
+export interface ITableContext {
+  isLoading: Ref<UnwrapRef<boolean>>;
+  pagination: UnwrapNestedRefs<IPagination> & {};
+  links: Ref<UnwrapRef<ILinks>> & {};
+  columns: Ref<UnwrapRef<IColumn[]>>;
+  records: Ref<UnwrapRef<IRow[]>>;
+  sorting: UnwrapNestedRefs<ISorting> & {};
+  visibleColumns: Ref<UnwrapRef<string[]>>;
 }

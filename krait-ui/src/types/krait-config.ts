@@ -1,15 +1,6 @@
 export interface IGlobalConfig {
-  apiBaseUrl: string;
-  internalApiPath: string;
-
-  kraitApi: {
-    use_csrf: boolean;
-    auth_token: string | null;
-  };
-  resourceApi: {
-    use_csrf: boolean;
-    auth_token: string | null;
-  };
-
+  kraitPath: string;
+  tablesPath: string;
+  useCsrf: boolean;
   csrfToken: string;
 }
