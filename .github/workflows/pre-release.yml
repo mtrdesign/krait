@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "docs/**"
+      - "*.yml"
+      - "*.md"
+
+jobs:
+  draft-release:
+    name: Draft Github Release
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Draft github release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const releases = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: "unreleased",
+            })
+            const filtered = releases.data.filter(release => release.draft == true && release.tag_name === 'unreleased');
+            if (filtered.length === 0) {
+              console.log("Creating a new untagged release")
+              await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: "unreleased",
+                name: "Unreleased",
+                draft: true,
+                generate_release_notes: true,
+              })
+            } else {
+              console.log("Deleting old untagged release")
+              await github.rest.repos.deleteRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: filtered[0].id
+              })
+              console.log("Creating a new untagged release")
+              await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: "unreleased",
+                name: "Unreleased",
+                draft: true,
+                generate_release_notes: true,
+              })
+            }
