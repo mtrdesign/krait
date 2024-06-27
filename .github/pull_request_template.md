@@ -1,9 +1,3 @@
-[ Please replace this text with a summary of the changes.]
-
-### Ticket(s)
-
-Resolves [ISSUE-xxxxx](https://basecamp.com/1765345/projects/18517146/todos/xxxxx).
-
 ## Description
 
 <!--

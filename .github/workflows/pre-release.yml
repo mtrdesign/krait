@@ -30,25 +30,25 @@ permissions:
   contents: write
 
 jobs:
-  pre-release:
+  prerelease:
     name: Draft Github Release
     runs-on: ubuntu-20.04
+    outputs:
+      release_id: ${{ steps.update_release.outputs.result }}
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
-        with:
-          ref: main
-          lfs: false
 
-      - uses: actions/setup-node@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.20.3'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Setup Vals
+      - name: Configure github user
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
@@ -68,7 +68,8 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           git push --tags
 
-      - name: Set tag
+      - name: Set release tag
+        id: update_release
         uses: actions/github-script@v6
         with:
           script: |
@@ -109,7 +110,69 @@ jobs:
                 prerelease: true,
                 body: releaseNotes,
             });
+
+            return release.id
         env:
           TAG_NAME: ${{ steps.create_tag.outputs.tag }}
           USER: ${{ github.event.sender.login }}
           DESCRIPTION: ${{ github.event.inputs.description }}
+  build_ui:
+    name: Build UI Library
+    needs: [prerelease]
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+        with:
+          path: krait-ui
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Retrieve the npm dependencies cache
+        uses: actions/cache@v4
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-dependencies-${{ hashFiles('package-lock.json') }}
+            npm-dependencies-
+
+      - name: Install npm dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Build FE assets
+        run: npm run build
+
+      - name: Zip the distribution build
+        if: needs.init-environment.outputs.is_deployment_pipeline == 'true'
+        run: zip -9qry "distribution-package.zip" "./" -i "dist/*" "package.json" "package-lock.json"
+
+      - name: Upload an Asset in GitHub Release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const {RELEASE_ID} = process.env
+
+            const fs = require('fs').promises;
+            await github.rest.repos.uploadReleaseAsset({
+              name: 'README.md',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ env.RELEASE_ID }},
+              data: await fs.readFile('./npm-dist.zip')
+            });
+        env:
+          RELEASE_ID: ${{ needs.prerelease.outputs.release_id }}
+
+      - name: Publish the NPM package
+        run: npm publish --access public --tag dev
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
