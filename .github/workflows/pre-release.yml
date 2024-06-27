@@ -4,7 +4,7 @@ on:
   push:
     branches:
 #      - main
-      - *
+      - ci-cd-1
     paths-ignore:
       - "docs/**"
       - "*.yml"
