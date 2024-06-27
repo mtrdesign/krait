@@ -1,8 +1,8 @@
-name: Prerelease
+name: Release
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 env:
   NODE_VERSION: "18.15.0"
@@ -15,102 +15,15 @@ permissions:
   contents: write
 
 jobs:
-  deploy_release:
-    name: Deploy release
+  check:
+    name: check
     runs-on: ubuntu-20.04
-    outputs:
-      release_id: ${{ steps.update_release.outputs.result }}
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup Vals
-        run: |
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-
-      - name: Update package version
-        if: github.event.inputs.version-update != 'no update'
-        run:
-          npm version $VERSION_UPDATE --no-git-tag-version
-        env:
-          VERSION_UPDATE: ${{ github.event.inputs.version-update }}
-
-      - name: Update the beta version
-        id: create_tag
-        run: |
-          TAG=$(npm version prerelease --preid=beta -m "[GHA] Update package version to %s")
-          git push
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          git push --tags
-
-      - name: Set tag
-        id: update_release
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const {TAG_NAME, USER, DESCRIPTION} = process.env
-            const releases = await github.rest.repos.listReleases({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: "unreleased",
-            })
-            const filtered = releases.data.filter(release => release.draft == true && release.tag_name === 'unreleased');
-            let release;
-            if (filtered.length === 0) {
-                console.log("Creating a new untagged release")
-                release = await github.rest.repos.createRelease({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    tag_name: "unreleased",
-                    name: "Unreleased",
-                    draft: true,
-                    generate_release_notes: true,
-                })
-            } else {
-                release = filtered[0];
-            }
-
-            let releaseNotes = `${USER} released version ${TAG_NAME}.`;
-            if (DESCRIPTION) {
-              releaseNotes += `\n\n Release Notes:\n${DESCRIPTION}`;
-            }
-
-            github.rest.repos.updateRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: release.id,
-                name: TAG_NAME,
-                tag_name: TAG_NAME,
-                draft: false,
-                prerelease: true,
-                body: releaseNotes,
-            });
-
-            return release.id
-        env:
-          TAG_NAME: ${{ steps.create_tag.outputs.tag }}
-          USER: ${{ github.event.sender.login }}
-          DESCRIPTION: ${{ github.event.inputs.description }}
-  build_ui:
-    name: Build UI Library
-    needs: [prerelease]
-    runs-on: ubuntu-20.04
-    permissions:
-      contents: write
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
         with:
-          path: krait-ui
+          ref: main
+          lfs: false
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
@@ -118,45 +31,60 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Retrieve the npm dependencies cache
-        uses: actions/cache@v4
-        id: node-modules-cache
-        with:
-          path: node_modules
-          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            npm-dependencies-${{ hashFiles('package-lock.json') }}
-            npm-dependencies-
+      - name: Get build url
+        id: get_distribution_build
+        run: |
+          BUILD_URL=$(node .github/scripts/find_build_url.js "$ASSETS")
+          echo "build_url=$BUILD_URL" >> "$GITHUB_OUTPUT"
+          echo "$BUILD_URL"
+        env:
+          ASSETS: ${{ toJson(github.event.release.assets) }}
 
-      - name: Install npm dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Cd to the UI
+        run: cd krait-ui
 
-      - name: Build FE assets
-        run: npm run build
+      - name: Download distribution build
+        run: curl -O $DOWNLOAD_URL
+        env:
+          DOWNLOAD_URL: ${{ steps.get_distribution_build.outputs.build_url }}
 
-      - name: Zip the distribution build
-        if: needs.init-environment.outputs.is_deployment_pipeline == 'true'
-        run: zip -9qry "npm-dist.zip" "./" -i "dist/*"
+      - name: Unzip distribution-package.zip
+        run: unzip -q distribution-package.zip
 
-      - name: Upload an Asset in GitHub Release
+      - name: Setup Vals
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"}
+
+      - name: Update package version
+        id: update_package_version
+        run: |
+          RELEASE_VERSION=$(echo "$VERSION" | sed -e 's/-beta\.[[:digit:]_-]\{1,\}//g')
+          npm version $VERSION
+          git push
+          echo "tag=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+          git push --tags
+        env:
+          VERSION: ${{ github.event.release.tag_name }}
+
+      - name: Publish the NPM package
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Update release tag
         uses: actions/github-script@v6
         with:
           script: |
-            const {RELEASE_ID} = process.env
+            const {TAG_NAME, RELEASE_ID} = process.env
 
-            const fs = require('fs').promises;
-            await github.rest.repos.uploadReleaseAsset({
-              name: 'README.md',
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: ${{ env.RELEASE_ID }},
-              data: await fs.readFile('./npm-dist.zip')
+            github.rest.repos.updateRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: RELEASE_ID,
+                name: TAG_NAME,
+                tag_name: TAG_NAME,
             });
         env:
-          RELEASE_ID: ${{ needs.prerelease.outputs.release_id }}
-
-      - name: Publish the NPM package
-        run: npm publish --access public --tag dev
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          RELEASE_ID: ${{ github.event.release.id }}
+          TAG_NAME: ${{ steps.update_package_version.outputs.tag }}

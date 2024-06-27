@@ -39,7 +39,8 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
@@ -47,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Setup Vals
+      - name: Configure github user
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
@@ -67,7 +68,7 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           git push --tags
 
-      - name: Set tag
+      - name: Set release tag
         id: update_release
         uses: actions/github-script@v6
         with:
@@ -152,7 +153,7 @@ jobs:
 
       - name: Zip the distribution build
         if: needs.init-environment.outputs.is_deployment_pipeline == 'true'
-        run: zip -9qry "npm-dist.zip" "./" -i "dist/*"
+        run: zip -9qry "distribution-package.zip" "./" -i "dist/*" "package.json" "package-lock.json"
 
       - name: Upload an Asset in GitHub Release
         uses: actions/github-script@v6
