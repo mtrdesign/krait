@@ -39,11 +39,8 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v4
         with:
-          path: krait-ui
-
-      - run: pwd
-
-      - run: ls -la
+          ref: main
+          lfs: false
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
@@ -52,7 +49,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm ci
+        run: cd krait-ui && npm ci
 
       - name: Configure github user
         run: |
@@ -69,10 +66,12 @@ jobs:
       - name: Update the beta version
         id: create_tag
         run: |
-          TAG=$(npm version prerelease --preid=beta -m "[GHA] Update package version to %s")
+          cd krait-ui
+          TAG=$(npm version prerelease --preid=beta)
+          cd ../
+          git commit -am "[GHA] Update package version to $TAG"
           git push
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          git push --tags
 
       - name: Set release tag
         id: update_release
@@ -132,7 +131,8 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v4
         with:
-          path: krait-ui
+          ref: main
+          lfs: false
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
@@ -152,14 +152,13 @@ jobs:
 
       - name: Install npm dependencies
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: cd krait-ui && npm ci
 
       - name: Build FE assets
-        run: npm run build
+        run: cd krait-ui && npm run build
 
       - name: Zip the distribution build
-        if: needs.init-environment.outputs.is_deployment_pipeline == 'true'
-        run: zip -9qry "distribution-package.zip" "./" -i "dist/*" "package.json" "package-lock.json"
+        run: cd krait-ui && zip -9qry "distribution-package.zip" "./" -i "dist/*" "package.json" "package-lock.json"
 
       - name: Upload an Asset in GitHub Release
         uses: actions/github-script@v6
@@ -173,12 +172,12 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: ${{ env.RELEASE_ID }},
-              data: await fs.readFile('./distribution-package.zip')
+              data: await fs.readFile('./krait-ui/distribution-package.zip')
             });
         env:
           RELEASE_ID: ${{ needs.prerelease.outputs.release_id }}
 
       - name: Publish the NPM package
-        run: npm publish --access public --tag dev
+        run: cd krait-ui && npm publish --access public --tag dev
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
