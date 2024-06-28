@@ -4,12 +4,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'preview-configurations/{table}',
-    'as' => 'preview-configuration.'
-], function() {
+    'as' => 'preview-configuration.',
+], function () {
     Route::group([
         'prefix' => 'columns',
-        'as' => 'columns.'
-    ], function() {
+        'as' => 'columns.',
+    ], function () {
         Route::post(
             'reorder',
             'Api\\ColumnsReorderController'

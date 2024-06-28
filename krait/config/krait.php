@@ -9,5 +9,5 @@ return [
     'use_csrf' => true,
     'default_items_per_page' => 30,
     'middleware' => ['web', 'auth'],
-    'components_module' => 'components/tables'
+    'components_module' => 'components/tables',
 ];

@@ -7,8 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-
-//#[AsCommand(name: 'krait:table-class')]
+#[AsCommand(name: 'krait:table-class')]
 class CreateTableClassCommand extends GeneratorCommand
 {
     /**
@@ -25,36 +24,48 @@ class CreateTableClassCommand extends GeneratorCommand
      */
     protected $description = 'Creates the table class..';
 
+    /**
+     * @var string
+     */
     protected $type = 'Table';
 
     /**
      * Filesystem instance
+     *
      * @var Filesystem
      */
     protected $files;
 
-    protected function getStub()
+    /**
+     * Return the stub path.
+     */
+    protected function getStub(): string
     {
         return dirname(__DIR__, 2).'/stubs/table.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    /**
+     * Return the namespace.
+     */
+    protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\Tables';
+        return $rootNamespace.'\Tables';
     }
 
-    protected function replaceClass($stub, $name)
+    /**
+     * Prepares the code.
+     */
+    protected function replaceClass($stub, $name): string
     {
         $namespace = $this->getNamespace($name);
-        $class = str_replace($namespace . '\\', '', $name);
+        $class = str_replace($namespace.'\\', '', $name);
         $tableName = Str::kebab($class);
         $tableName = Str::lower($tableName);
 
         $code = $stub;
         $code = str_replace('{{table_namespace}}', $namespace, $code);
         $code = str_replace('{{table_classname}}', $class, $code);
-        $code = str_replace('{{table_name}}', $tableName, $code);
 
-        return $code;
+        return str_replace('{{table_name}}', $tableName, $code);
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-
 #[AsCommand(name: 'krait:refresh')]
 class RefreshCommand extends Command
 {
@@ -31,9 +30,9 @@ class RefreshCommand extends Command
 
         $tables = [];
 
-        foreach($components as $component) {
+        foreach ($components as $component) {
             $tableName = Str::replace('.vue', '', basename($component));
-            $relativeModulePath = '.' . explode('/components/tables', $component)[1];
+            $relativeModulePath = '.'.explode('/components/tables', $component)[1];
             $tables[$tableName] = $relativeModulePath;
         }
 
@@ -43,14 +42,13 @@ class RefreshCommand extends Command
             $imports[] = sprintf('import %s from "%s"', $tableName, $modulePath);
         }
 
-        $importJs = join(';' . PHP_EOL, $imports);
-        $exportJs = join(',' . PHP_EOL, array_keys($tables));
+        $importJs = implode(';'.PHP_EOL, $imports);
+        $exportJs = implode(','.PHP_EOL, array_keys($tables));
 
         $stub = Str::replace('{{imports}}', $importJs, $stub);
         $stub = Str::replace('{{exports}}', $exportJs, $stub);
 
-
-        $indexFile = fopen(resource_path('js/components/tables/index.js'), "w") or die("Unable to open file!");
+        $indexFile = fopen(resource_path('js/components/tables/index.js'), 'w') or exit('Unable to open file!');
         fwrite($indexFile, $stub);
         fclose($indexFile);
 
@@ -62,7 +60,8 @@ class RefreshCommand extends Command
         return dirname(__DIR__, 2).'/stubs/tables-index.stub';
     }
 
-    private function getStub(): string {
+    private function getStub(): string
+    {
         return file_get_contents($this->getStubPath());
     }
 }

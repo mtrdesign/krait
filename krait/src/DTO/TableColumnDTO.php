@@ -2,15 +2,29 @@
 
 namespace MtrDesign\Krait\DTO;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-
+/**
+ * DTO Object for handling consistent column generation.
+ */
 readonly class TableColumnDTO
 {
+    /**
+     * The column callbacks.
+     *
+     * @var callable[]|null[]
+     */
     private array $callbacks;
 
+    /**
+     * @param  string  $name  - The column name.
+     * @param  string  $label  - The column label.
+     * @param  bool  $hideLabel  - Flags if the label should be visible.
+     * @param  bool  $datetime  - Flags if the column contains datetime information.
+     * @param  bool  $sortable  - Flags if the column is sortable.
+     * @param  bool  $fixed  - Flags if the column is resizable.
+     * @param  string|null  $classes  - Sets FE style classes.
+     * @param  callable|null  $process  - Sets the result processing callback.
+     * @param  callable|null  $sort  - Sets the records sorting callback.
+     */
     public function __construct(
         public string $name,
         public string $label,
@@ -19,8 +33,8 @@ readonly class TableColumnDTO
         public bool $sortable = true,
         public bool $fixed = false,
         public ?string $classes = null,
-        callable $process = null,
-        callable $sort = null,
+        ?callable $process = null,
+        ?callable $sort = null,
     ) {
         $this->callbacks = [
             'process' => $process,
@@ -28,7 +42,11 @@ readonly class TableColumnDTO
         ];
     }
 
-    public function process(mixed $model): mixed {
+    /**
+     * Processes one record.
+     */
+    public function process(mixed $model): mixed
+    {
         if (empty($this->callbacks['process'])) {
             return null;
         }
@@ -36,7 +54,14 @@ readonly class TableColumnDTO
         return $this->callbacks['process']($model);
     }
 
-    public function sort(mixed $records, string $direction): mixed {
+    /**
+     * Sorts records.
+     *
+     * @param  mixed  $records  - The records.
+     * @param  string  $direction  - The sorting direction.
+     */
+    public function sort(mixed $records, string $direction): mixed
+    {
         if (empty($this->callbacks['sort'])) {
             return $records;
         }
@@ -44,12 +69,20 @@ readonly class TableColumnDTO
         return $this->callbacks['sort']($records, $direction);
     }
 
-    public function hasCallback(): bool{
+    /**
+     * Flags if the column has processing callback assigned.
+     */
+    public function hasProcessingCallback(): bool
+    {
         return ! empty($this->callbacks);
     }
 
-    public function toArray(): array {
-        $data = (array)$this;
+    /**
+     * Returns the column represented as array.
+     */
+    public function toArray(): array
+    {
+        $data = (array) $this;
         array_shift($data);
 
         return $data;

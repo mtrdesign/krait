@@ -1,8 +1,26 @@
 import ApiRequest from './api-request.js';
 import Config from './config';
 
+/**
+ * API Client Class
+ * Handles all the API requests fetching.
+ */
 class ApiClient {
-  public async fetch(...args: ConstructorParameters<typeof ApiRequest>) {
+  /**
+   * Fetches an API URL.
+   *
+   * @param {Array} args - The ApiRequest object parameters.
+   * @param {string} args[0] - The request url.
+   * @param {any} args[1] - The request body.
+   * @param {string} args[2] - The request method.
+   * @param {IHeaders} args[3] - The additional headers (if there are any).
+   *
+   * @return {Promise<Response>} - The corresponding response.
+   * @throws {Error} - The response contains an "error" status code.
+   */
+  public async fetch(
+    ...args: ConstructorParameters<typeof ApiRequest>
+  ): Promise<Response> {
     const request = new ApiRequest(...args);
     if (Config.useCsrfToken) {
       request.csrfToken = Config.csrfToken;
@@ -22,5 +40,4 @@ class ApiClient {
 }
 
 const apiClient = new ApiClient();
-
 export default apiClient;

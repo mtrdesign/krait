@@ -9,10 +9,22 @@ interface IHideColumnResult {
   success: boolean;
 }
 
+/**
+ * HidesColumn Action
+ * Hides specific column from the table.
+ *
+ * @class
+ * @extends BaseAction
+ */
 export default class HideColumn extends BaseAction<
   IHideColumnOptions,
   IHideColumnResult
 > {
+  /**
+   * Hides column from the table state and save the configuration.
+   *
+   * @param {IHideColumnOptions} options - The column options.
+   */
   async process(options: IHideColumnOptions) {
     const columnIndex = this.context.visibleColumns.value.indexOf(options.name);
     if (columnIndex !== -1) {

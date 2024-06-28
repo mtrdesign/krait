@@ -7,8 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-
-//#[AsCommand(name: 'krait:table-vue-component')]
+#[AsCommand(name: 'krait:table-vue-component')]
 class CreateTableComponentCommand extends GeneratorCommand
 {
     /**
@@ -29,6 +28,7 @@ class CreateTableComponentCommand extends GeneratorCommand
 
     /**
      * Filesystem instance
+     *
      * @var Filesystem
      */
     protected $files;
@@ -36,8 +36,7 @@ class CreateTableComponentCommand extends GeneratorCommand
     /**
      * Determine if the class already exists.
      *
-     * @param string $rawName
-     * @return string
+     * @param  string  $rawName
      */
     protected function alreadyExists($rawName): string
     {
@@ -55,9 +54,8 @@ class CreateTableComponentCommand extends GeneratorCommand
     /**
      * Replace the namespace for the given stub.
      *
-     * @param string $stub
-     * @param string $name
-     * @return CreateTableComponentCommand
+     * @param  string  $stub
+     * @param  string  $name
      */
     protected function replaceNamespace(&$stub, $name): CreateTableComponentCommand
     {
@@ -74,11 +72,11 @@ class CreateTableComponentCommand extends GeneratorCommand
      * Get the destination class path.
      *
      * @param  string  $name
-     * @return string
      */
     protected function getPath($name): string
     {
         $name = class_basename(str_replace('\\', '/', $name));
+
         return resource_path("js/components/tables/{$name}.vue");
     }
 }

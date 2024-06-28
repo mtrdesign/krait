@@ -6,7 +6,6 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-
 #[AsCommand(name: 'krait:table-controller')]
 class CreateTableControllerCommand extends GeneratorCommand
 {
@@ -28,6 +27,7 @@ class CreateTableControllerCommand extends GeneratorCommand
 
     /**
      * Filesystem instance
+     *
      * @var Filesystem
      */
     protected $files;
@@ -39,13 +39,13 @@ class CreateTableControllerCommand extends GeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\Http\Controllers\Tables';
+        return $rootNamespace.'\Http\Controllers\Tables';
     }
 
     protected function replaceClass($stub, $name): string
     {
         $namespace = $this->getNamespace($name);
-        $controllerClass = str_replace($namespace . '\\', '', $name);
+        $controllerClass = str_replace($namespace.'\\', '', $name);
         $tableNamespace = config('krait.tables_namespace');
         $tableClass = str_replace('Controller', '', $controllerClass);
 
@@ -60,8 +60,8 @@ class CreateTableControllerCommand extends GeneratorCommand
     protected function getNameInput(): string
     {
         $name = $this->argument('name');
-        if (!str_ends_with($name, 'Controller')) {
-            $name = $name . 'Controller';
+        if (! str_ends_with($name, 'Controller')) {
+            $name = $name.'Controller';
         }
 
         return $name;

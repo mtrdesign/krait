@@ -2,7 +2,6 @@
 
 namespace MtrDesign\Krait\Http\Controllers\Api;
 
-use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Routing\Controller as BaseController;
 use MtrDesign\Krait\Http\Middlewares\KraitApi;
 use MtrDesign\Krait\Models\KraitPreviewConfiguration;

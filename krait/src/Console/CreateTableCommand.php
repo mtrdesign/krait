@@ -5,7 +5,6 @@ namespace MtrDesign\Krait\Console;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-
 #[AsCommand(name: 'krait:table')]
 class CreateTableCommand extends Command
 {
@@ -23,16 +22,17 @@ class CreateTableCommand extends Command
      */
     protected $description = 'Creates all resources needed for a Krait table.';
 
-    public function handle() {
+    public function handle(): void
+    {
         $this->callSilent('krait:table-vue-component', [
-            'name' => $this->argument('name')
+            'name' => $this->argument('name'),
         ]);
 
         $this->callSilent('krait:table-class', [
-            'name' => $this->argument('name')
+            'name' => $this->argument('name'),
         ]);
         $this->callSilent('krait:table-controller', [
-            'name' => $this->argument('name')
+            'name' => $this->argument('name'),
         ]);
 
         $this->callSilent('krait:refresh');

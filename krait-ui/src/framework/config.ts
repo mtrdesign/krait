@@ -2,11 +2,18 @@ import { sanityPath } from './utils';
 
 const CURRENT_LOCATION = new URL(window.location.href);
 
-export default class Config {
+/**
+ * Config class
+ * Handles the fundamental app configurations retrieving.
+ */
+class Config {
   static _kraitPath: string | undefined;
   static _tablesPath: string | undefined;
   static _csrfToken: string | undefined;
 
+  /**
+   * Returns
+   */
   static get kraitPath(): string {
     if (Config._kraitPath) {
       return Config._kraitPath;
@@ -69,3 +76,5 @@ export default class Config {
     return url;
   }
 }
+
+export default Config;
