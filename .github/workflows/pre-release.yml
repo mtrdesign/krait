@@ -35,15 +35,12 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       release_id: ${{ steps.update_release.outputs.result }}
+    defaults:
+      run:
+        working-directory: krait-ui
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
-        with:
-          path: krait-ui
-
-      - run: pwd
-
-      - run: ls -la
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
@@ -128,11 +125,12 @@ jobs:
     runs-on: ubuntu-20.04
     permissions:
       contents: write
+    defaults:
+      run:
+        working-directory: krait-uid
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
-        with:
-          path: krait-ui
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
