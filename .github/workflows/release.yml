@@ -5,7 +5,7 @@ on:
     types: [released]
 
 env:
-  NODE_VERSION: "18.15.0"
+  NODE_VERSION: "18.20.3"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,8 +15,8 @@ permissions:
   contents: write
 
 jobs:
-  check:
-    name: check
+  release:
+    name: Release
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout the repo
@@ -40,8 +40,8 @@ jobs:
         env:
           ASSETS: ${{ toJson(github.event.release.assets) }}
 
-      - name: Cd to the UI
-        run: cd krait-ui
+      - name: Create separate directory
+        run: mkdir production-build && cd production-build
 
       - name: Download distribution build
         run: curl -O $DOWNLOAD_URL

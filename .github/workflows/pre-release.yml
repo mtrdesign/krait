@@ -20,7 +20,7 @@ on:
           - no update
 
 env:
-  NODE_VERSION: "18.15.0"
+  NODE_VERSION: "18.20.3"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -31,7 +31,7 @@ permissions:
 
 jobs:
   prerelease:
-    name: Draft Github Release
+    name: Create prerelease
     runs-on: ubuntu-20.04
     outputs:
       release_id: ${{ steps.update_release.outputs.result }}
@@ -167,7 +167,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: ${{ env.RELEASE_ID }},
-              data: await fs.readFile('./npm-dist.zip')
+              data: await fs.readFile('./distribution-package.zip')
             });
         env:
           RELEASE_ID: ${{ needs.prerelease.outputs.release_id }}
