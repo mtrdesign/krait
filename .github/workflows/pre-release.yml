@@ -23,7 +23,7 @@ env:
   NODE_VERSION: "18.20.3"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: release
   cancel-in-progress: false
 
 permissions:
@@ -145,9 +145,9 @@ jobs:
         id: node-modules-cache
         with:
           path: node_modules
-          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('krait-ui/package-lock.json') }}
           restore-keys: |
-            npm-dependencies-${{ hashFiles('package-lock.json') }}
+            npm-dependencies-${{ hashFiles('krait-ui/package-lock.json') }}
             npm-dependencies-
 
       - name: Install npm dependencies
