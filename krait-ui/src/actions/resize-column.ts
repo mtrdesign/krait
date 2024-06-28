@@ -10,10 +10,22 @@ interface IResizeColumnResult {
   success: boolean;
 }
 
+/**
+ * ResizeColumn Action
+ * Updates the width of specific column.
+ *
+ * @class
+ * @extends BaseAction
+ */
 export default class ResizeColumn extends BaseAction<
   IResizeColumnOptions,
   IResizeColumnResult
 > {
+  /**
+   * Resized a table column and saves the configuration.
+   *
+   * @param {IResizeColumnOptions} options - The column options.
+   */
   async process(options: IResizeColumnOptions) {
     const column = this.context.columns.value.find((column) => {
       if (column.name === options.name) {
@@ -33,6 +45,13 @@ export default class ResizeColumn extends BaseAction<
     };
   }
 
+  /**
+   * Saves the configuration to the back-end.
+   *
+   * @param {string} name - The column name.
+   * @param {number} width - The column width.
+   * @private
+   */
   private async saveColumn(name: string, width: number): Promise<void> {
     const url = Config.kraitUrl;
     url.pathname = `${url.pathname}/preview-configurations/${this.tableName}/columns/resize`;

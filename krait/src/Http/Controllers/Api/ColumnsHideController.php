@@ -14,7 +14,7 @@ class ColumnsHideController extends Controller
     {
         $configuration = $this->getPreviewConfiguration($table);
         $configuration->update([
-            "visible_columns" => $request->get('visible_columns')
+            'visible_columns' => $request->get('visible_columns'),
         ]);
 
         return response()->json([

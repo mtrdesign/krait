@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('table_name')
                 ->nullable();
 
-            # Preview-related props
+            // Preview-related props
             $table->string('sort_column')
                 ->nullable();
             $table->string('sort_direction')
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->json('visible_columns')
                 ->nullable();
 
-            # Indexes for fast searching
+            // Indexes for fast searching
             $table->index(['uuid']);
             $table->index(['table_name']);
 

@@ -4,7 +4,6 @@ namespace MtrDesign\Krait\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use MtrDesign\Krait\Http\Requests\ColumnsReorderRequest;
-use MtrDesign\Krait\Models\KraitPreviewConfiguration;
 
 class ColumnsReorderController extends Controller
 {
@@ -15,11 +14,11 @@ class ColumnsReorderController extends Controller
     {
         $configuration = $this->getPreviewConfiguration($table);
         $configuration->update([
-            "columns_order" => $request->get('columns')
+            'columns_order' => $request->get('columns'),
         ]);
 
         return response()->json([
-            "success" => True,
+            'success' => true,
         ]);
     }
 }

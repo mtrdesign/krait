@@ -5,11 +5,15 @@ namespace MtrDesign\Krait;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Js;
 use JsonException;
-use MtrDesign\Krait\DTO\TableColumnDTO;
 
+/**
+ * Krait Helper
+ */
 class Krait
 {
     /**
+     * Returns the Krait Config JS code.
+     *
      * @throws JsonException
      */
     public static function js()
@@ -23,6 +27,9 @@ class Krait
             HTML);
     }
 
+    /**
+     * Returns the JS Config variables.
+     */
     public static function scriptVariables(): array
     {
         $kraitPath = config('krait.krait_path', 'krait');
@@ -38,19 +45,11 @@ class Krait
         ];
     }
 
-    public static function column(
-        string $name,
-        string $label,
-        bool $hide,
-    ): TableColumnDTO {
-        return new TableColumnDTO(
-            $name,
-            $label,
-            $hide,
-        );
-    }
-
-    static function sanityPath(string &$path): void
+    /**
+     * Sanitises path to ensure that it
+     * does not end with slash.
+     */
+    public static function sanityPath(string &$path): void
     {
         if (str_ends_with($path, '/')) {
             $path = substr($path, 0, -1);

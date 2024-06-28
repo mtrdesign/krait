@@ -7,10 +7,22 @@ interface IReorderColumnsResult {
   success: boolean;
 }
 
+/**
+ * SaveColumnOrder Action
+ * Saves the current columns order.
+ *
+ * @class
+ * @extends BaseAction
+ */
 export default class SaveColumnsOrder extends BaseAction<
   IReorderColumnsOptions,
   IReorderColumnsResult
 > {
+  /**
+   * Saves the columns order to the back-end.
+   *
+   * @param _options
+   */
   async process(_options: IReorderColumnsOptions) {
     const orderedColumns: string[] = [];
 

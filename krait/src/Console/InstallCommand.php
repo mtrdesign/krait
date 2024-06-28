@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use MtrDesign\Krait\KraitServiceProvider;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-
 #[AsCommand(name: 'krait:install')]
 class InstallCommand extends Command
 {
@@ -41,14 +40,18 @@ class InstallCommand extends Command
     }
 
     /**
-     * Register the Krait service provider in the application configuration file.
+     * Register the Krait service provider in
+     * the application configuration file.
      */
     protected function registerKraitProvider(): void
     {
-        if (! method_exists(ServiceProvider::class, 'addProviderToBootstrapFile')) {
+        if (! method_exists(
+            ServiceProvider::class,
+            'addProviderToBootstrapFile'
+        )) {
             return;
         }
-        print('manual install service!');
+        echo 'manual install service!';
 
         ServiceProvider::addProviderToBootstrapFile(KraitServiceProvider::class);
     }

@@ -8,6 +8,11 @@
     "issues": "https://github.com/mtrdesign/krait/issues",
     "source": "https://github.com/mtrdesign/krait"
   },
+  "scripts": {
+    "check-style": "pint --test -v",
+    "fix-style": "pint -v",
+    "dry-fix-style": "pint --dirty -v"
+  },
   "authors": [
     {
       "name": "MTR Design",
@@ -35,5 +40,8 @@
         "MtrDesign\\Krait\\KraitServiceProvider"
       ]
     }
+  },
+  "require-dev": {
+    "laravel/pint": "^1.16"
   }
 }

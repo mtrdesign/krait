@@ -12,12 +12,24 @@ interface IFetchRecordsResult {
   success: boolean;
 }
 
+/**
+ * FetchRecords Action
+ * Fetches all table records and updates the table context.
+ *
+ * @class
+ * @extends BaseAction
+ */
 export default class FetchRecords extends BaseAction<
   IFetchRecordsOptions,
   IFetchRecordsResult
 > {
   private isInitialFetch: boolean = false;
 
+  /**
+   * Prepares the URL and fetches the records.
+   *
+   * @param {IFetchRecordsOptions} options - The column options.
+   */
   async process(options: IFetchRecordsOptions) {
     if (options.isInitialFetch) {
       this.isInitialFetch = options.isInitialFetch;
@@ -42,6 +54,14 @@ export default class FetchRecords extends BaseAction<
     };
   }
 
+  /**
+   * Sets the filters query to the request url using
+   * the passed form.
+   *
+   * @param {HTMLFormElement} form - The filters form element.
+   * @param {URL} url - The request url
+   * @private
+   */
   private setFilters(form: HTMLFormElement, url: URL): void {
     const filtersForm = new FormData(form);
     for (const [name, value] of filtersForm) {
@@ -52,6 +72,13 @@ export default class FetchRecords extends BaseAction<
     }
   }
 
+  /**
+   * Sets the sorting query to the request url.
+   *
+   * @param {Table.ISorting} sorting - The sorting data.
+   * @param {URL} url - The request url.
+   * @private
+   */
   private setSorting(sorting: Table.ISorting, url: URL): void {
     if (sorting.sortBy) {
       url.searchParams.set('sort_column', sorting.sortBy);
@@ -62,6 +89,13 @@ export default class FetchRecords extends BaseAction<
     }
   }
 
+  /**
+   * Sets the pagination query to the request url.
+   *
+   * @param {Table.IPagination} pagination - The Pagination data.
+   * @param {URL} url - The request url.
+   * @private
+   */
   private setPagination(pagination: Table.IPagination, url: URL): void {
     if (pagination.itemsPerPage) {
       url.searchParams.set('ipp', pagination.itemsPerPage.toString());
@@ -72,6 +106,12 @@ export default class FetchRecords extends BaseAction<
     }
   }
 
+  /**
+   * Parses the back-end response and updates the table state.
+   *
+   * @param {Response} response - The back-end response.
+   * @private
+   */
   private async parseResponse(response: Response) {
     const { data, meta, columns, preview_configuration, links } =
       (await response.json()) as Responses.ITableResponse;
@@ -94,7 +134,11 @@ export default class FetchRecords extends BaseAction<
         );
       }
 
-      if (preview_configuration && this.context.sorting.sortBy === null && this.context.sorting.direction === null) {
+      if (
+        preview_configuration &&
+        this.context.sorting.sortBy === null &&
+        this.context.sorting.direction === null
+      ) {
         this.context.sorting.sortBy = preview_configuration.sort_column;
         this.context.sorting.direction = preview_configuration.sort_direction;
       }
@@ -103,6 +147,12 @@ export default class FetchRecords extends BaseAction<
     this.context.links.value = links;
   }
 
+  /**
+   * Generates a new FetchRecords url.
+   *
+   * @param {IFetchRecordsOptions} options - The fetch options.
+   * @private
+   */
   private generateUrl(options: IFetchRecordsOptions): URL {
     const url = Config.tablesUrl;
     url.pathname = `${url.pathname}/${this.tableName}`;

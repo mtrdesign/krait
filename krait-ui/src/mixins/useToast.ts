@@ -1,4 +1,5 @@
 import { Ref, ref } from 'vue';
+
 interface IMessage {
   content: string;
   type: MessageTypes;
@@ -22,6 +23,14 @@ const defaultOptions: IShowMessagesOptions = {
   timing: 5000,
 };
 
+/**
+ * Shows a new alert message.
+ *
+ * @param {string} content - The alert message.
+ * @param {Partial<IShowMessagesOptions>} options - The additional properties.
+ * @param {MessageTypes} [options.type = 'primary'] - The alert type.
+ * @param {number} [options.timing = 5000] - The alert show timing.
+ */
 const showMessage = (
   content: string,
   options: Partial<IShowMessagesOptions> = defaultOptions,

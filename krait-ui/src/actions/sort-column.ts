@@ -10,10 +10,22 @@ interface ISortColumnResult {
   success: boolean;
 }
 
+/**
+ * SortColumn Action
+ * Sorts specific column.
+ *
+ * @class
+ * @extends BaseAction
+ */
 export default class SortColumn extends BaseAction<
   ISortColumnOptions,
   ISortColumnResult
 > {
+  /**
+   * Sorts by specific column and saves the configurations.
+   *
+   * @param {ISortColumnOptions} options - The sorting options.
+   */
   async process(options: ISortColumnOptions) {
     this.context.sorting.sortBy = options.name;
     this.context.sorting.direction = options.direction;

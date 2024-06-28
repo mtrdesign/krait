@@ -13,7 +13,8 @@ use MtrDesign\Krait\Tables\BaseTable;
 class TableCollection extends ResourceCollection
 {
     protected BaseTable $table;
-    private KraitPreviewConfiguration|null $previewConfiguration = null;
+
+    private ?KraitPreviewConfiguration $previewConfiguration = null;
 
     public function __construct(
         mixed $resource,
@@ -30,7 +31,7 @@ class TableCollection extends ResourceCollection
             } else {
                 $resource = $resource->paginate($defaultItemsPerPage);
             }
-        } elseif (!$resource instanceof LengthAwarePaginator) {
+        } elseif (! $resource instanceof LengthAwarePaginator) {
             $resource = $this->getPaginator($resource, $defaultItemsPerPage);
         }
         parent::__construct($resource);
@@ -41,7 +42,7 @@ class TableCollection extends ResourceCollection
         return $this->collection->map(function ($record) {
             return array_merge(
                 [
-                    'uuid' => $record->{$this->table->getKeyName()} ?? null
+                    'uuid' => $record->{$this->table->getKeyName()} ?? null,
                 ],
                 $this->table->processRecord($record),
                 $this->table->additionalData($record),
@@ -82,7 +83,8 @@ class TableCollection extends ResourceCollection
         return $this->previewConfiguration;
     }
 
-    private function getColumns(?KraitPreviewConfiguration $previewConfiguration = null): array {
+    private function getColumns(?KraitPreviewConfiguration $previewConfiguration = null): array
+    {
         $columns = $this->table->getColumns();
         $columnsCount = count($columns);
         $rawColumns = [];
@@ -94,6 +96,7 @@ class TableCollection extends ResourceCollection
             $data = $column->toArray();
             if (! empty($order) && in_array($column->name, $order)) {
                 $rawColumns[$orderFlipped[$column->name]] = $data;
+
                 continue;
             }
 
@@ -116,7 +119,7 @@ class TableCollection extends ResourceCollection
         }
 
         $total = count($resource);
-        $currentPage = request()->input("page") ?? 1;
+        $currentPage = request()->input('page') ?? 1;
         $starting_point = ($currentPage * $itemsPerPage) - $itemsPerPage;
         $resource = array_slice($resource, $starting_point, $itemsPerPage, true);
 
@@ -125,8 +128,8 @@ class TableCollection extends ResourceCollection
             $total,
             $itemsPerPage,
             $currentPage, [
-            'path' => request()->url(),
-            'query' => request()->query(),
-        ]);
+                'path' => request()->url(),
+                'query' => request()->query(),
+            ]);
     }
 }
