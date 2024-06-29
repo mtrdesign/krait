@@ -184,7 +184,7 @@ jobs:
 
             const fs = require('fs').promises;
             await github.rest.repos.uploadReleaseAsset({
-              name: 'README.md',
+              name: 'distribution-package.zip',
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: ${{ env.RELEASE_ID }},
