@@ -7,6 +7,9 @@ on:
 env:
   NODE_VERSION: "18.15.0"
 
+permissions:
+  contents: write
+
 jobs:
   unpublish_package:
     name: Unpublish package
@@ -35,9 +38,13 @@ jobs:
     name: Delete release tag
     runs-on: ubuntu-20.04
     if: github.event.release.tag_name != 'unreleased'
-    permissions:
-      contents: write
     steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          lfs: false
+
       - name: Delete the tag
         run: git push --delete origin $VERSION
         env:
