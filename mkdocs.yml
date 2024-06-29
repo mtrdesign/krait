@@ -1,11 +1,17 @@
 site_name: Krait
+repo_url: https://github.com/mtrdesign/krait
 theme:
   name: material
+  custom_dir: theme
   logo: assets/krait-full-logo.svg
-  favicon: assets/krait-icon-logo-56.png
+  favicon: assets/krait-icon-logo.png
   features:
+    - header.autohide
+    - navigation.footer
     - navigation.tabs
     - navigation.sections
+    - navigation.indexes
+    - navigation.top
     - toc.integrate
     - navigation.top
     - search.suggest
@@ -42,7 +48,7 @@ extra:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/mtrdesign
 
-custom_dir: overrides
-
 nav:
-  - Home: index.md
+  - Overview:
+    - 'Start here':
+      - 'asd': index.md

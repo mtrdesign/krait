@@ -1,3 +1,0 @@
-# Contribution
-
-# Project structure
