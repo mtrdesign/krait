@@ -26,6 +26,9 @@ concurrency:
   group: release
   cancel-in-progress: false
 
+permissions:
+  contents: write
+
 jobs:
   prerelease:
     name: Create prerelease
@@ -132,8 +135,6 @@ jobs:
     name: Build UI Library
     needs: [prerelease]
     runs-on: ubuntu-20.04
-    permissions:
-      contents: write
     steps:
       - name: Get Token
         id: get_workflow_token
