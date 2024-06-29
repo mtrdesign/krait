@@ -36,11 +36,19 @@ jobs:
     outputs:
       release_id: ${{ steps.update_release.outputs.result }}
     steps:
+      - name: Get Token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v3
+        with:
+          application_id: ${{ vars.GH_MTR_PACKAGE_VERSIONS_APP_ID }}
+          application_private_key: ${{ secrets.GH_MTR_PACKAGE_VERSIONS_APP_SECRET }}
+
       - name: Checkout the repo
         uses: actions/checkout@v4
         with:
           ref: main
           lfs: false
+          token: ${{ steps.get_workflow_token.outputs.token }}
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
@@ -65,6 +73,8 @@ jobs:
 
       - name: Update the beta version
         id: create_tag
+        env:
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
         run: |
           cd krait-ui
           TAG=$(npm version prerelease --preid=beta)
@@ -125,14 +135,20 @@ jobs:
     name: Build UI Library
     needs: [prerelease]
     runs-on: ubuntu-20.04
-    permissions:
-      contents: write
     steps:
+      - name: Get Token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v3
+        with:
+          application_id: ${{ vars.GH_MTR_PACKAGE_VERSIONS_APP_ID }}
+          application_private_key: ${{ secrets.GH_MTR_PACKAGE_VERSIONS_APP_SECRET }}
+
       - name: Checkout the repo
         uses: actions/checkout@v4
         with:
           ref: main
           lfs: false
+          token: ${{ steps.get_workflow_token.outputs.token }}
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
