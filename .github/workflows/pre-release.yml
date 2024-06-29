@@ -56,9 +56,6 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: cd krait-ui && npm ci
-
       - name: Configure github user
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -66,7 +63,8 @@ jobs:
 
       - name: Update package version
         if: github.event.inputs.version-update != 'no update'
-        run:
+        run: |
+          cd krait-ui
           npm version $VERSION_UPDATE --no-git-tag-version
         env:
           VERSION_UPDATE: ${{ github.event.inputs.version-update }}
