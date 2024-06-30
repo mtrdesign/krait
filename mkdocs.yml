@@ -35,6 +35,7 @@ theme:
       accent: lime
 
 markdown_extensions:
+  - def_list
   - admonition
   - pymdownx.details
   - pymdownx.highlight:
@@ -55,3 +56,6 @@ extra:
 nav:
   - Overview: index.md
   - Installation Guide: installation-guide.md
+  - Usage: usage.md
+  - Core Components: core-components.md
+  - Contribution: contribution.md
