@@ -1,0 +1,698 @@
+{
+	"columns": [
+		{
+			"label": "Name, Age, Gender",
+			"name": "name_age_gender",
+			"sortable": true,
+			"width": 250
+		},
+		{
+			"label": "Date",
+			"name": "date",
+			"sortable": true,
+			"width": 250
+		},
+		{
+			"label": "Species",
+			"name": "species",
+			"sortable": true,
+			"width": 250
+		},
+		{
+			"label": "Location",
+			"name": "location",
+			"sortable": true,
+			"width": 250
+		},
+		{
+			"label": "Latitude",
+			"name": "latitude",
+			"sortable": true,
+			"width": 250
+		},
+		{
+			"label": "Longitude",
+			"name": "longitude",
+			"sortable": true,
+			"width": 250
+		}
+	],
+	"data": [
+		{
+			"name_age_gender": "Priscilla Meridith, 62, female",
+			"date": "June 12, 2019",
+			"species": "Timber rattlesnake",
+			"location": "Waverly, Georgia",
+			"latitude": "31.09663000000006",
+			"longitude": "-81.72522999999995"
+		},
+		{
+			"name_age_gender": "Oliver \"Chum\" Baker, 52, male",
+			"date": "May 25, 2019",
+			"species": "Copperhead",
+			"location": "Winston County, Alabama",
+			"latitude": "34.14925766500005",
+			"longitude": "-87.37372358099998"
+		},
+		{
+			"name_age_gender": "Lawrence Walters, 70, male",
+			"date": "June 4, 2018",
+			"species": "Rattlesnake",
+			"location": "Spearfish, South Dakota",
+			"latitude": "44.49057000000005",
+			"longitude": "-103.85908999999998"
+		},
+		{
+			"name_age_gender": "Barry Lester, 57, male",
+			"date": "April 29, 2018",
+			"species": "Rattlesnake",
+			"location": "Osage County, Oklahoma",
+			"latitude": "36.62918197400006",
+			"longitude": "-96.39842559899995"
+		},
+		{
+			"name_age_gender": "Daniel Hohs, 31, male",
+			"date": "October 7, 2017",
+			"species": "Rattlesnake",
+			"location": "Golden, Colorado",
+			"latitude": "39.756650000000036",
+			"longitude": "-105.22494999999998"
+		},
+		{
+			"name_age_gender": "Wayne Grooms, 71, male",
+			"date": "June 12, 2016",
+			"species": "Rattlesnake (likely timber rattlesnake)",
+			"location": "Santee National Wildlife Refuge",
+			"latitude": "33.49822000000006",
+			"longitude": "-80.30035999999996"
+		},
+		{
+			"name_age_gender": "John David Brock, 60, male ",
+			"date": "July 28, 2015 ",
+			"species": "Unknown (likely timber rattlesnake) ",
+			"location": "Jenson, Kentucky",
+			"latitude": "36.77521000000007",
+			"longitude": "-83.63385999999997"
+		},
+		{
+			"name_age_gender": "Russell E. Davis, 39, male",
+			"date": "July 19, 2015",
+			"species": "Timber rattlesnake",
+			"location": "Elk County, Pennsylvania",
+			"latitude": "41.42520780800004",
+			"longitude": "-78.64909092099998"
+		},
+		{
+			"name_age_gender": "Grant Thompson, 18, male",
+			"date": "July 14, 2015",
+			"species": "Monocled cobra",
+			"location": "Austin, Texas",
+			"latitude": "30.26759000000004",
+			"longitude": "-97.74298999999996"
+		},
+		{
+			"name_age_gender": "Gilbert De Leon, 37, male",
+			"date": "May 23, 2015",
+			"species": "Cottonmouth",
+			"location": "Nixa, Missouri",
+			"latitude": "37.04356000000007",
+			"longitude": "-93.29520999999994"
+		},
+		{
+			"name_age_gender": "David Giles, 59, male ",
+			"date": "May 20, 2015 ",
+			"species": "Unknown, but likely rattlesnake ",
+			"location": "Watkinsville, Georgia",
+			"latitude": "33.863320000000044",
+			"longitude": "-83.40929999999997"
+		},
+		{
+			"name_age_gender": "Timothy Levins, 52, male",
+			"date": "July 8, 2014",
+			"species": "Copperhead",
+			"location": "Sam A. Baker State Park",
+			"latitude": "37.26517000000007",
+			"longitude": "-90.50288999999998"
+		},
+		{
+			"name_age_gender": "Jamie Coots, 42, male",
+			"date": "February 15, 2014",
+			"species": "Rattlesnake",
+			"location": "Middlesboro, Kentucky",
+			"latitude": "36.607440000000054",
+			"longitude": "-83.71187999999995"
+		},
+		{
+			"name_age_gender": "Ernest Burch, 80, male ",
+			"date": "July 2, 2013",
+			"species": "Timber rattlesnake ",
+			"location": "Armuchee, Georgia",
+			"latitude": "34.374730000000056",
+			"longitude": "-85.17162999999994"
+		},
+		{
+			"name_age_gender": "Jack Redmond, 70, male ",
+			"date": "October 2, 2012 ",
+			"species": "Unknown ",
+			"location": "Chesterfield, Virginia",
+			"latitude": "37.37763000000007",
+			"longitude": "-77.50818999999996"
+		},
+		{
+			"name_age_gender": "Mark Randall Wolford, 44, male",
+			"date": "May 28, 2012",
+			"species": "Timber rattlesnake",
+			"location": "Panther Wildlife Management Area",
+			"latitude": "34.40843000000007",
+			"longitude": "-95.91692999999998"
+		},
+		{
+			"name_age_gender": "Wade Westbrook, 26, male",
+			"date": "January 29, 2011",
+			"species": "Copperhead",
+			"location": "Erlanger Health System",
+			"latitude": "34.93305000000004",
+			"longitude": "-85.17937999999998"
+		},
+		{
+			"name_age_gender": "William Price, 67, male",
+			"date": "October 13, 2010",
+			"species": "Rattlesnake, probably a Southern Pacific rattlesnake",
+			"location": "Cuyamaca, California",
+			"latitude": "32.94616000000008",
+			"longitude": "-116.57612999999998"
+		},
+		{
+			"name_age_gender": "Richard Rupert, 68, male",
+			"date": "October 10, 2009",
+			"species": "Timber rattlesnake",
+			"location": "Oglethorpe County, Georgia",
+			"latitude": "33.88064767100008",
+			"longitude": "-83.08056772799995"
+		},
+		{
+			"name_age_gender": "Inocencio Hernandez-Hernandez, 29, male",
+			"date": "June 10, 2006",
+			"species": "Eastern coral snake",
+			"location": "Bonita Springs, Florida",
+			"latitude": "26.330630000000042",
+			"longitude": "-81.79877999999997"
+		},
+		{
+			"name_age_gender": "Joe Guidry, 54, male",
+			"date": "October 2005",
+			"species": "Eastern diamondback rattlesnake",
+			"location": "Putnam County, Florida",
+			"latitude": "29.61130271600007",
+			"longitude": "-81.74554608799997"
+		},
+		{
+			"name_age_gender": "Marcus Wolf, 35, male",
+			"date": "September 12, 2005",
+			"species": "Rattlesnake",
+			"location": "Willcox, Arizona",
+			"latitude": "32.253580000000056",
+			"longitude": "-109.83178999999996"
+		},
+		{
+			"name_age_gender": "Margaret Wilson White, 54, female",
+			"date": "July 2005",
+			"species": "Rattlesnake",
+			"location": "Hays County, Texas",
+			"latitude": "30.058047255000076",
+			"longitude": "-98.03107149399995"
+		},
+		{
+			"name_age_gender": "Trent Leprette, 31, male",
+			"date": "June 20, 2004",
+			"species": "Copperhead",
+			"location": "Loachapoka",
+			"latitude": "32.60435000000007",
+			"longitude": "-85.60041999999999"
+		},
+		{
+			"name_age_gender": "Ross Cooke, 50, male",
+			"date": "May 2003",
+			"species": "Southern Pacific rattlesnake",
+			"location": "San Bernardino County, California",
+			"latitude": "34.84143848600007",
+			"longitude": "-116.17851762699996"
+		},
+		{
+			"name_age_gender": "Pat Hughes, 45, male",
+			"date": "August 2002",
+			"species": "Rattlesnake",
+			"location": "Sierra Vista, Arizona",
+			"latitude": "31.569420000000036",
+			"longitude": "-110.27467999999999"
+		},
+		{
+			"name_age_gender": "Derek Lema, 2, male",
+			"date": "September 16, 2000",
+			"species": "Eastern diamondback rattlesnake",
+			"location": "Lakewood Ranch, Florida",
+			"latitude": "27.426500000000033",
+			"longitude": "-82.37576999999999"
+		},
+		{
+			"name_age_gender": "Anita Finch, 33, female",
+			"date": "Reported December 17, 1999",
+			"species": "Gaboon viper or hog-nosed sand viper",
+			"location": "Van Nuys, California",
+			"latitude": "34.184390000000064",
+			"longitude": "-118.44651999999996"
+		},
+		{
+			"name_age_gender": "John Wayne \"Punkin\" Brown, Jr., 34, male",
+			"date": "October 3, 1998",
+			"species": "Rattlesnake",
+			"location": "Macedonia, Alabama",
+			"latitude": "32.29459000000003",
+			"longitude": "-86.22162999999995"
+		},
+		{
+			"name_age_gender": "Dewey Bruce Hale, 40, male",
+			"date": "January 15, 1995",
+			"species": "Rattlesnake",
+			"location": "Enigma, Georgia",
+			"latitude": "31.41629000000006",
+			"longitude": "-83.32761999999997"
+		},
+		{
+			"name_age_gender": "Melinda Brown, 28, female ",
+			"date": "August 8, 1995 ",
+			"species": "Rattlesnake ",
+			"location": "Middlesboro, Kentucky",
+			"latitude": "36.607440000000054",
+			"longitude": "-83.71187999999995"
+		},
+		{
+			"name_age_gender": "Kale Saylor, 77, male",
+			"date": "March 8, 1995",
+			"species": "Rattlesnake",
+			"location": "Bell County, Kentucky",
+			"latitude": "36.73059872400006",
+			"longitude": "-83.67401283599997"
+		},
+		{
+			"name_age_gender": "Brian Leslie West, 25, male",
+			"date": "May 29, 1992",
+			"species": "Indian cobra",
+			"location": "Emmitsburg, Maryland",
+			"latitude": "39.70465000000007",
+			"longitude": "-77.32662999999997"
+		},
+		{
+			"name_age_gender": "Glenn R. Alexander, 29, male",
+			"date": "March 25, 1987",
+			"species": "Rattlesnake",
+			"location": "Brownwood, Texas",
+			"latitude": "31.725270000000023",
+			"longitude": "-98.98070999999999"
+		},
+		{
+			"name_age_gender": "Mack Ray Wolford, 39, male",
+			"date": "August 28, 1983",
+			"species": "Timber rattlesnake",
+			"location": "Iaeger, West Virginia",
+			"latitude": "37.464800000000025",
+			"longitude": "-81.81267999999994"
+		},
+		{
+			"name_age_gender": "John Holbrook, 38, male",
+			"date": "August 1982",
+			"species": "Rattlesnake",
+			"location": "Oceana, West Virginia",
+			"latitude": "37.69874000000004",
+			"longitude": "-81.63667999999996"
+		},
+		{
+			"name_age_gender": "Gregory Lee Hall, 3, male",
+			"date": "May 31, 1976",
+			"species": "Copperhead",
+			"location": "Jacksonville, Alabama",
+			"latitude": "33.814220000000034",
+			"longitude": "-85.76117999999997"
+		},
+		{
+			"name_age_gender": "Curtis Mounts, 61, male",
+			"date": "May 19, 1974",
+			"species": "Rattlesnake",
+			"location": "Bens Run, West Virginia",
+			"latitude": "39.46588000000003",
+			"longitude": "-81.10811999999999"
+		},
+		{
+			"name_age_gender": "Richard Lee Williams, 33, male",
+			"date": "April 2, 1974",
+			"species": "Eastern Diamondback Rattlesnake",
+			"location": "Switzer, West Virginia",
+			"latitude": "37.79102000000006",
+			"longitude": "-81.98981999999995"
+		},
+		{
+			"name_age_gender": "Beulah Bucklen, 59, female",
+			"date": "September 24, 1972",
+			"species": "Rattlesnake",
+			"location": "Fraziers Bottom, West Virginia",
+			"latitude": "38.56708000000003",
+			"longitude": "-81.98652999999996"
+		},
+		{
+			"name_age_gender": "Susan Mary Gaboury, 34, female",
+			"date": "September 13, 1972",
+			"species": "Probably an Eastern Diamondback Rattlesnake",
+			"location": "St. Augustine, Florida",
+			"latitude": "29.894690000000026",
+			"longitude": "-81.31451999999996"
+		},
+		{
+			"name_age_gender": "Bryan L. Bristow, 28, male",
+			"date": "December 29, 1971",
+			"species": "Cottonmouth",
+			"location": "Garyville, Louisiana",
+			"latitude": "30.05610000000007",
+			"longitude": "-90.61965999999995"
+		},
+		{
+			"name_age_gender": "James Saylor, 24, male",
+			"date": "February 20, 1967",
+			"species": "Rattlesnake",
+			"location": "Covington, Kentucky",
+			"latitude": "39.083980000000054",
+			"longitude": "-84.51026999999993"
+		},
+		{
+			"name_age_gender": "Wesley Howard Dickinson, 45, male",
+			"date": "July 10, 1966",
+			"species": "King cobra",
+			"location": "Santa Ana, California",
+			"latitude": "33.74958000000004",
+			"longitude": "-117.87445999999994"
+		},
+		{
+			"name_age_gender": "Frederick A. Shannon, 43, male",
+			"date": "August 31, 1965",
+			"species": "Mojave rattlesnake",
+			"location": "Klondyke, Arizona",
+			"latitude": "32.843440000000044",
+			"longitude": "-110.33530999999999"
+		},
+		{
+			"name_age_gender": "Donald Bebis, 1, male",
+			"date": "August 4, 1965",
+			"species": "Rattlesnake",
+			"location": "Cat Creek, Montana",
+			"latitude": "47.08200000000005",
+			"longitude": "-108.04020999999995"
+		},
+		{
+			"name_age_gender": "Columbia Gay Hagerman, 22, female",
+			"date": "September 28, 1961",
+			"species": "Timber rattlesnake",
+			"location": "Jolo, West Virginia",
+			"latitude": "37.32382000000007",
+			"longitude": "-81.82009999999997"
+		},
+		{
+			"name_age_gender": "Jimmy Cornell, 14, male",
+			"date": "March 15, 1961",
+			"species": "Eastern diamondback rattlesnake",
+			"location": "Fort Myers, Florida",
+			"latitude": "26.640840000000026",
+			"longitude": "-81.86792999999994"
+		},
+		{
+			"name_age_gender": "Karl P. Schmidt, 67, male",
+			"date": "September 26, 1957",
+			"species": "Boomslang",
+			"location": "Chicago",
+			"latitude": "41.884250000000065",
+			"longitude": "-87.63244999999995"
+		},
+		{
+			"name_age_gender": "Anna Marie Yost, 46, female",
+			"date": "August 29, 1955",
+			"species": "Rattlesnake",
+			"location": "Savannah, Tennessee",
+			"latitude": "35.22455000000008",
+			"longitude": "-88.24617999999998"
+		},
+		{
+			"name_age_gender": "Frieda Hoxter, 25, female",
+			"date": "March 6, 1955",
+			"species": "Cobra",
+			"location": "Baltimore, Maryland",
+			"latitude": "39.290580000000034",
+			"longitude": "-76.60925999999995"
+		},
+		{
+			"name_age_gender": "Karen Perry, 1, female",
+			"date": "June 26, 1953",
+			"species": "Rattlesnake",
+			"location": "Tujunga, California",
+			"latitude": "34.25183000000004",
+			"longitude": "-118.29096999999996"
+		},
+		{
+			"name_age_gender": "Nathaniel Akins, 25, male",
+			"date": "August 18, 1951",
+			"species": "Rattlesnake",
+			"location": "Kissimmee, Florida",
+			"latitude": "28.29457000000008",
+			"longitude": "-81.40662999999995"
+		},
+		{
+			"name_age_gender": "Ruthie Craig, 50, female",
+			"date": "July 15, 1951",
+			"species": "Rattlesnake",
+			"location": "New Hope, Alabama",
+			"latitude": "34.538730000000044",
+			"longitude": "-86.39521999999994"
+		},
+		{
+			"name_age_gender": "Ben Padgett, 26, male",
+			"date": "September 2, 1949",
+			"species": "Rattlesnake",
+			"location": "Maxville, Florida",
+			"latitude": "30.19431000000003",
+			"longitude": "-82.01314999999994"
+		},
+		{
+			"name_age_gender": "Grace Olive Wiley, 64, female",
+			"date": "July 20, 1948",
+			"species": "Indian cobra",
+			"location": "Cypress, California",
+			"latitude": "33.82434000000006",
+			"longitude": "-118.03722999999997"
+		},
+		{
+			"name_age_gender": "Jerry Frier, 7, male",
+			"date": "June 22, 1943",
+			"species": "Rattlesnake",
+			"location": "Lafayette County, Florida",
+			"latitude": "29.985460425000042",
+			"longitude": "-83.18105572299999"
+		},
+		{
+			"name_age_gender": "Dorothy Louise Key, 8, female",
+			"date": "May 1, 1942",
+			"species": "Rattlesnake",
+			"location": "Bradenton, Florida",
+			"latitude": "27.49550000000005",
+			"longitude": "-82.57806999999997"
+		},
+		{
+			"name_age_gender": "Mahel Coffey, 10, female",
+			"date": "July 21, 1941",
+			"species": "Rattlesnake",
+			"location": "Lenoir, North Carolina",
+			"latitude": "35.91575000000006",
+			"longitude": "-81.54045999999994"
+		},
+		{
+			"name_age_gender": "John Charles Goss, 2, male",
+			"date": "June 23, 1941",
+			"species": "Rattlesnake",
+			"location": "Bradford, Pennsylvania",
+			"latitude": "41.95586000000003",
+			"longitude": "-78.65047999999996"
+		},
+		{
+			"name_age_gender": "Reba Ann Cooper, 2, female",
+			"date": "April 28, 1940",
+			"species": "Rattlesnake",
+			"location": "Rocksprings, Texas",
+			"latitude": "30.015700000000038",
+			"longitude": "-100.21002999999996"
+		},
+		{
+			"name_age_gender": "Paul D. Emerson, 50, male",
+			"date": "September 17, 1937",
+			"species": "Rattle Snake",
+			"location": "Rapid City, South Dakota",
+			"latitude": "44.08146000000005",
+			"longitude": "-103.23079999999999"
+		},
+		{
+			"name_age_gender": "Marshal Ray Weddle, 5, male",
+			"date": "July 24, 1937",
+			"species": "Rattlesnake",
+			"location": "Riggins, Idaho",
+			"latitude": "45.42220000000003",
+			"longitude": "-116.31479999999999"
+		},
+		{
+			"name_age_gender": "B.T. Walley, 34, male",
+			"date": "July 21, 1937",
+			"species": "Rattlesnake",
+			"location": "Laurel, Mississippi",
+			"latitude": "31.69682000000006",
+			"longitude": "-89.13517999999999"
+		},
+		{
+			"name_age_gender": "Alfred Weaver, 35, male",
+			"date": "May 4, 1936",
+			"species": "Rattlesnake",
+			"location": "Bartow, Florida",
+			"latitude": "27.899110000000064",
+			"longitude": "-81.84155999999996"
+		},
+		{
+			"name_age_gender": "Jess Correll, 28, male",
+			"date": "July 24, 1931",
+			"species": "Copperhead",
+			"location": "Washington, Indiana",
+			"latitude": "38.65766000000008",
+			"longitude": "-87.17017999999996"
+		},
+		{
+			"name_age_gender": "Wilmer Hassinger, 15, male",
+			"date": "June 15, 1929",
+			"species": "Rattlesnake",
+			"location": "Lykens, Pennsylvania",
+			"latitude": "40.56707000000006",
+			"longitude": "-76.70032999999995"
+		},
+		{
+			"name_age_gender": "Rebecca Nimmons, 19, female",
+			"date": "July 1928",
+			"species": "Rattlesnake",
+			"location": "Pickens County, South Carolina",
+			"latitude": "34.88830599900007",
+			"longitude": "-82.72480046299995"
+		},
+		{
+			"name_age_gender": "Jane Lancaster, 66, female",
+			"date": "August 21, 1921",
+			"species": "Probably a timber rattlesnake",
+			"location": "Ross County, Ohio",
+			"latitude": "39.337629710000044",
+			"longitude": "-83.05699968699997"
+		},
+		{
+			"name_age_gender": "Gustav A. Link, 51, male",
+			"date": "August 15, 1917",
+			"species": "Timber rattlesnake",
+			"location": "University of Pittsburgh",
+			"latitude": "40.44531000000006",
+			"longitude": "-79.95133999999996"
+		},
+		{
+			"name_age_gender": "Helen Moomey, 4, female",
+			"date": "September 23, 1915",
+			"species": "Rattlesnake",
+			"location": "Billings County, North Dakota",
+			"latitude": "47.02349960400005",
+			"longitude": "-103.37630777499999"
+		},
+		{
+			"name_age_gender": "Two Wilson children",
+			"date": "June 1913",
+			"species": "Prairie rattlesnake",
+			"location": "North Dakota",
+			"latitude": "47.44627334000006",
+			"longitude": "-100.46938736999999"
+		},
+		{
+			"name_age_gender": "Frank Stankiewicz, 57, male",
+			"date": "July 9, 1910",
+			"species": "Rattlesnake",
+			"location": "Nanticoke, Pennsylvania",
+			"latitude": "41.20542000000006",
+			"longitude": "-76.00344999999999"
+		},
+		{
+			"name_age_gender": "Mary Bull, 12, female",
+			"date": "July 9, 1907",
+			"species": "Rattlesnake",
+			"location": "Shenandoah County, Virginia",
+			"latitude": "38.858408147000034",
+			"longitude": "-78.57045034099997"
+		},
+		{
+			"name_age_gender": "Edward Comstock, 39, male",
+			"date": "September 25, 1900",
+			"species": "Rattlesnake",
+			"location": "Chillicothe, Ohio",
+			"latitude": "39.33537000000007",
+			"longitude": "-82.96775999999994"
+		},
+		{
+			"name_age_gender": "Rebecca O. Andrews, approximately 28, female",
+			"date": "c. 1890",
+			"species": "Rattlesnake",
+			"location": "Kansas",
+			"latitude": "38.48472671300004",
+			"longitude": "-98.38017062899996"
+		},
+		{
+			"name_age_gender": "James Ananias Brannon, 2, male",
+			"date": "July 1882",
+			"species": "Rattlesnake",
+			"location": "Texas",
+			"latitude": "31.46273304600004",
+			"longitude": "-99.33305008999997"
+		},
+		{
+			"name_age_gender": "Frederick Louis Niemann, male",
+			"date": "1873",
+			"species": "Rattlesnake",
+			"location": "Saline County, Kansas",
+			"latitude": "38.783789659000035",
+			"longitude": "-97.64990810799998"
+		},
+		{
+			"name_age_gender": "William A. Perrin, male",
+			"date": "1859",
+			"species": "Rattlesnake",
+			"location": "Augusta County, Virginia",
+			"latitude": "38.164451169000074",
+			"longitude": "-79.13389533399999"
+		},
+		{
+			"name_age_gender": "H. M. Pettigrew, 31, male",
+			"date": "August 15, 1841",
+			"species": "Rattlesnake",
+			"location": "Fannin County, Texas",
+			"latitude": "33.593096185000036",
+			"longitude": "-96.10695925599998"
+		},
+		{
+			"name_age_gender": "Unknown person ",
+			"date": "1791 ",
+			"species": "Timber rattlesnake ",
+			"location": "Massachusetts",
+			"latitude": "42.35867032400006",
+			"longitude": "-71.71818499999995"
+		},
+		{
+			"name_age_gender": "Child, 5 or 6",
+			"date": "August 28, 1790",
+			"species": "Rattlesnake",
+			"location": "Hardwick, Massachusetts",
+			"latitude": "42.36674000000005",
+			"longitude": "-72.18493999999998"
+		}
+	]
+}
