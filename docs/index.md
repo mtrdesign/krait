@@ -22,11 +22,9 @@ All front-end tables include the following features out-of-the-box:
 * AJAX pagination fetching
 * columns sorting
 
-### Per User Preview Configurations
- 
-
-### Ajax Data Serving
-
+### Per-user Preview Configurations
+Krait saves all user preview preferences in the database. Whenever a user hides/resizes/reorder columns,
+the update are saved and reused the next time that user opens the table.
 
 ## When Should I Use Krait?
 
