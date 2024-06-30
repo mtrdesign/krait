@@ -1,4 +1,4 @@
-<p align="center">
+<p align="center" style="background: #4051B5">
     <img src="https://mtrdesign.github.io/krait/assets/krait-full-logo.svg"  alt="image" width="400" height="auto">
 </p>
 
@@ -16,6 +16,10 @@ library called `krait-ui`. So the final package consists of two parts, included 
 
 * `/krait-ui`: The VueJS-based DataTable UI kit that includes all front-end components.
 * `/krait`: The main Laravel package that includes all back-end features.
+
+## Official Documentation
+
+More information about the package usage can be found on the [Krait Docs Website](https://mtrdesign.github.io/krait/).
 
 # Quickstart
 
@@ -57,9 +61,22 @@ app.use(Krait, {
 });
 ```
 
-## Official Documentation
+## Usage
+To create your first table, run the following command:
+```bash
+php artisan krait:table MyFirstTable
+```
 
-More information about the package usage can be found on the [Krait Docs Website](https://mtrdesign.github.io/krait/).
+This command will create three resources:
+* `/app/Tables/MyFirstTable.php` - the where you define all columns and processing callbacks of your table
+* `/app/Http/Controllers/Tables/MyFirstTableController.php` - the controller that fetches the table content
+* `/resources/js/components/tables/MyFirstTable.vue` - the front-end representation of the table
+
+**IMPORTANT:**
+For consistency, all Table Classes in `app/Tables` should end on `Table` in order to be registered correctly.
+
+For more details around the installation and the tables definition, please check the official
+`installation & usage` guide.
 
 ## Contribution
 
