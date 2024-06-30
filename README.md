@@ -41,7 +41,7 @@ php artisan krait:install
 
 It's that simple! Now you have all the JS and PHP dependencies installed and configured.
 
-** And One Final Step...**
+**And One Final Step...**
 
 To successfully run the front-end library, you should tell the Vue to use the `krait-ui` plugin.
 
