@@ -30,7 +30,7 @@ jobs:
           architecture: x64
 
       - name: Install requirements
-        run: python3 -m pip install mkdocs
+        run: python3 -m pip install -r requirements.txt
 
       - name: Build the assets
         run: python3 -m mkdocs build
