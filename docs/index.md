@@ -2,4 +2,4 @@
 
 ## What is Krait?
 
-## When Should I use Krait?
+## When Should I Use Krait?

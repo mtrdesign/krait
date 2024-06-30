@@ -49,6 +49,5 @@ extra:
       link: https://github.com/mtrdesign
 
 nav:
-  - Overview:
-    - 'Start here':
-      - 'asd': index.md
+  - Overview: index.md
+  - Installation Guide: installation-guide.md
