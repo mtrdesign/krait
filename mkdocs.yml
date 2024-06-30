@@ -35,6 +35,8 @@ theme:
       accent: lime
 
 markdown_extensions:
+  - admonition
+  - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -47,6 +49,8 @@ extra:
   social:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/mtrdesign
+  annotate:
+    json: [ .s2 ] # (1)!
 
 nav:
   - Overview: index.md
