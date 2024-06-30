@@ -20,8 +20,8 @@ class Config {
     }
 
     let path: string;
-    if (window.Krait.kraitPath) {
-      path = sanityPath(window.Krait.kraitPath);
+    if (window.Krait?.kraitPath) {
+      path = sanityPath(window.Krait?.kraitPath);
     } else {
       path = '/krait';
     }
@@ -36,8 +36,8 @@ class Config {
     }
 
     let path: string;
-    if (window.Krait.tablesPath) {
-      path = sanityPath(window.Krait.tablesPath);
+    if (window.Krait?.tablesPath) {
+      path = sanityPath(window.Krait?.tablesPath);
     } else {
       path = '/tables';
     }
@@ -47,7 +47,7 @@ class Config {
   }
 
   static get useCsrfToken(): boolean {
-    return window.Krait.useCsrf ?? false;
+    return window.Krait?.useCsrf ?? false;
   }
 
   static get csrfToken(): string {
@@ -55,7 +55,7 @@ class Config {
       return Config._csrfToken;
     }
 
-    const token: string | undefined = window.Krait.csrfToken;
+    const token: string | undefined = window.Krait?.csrfToken;
     if (!token) {
       throw new Error('CSRF token has not been passed.');
     }
