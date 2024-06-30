@@ -16,11 +16,13 @@ All the resources linking happens behind the scenes for you and you should think
 
 ### Front-End Dynamic Tables
 All front-end tables include the following features out-of-the-box:
-* resizable columns
-* custom visible columns selection
-* columns reordering
-* AJAX pagination fetching
-* columns sorting
+
+- resizable columns
+- custom visible columns selection
+- columns reordering
+- AJAX pagination fetching
+- columns sorting
+- pagination dynamic configuring the `items per page` value
 
 ### Per-user Preview Configurations
 Krait saves all user preview preferences in the database. Whenever a user hides/resizes/reorder columns,

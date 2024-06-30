@@ -63,7 +63,7 @@ app.use(Krait, {
 The `php artisan krait:install` command from the previous section creates the `resources/js/components/tables`
 directory and its `index.js` file for listing all available tables.
 
-???+ Warning "Automatically generated resource in `/resource/js/components/tables`"
+???+ Warning "Automatically generated resources in `/resource/js/components/tables`"
     You should not update the `resources/js/components/tables/index.js` file manually.
     All updates there are handled by the back-end functionality and the CLI commands.
     
