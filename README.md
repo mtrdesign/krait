@@ -1,4 +1,4 @@
-<p align="center" style="background: #4051B5">
+<p align="center">
     <img src="https://mtrdesign.github.io/krait/assets/krait-full-logo.svg"  alt="image" width="400" height="auto">
 </p>
 
@@ -22,16 +22,18 @@ library called `krait-ui`. So the final package consists of two parts, included 
 More information about the package usage can be found on the [Krait Docs Website](https://mtrdesign.github.io/krait/).
 
 # Quickstart
+Krait's installation process is pretty simple, you can follow this guide to get everything configured quickly
+and then review the detailed official docs.
 
 ## Installation
 
-You can quickly install Krait via Composer by running:
+You can install Krait via Composer by running:
 
 ```bash
 composer require mtrdesign/krait
 ```
 
-Then, you can finish the installation by running:
+Then, you should finish the installation by running:
 
 ```bash
 php artisan krait:install
@@ -39,7 +41,7 @@ php artisan krait:install
 
 It's that simple! Now you have all the JS and PHP dependencies installed and configured.
 
-**One Final Step...**
+** And One Final Step...**
 
 To successfully run the front-end library, you should tell the Vue to use the `krait-ui` plugin.
 
@@ -72,6 +74,7 @@ This command will create three resources:
 * `/app/Http/Controllers/Tables/MyFirstTableController.php` - the controller that fetches the table content
 * `/resources/js/components/tables/MyFirstTable.vue` - the front-end representation of the table
 
+
 **IMPORTANT:**
 For consistency, all Table Classes in `app/Tables` should end on `Table` in order to be registered correctly.
 
@@ -80,7 +83,14 @@ For more details around the installation and the tables definition, please check
 
 ## Contribution
 
-The contribution guide can be found in the [Krait Docs Website](https://mtrdesign.github.io/krait/contributions).
+Don't hesitate to raise issues and propse improvements!
+Any help is welcome!
+
+You can find more information about the package development process in the monorepo projects:
+* `/krait-ui` - for the front-end functionality
+* `/krait` - for the back-end functionality
+
+More contribution details can be found in the [Krait Docs Website](https://mtrdesign.github.io/krait/contributions).
 
 ## License
 
