@@ -25,5 +25,8 @@ Route::group([
 
         Route::post('sort', 'Api\\ColumnsSortController')
             ->name('sort');
+
+        Route::post('items-per-page', 'Api\\ItemsPerPageSaveController')
+            ->name('save-items-per-page');
     });
 });

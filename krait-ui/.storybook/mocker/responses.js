@@ -10,7 +10,7 @@ const getPaginationLinks = (url, previewConfiguration, pagesCount) => {
       url: paginationUrl.toString(),
       label: i + 1,
       active: i === previewConfiguration.currentPage - 1,
-    })
+    });
   }
 
   return links;
@@ -23,13 +23,24 @@ export const getRecords = (url, previewConfiguration) => {
 
   if (previewConfiguration.sort_column && previewConfiguration.sort_direction) {
     if (previewConfiguration.sort_direction === 'asc') {
-      data = data.sort((a, b) => a[previewConfiguration.sort_column].localeCompare(b[previewConfiguration.sort_column]))
+      data = data.sort((a, b) =>
+        a[previewConfiguration.sort_column].localeCompare(
+          b[previewConfiguration.sort_column],
+        ),
+      );
     } else {
-      data = data.sort((a, b) => -1 * a[previewConfiguration.sort_column].localeCompare(b[previewConfiguration.sort_column]))
+      data = data.sort(
+        (a, b) =>
+          -1 *
+          a[previewConfiguration.sort_column].localeCompare(
+            b[previewConfiguration.sort_column],
+          ),
+      );
     }
   }
 
-  const start = (previewConfiguration.currentPage - 1) * previewConfiguration.itemsPerPage;
+  const start =
+    (previewConfiguration.currentPage - 1) * previewConfiguration.itemsPerPage;
   const end = start + previewConfiguration.itemsPerPage;
 
   const response = {
@@ -50,7 +61,7 @@ export const getRecords = (url, previewConfiguration) => {
 
   return new Response(JSON.stringify(response), {
     headers: {
-      'content-type': 'application/json'
-    }
+      'content-type': 'application/json',
+    },
   });
 };
