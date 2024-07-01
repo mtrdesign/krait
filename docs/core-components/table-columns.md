@@ -35,13 +35,13 @@ protected column(
 | `sort`      | **callable&#124;null** | The column sorting callback.                        |
 
 
-# TableColumnDTO
+## TableColumnDTO Description
 
 DTO Object for handling consistent column generation.
 
 * Full name: `\MtrDesign\Krait\DTO\TableColumnDTO`
 
-## Methods
+## TableColumnDTO Methods
 
 ### __construct
 

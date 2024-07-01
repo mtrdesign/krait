@@ -29,6 +29,11 @@ class MyAwesomeTable extends BaseTable
             label: 'My First Column',
             process: fn(mixed $resource) => 'This is the processed content!'
         );
+        
+        $this->column(
+            name: 'some_field',
+            label: 'Resource Field',
+        );
     }
 
     function additionalData(mixed $resource): array
