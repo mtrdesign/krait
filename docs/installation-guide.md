@@ -13,9 +13,9 @@ php artisan krait:install
 
 ???+ success "Successful installation"
     After running the above two commands, you should have all dependencies installed.
-    If you experience any issues, please check if you can see them in the following files:
+    If you experience any issues, please check if the packages has been added to the following files:
     
-    ```json title="package.json"
+    ```json title="package.json" hl_lines="5"
         {
             ...
             "dependencies": {
@@ -25,7 +25,7 @@ php artisan krait:install
         }
     ```
 
-    ```json title="composer.json"
+    ```json title="composer.json" hl_lines="5"
         {
             ...
             "require": {
@@ -35,7 +35,7 @@ php artisan krait:install
         }
     ```
 
-    **Important Note**: Both package versions should exactly match each other.
+    **Important Note**: Both package versions should match each other.
 
 ## Front-end Configuration
 After we install all required packages, we should attach the `Krait` plugin to our Vue application.
@@ -72,3 +72,16 @@ directory and its `index.js` file for listing all available tables.
     ```sh
     php artisan krait:refresh
     ```
+
+## My First Table (check if everything is configured)
+
+To generate your very first table and check if everything works as expected, run the following artisan command:
+```sh
+php artisan krait:table MyFirstTable 
+```
+
+And ensure that the following files are created successfully:
+
+- [ ] `/app/Tables/MyFirstTable.php`
+- [ ] `/app/Http/Controllers/Tables/MyFirstTableController.php`
+- [ ] `/resources/js/components/tables/MyFirstTable.vue`

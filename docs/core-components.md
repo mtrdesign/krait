@@ -42,11 +42,9 @@ class MyAwesomeTable extends BaseTable
 
 ## Table Columns
 
-All table columns should be defined inside the `initColumns` of the table class using the `column()` method.
+All columns are internally represented by the [`TableColumnDTO`](https://github.com/mtrdesign/krait/blob/main/krait/src/DTO/TableColumnDTO.php) class. We define the columns
+inside our Table Definition Classes using the `column` method. Here is the list of all parameters that can be assigned to specific column.
 
-### column
-
-Adds a column to the table.
 
 ```php
 <?php
@@ -65,17 +63,17 @@ protected column(
 
 **Parameters:**
 
-| Parameter | Type | Description                                         |
-|-----------|------|-----------------------------------------------------|
-| `$name` | **string** | The columns name                                    |
-| `$label` | **string** | The columns label                                   |
-| `$hideLabel` | **bool** | Flags if the label should be visible in the header. |
-| `$datetime` | **bool** | Flags if the column contains datetime object.       |
-| `$sortable` | **bool** | Flags if the column is sortable.                    |
-| `$fixed` | **bool** | Flags if the column is resizable.                   |
-| `$classes` | **string&#124;null** | Additional classes that will be added on FE.        |
-| `$process` | **callable&#124;null** | The column result generation callback.              |
-| `$sort` | **callable&#124;null** | The column sorting callback.                        |
+| Parameter   | Type                   | Description                                         |
+|-------------|------------------------|-----------------------------------------------------|
+| `name`      | **string**             | The columns name                                    |
+| `label`     | **string**             | The columns label                                   |
+| `hideLabel` | **bool**               | Flags if the label should be visible in the header. |
+| `datetime`  | **bool**               | Flags if the column contains datetime object.       |
+| `sortable`  | **bool**               | Flags if the column is sortable.                    |
+| `fixed`     | **bool**               | Flags if the column is resizable.                   |
+| `classes`   | **string&#124;null**   | Additional classes that will be added on FE.        |
+| `process`   | **callable&#124;null** | The column result generation callback.              |
+| `sort`      | **callable&#124;null** | The column sorting callback.                        |
 
 
 ## Table Controllers
