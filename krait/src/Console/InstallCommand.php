@@ -82,7 +82,7 @@ class InstallCommand extends Command
         $this->info(sprintf('Installing the front-end library (%s)...', $jsPackage));
         $installation = Process::path(base_path())->run(sprintf('npm install --save %s', $jsPackage));
         if ($installation->successful()) {
-            $this->components->info('Krait UI installed successfully✅');
+            $this->components->info('Krait UI installed successfully ✅');
         } else {
             $this->warn($installation->output());
             $this->fail('Krait UI hasn\'t been installed successfully.');
