@@ -53,7 +53,6 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
-
 extra:
   social:
     - icon: fontawesome/brands/github-alt
@@ -66,5 +65,10 @@ nav:
   - Installation & Usage Guide:
       - Installation: installation-guide.md
       - Usage: usage.md
-  - Core Components: core-components.md
+#  - Core Components: core-components.md
+  - Core Components:
+      - Table Definition Classes: core-components/table-definition-classes.md
+      - Table Columns: core-components/table-columns.md
+      - Table Controller: core-components/table-controller.md
+      - Dynamic Table Component: core-components/dynamic-table-component.md
   - Contribution: contribution.md

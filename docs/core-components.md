@@ -61,6 +61,8 @@ protected column(
 ): void
 ```
 
+## Methods
+
 **Parameters:**
 
 | Parameter   | Type                   | Description                                         |
