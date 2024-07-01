@@ -2,7 +2,6 @@
 
 namespace {{table_namespace}};
 
-use Illuminate\Database\Eloquent\Model;
 use MtrDesign\Krait\Tables\BaseTable;
 
 class {{table_classname}} extends BaseTable
@@ -17,7 +16,7 @@ class {{table_classname}} extends BaseTable
         $this->column(
             name: 'my_first_column',
             label: 'My First Column',
-            process: fn(Model $resource) => 'This is the processed content!'
+            process: fn(mixed $resource) => 'This is the processed content!'
         );
     }
 
