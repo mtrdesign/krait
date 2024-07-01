@@ -21,7 +21,7 @@ class {{table_classname}} extends BaseTable
         );
     }
 
-    function additionalData(Model $resource): array
+    function additionalData(mixed $resource): array
     {
         return [
             'additional_prop' => 'Krait is awesome!',
