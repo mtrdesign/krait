@@ -1,6 +1,4 @@
 <script setup>
-// import { DynamicTable } from '@mtrdesign/krait-ui';
-
 defineProps({
   'filtersForm': {
     type: String,
