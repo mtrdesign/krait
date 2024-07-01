@@ -16,7 +16,12 @@ class {{table_classname}} extends BaseTable
         $this->column(
             name: 'my_first_column',
             label: 'My First Column',
-            process: fn(mixed $resource) => 'This is the processed content!'
+            process: fn(mixed $resource) => 'This content is processed.'
+        );
+
+        $this->column(
+            name: 'some_field',
+            label: 'Resource Field',
         );
     }
 

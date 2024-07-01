@@ -10,7 +10,11 @@ class {{ class }} extends Controller
 {
     public function __invoke(): TableCollection
     {
-        $items = collect([]);
+        $items = collect([
+            [
+                'some_field' => 'Some field value'
+            ]
+        ]);
 
         return {{ tableClass }}::from($items);
     }
