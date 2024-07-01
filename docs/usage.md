@@ -187,4 +187,4 @@ The Krait configurations are placed in the `config/krait.php` file.
 | `use_csrf`    | **bool**   | Flags if all Krait front-end requests should contain the CSRF token.                |
 
 ???+ warning "Current Package Version Requires Authentication"
-For now, Krait works for registered users only. We will expand it for unauthenticated usage in the upcoming versions.
+    For now, Krait works for registered users only. We will expand it for unauthenticated usage in the upcoming versions.
