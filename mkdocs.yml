@@ -65,7 +65,6 @@ nav:
   - Installation & Usage Guide:
       - Installation: installation-guide.md
       - Usage: usage.md
-#  - Core Components: core-components.md
   - Core Components:
       - Table Definition Classes: core-components/table-definition-classes.md
       - Table Columns: core-components/table-columns.md
