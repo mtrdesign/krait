@@ -44,6 +44,15 @@ Then, finish the installation by running:
 php artisan krait:install
 ```
 
+_Dev Note:_
+
+_If you are developing both `krait` and `krait-ui` packages simultaneously (using `npm link`), you can run
+the installation command with `--dev` option. This way, the JS dependencies will not be installed.
+
+```bash
+php artisan krait:install -- dev
+```
+
 ## Local Setup
 
 1. Ensure that you have `git` installed
@@ -58,12 +67,10 @@ php artisan krait:install
 
 ## Local Development
 
+There isn't a straightforward way to run Laravel packages locally. To develop the package, create an empty Laravel project
+and clone the package inside a "packages" folder. Then, link the package with the composer configuration using the
+properties below (add them to the `composer.json` file):
 
-There isn't a straightforward way to develop the package locally, we suggest creating an empty laravel
-project and then installing and testing inside of it. You can put the package inside a `packages` folder
-and then link the package with the `composer` config.
-
-You can add the following properties to your composer configuration to link the package locally.
 ```json
 {
     "repositories": {

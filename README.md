@@ -7,8 +7,8 @@
 <a href="https://packagist.org/packages/mtrdesign/krait"><img src="https://img.shields.io/packagist/v/mtrdesign/krait" alt="Latest Stable Version"></a>
 </p>
 
-Krait is a powerful Laravel package that simplifies the creation of Ajax Dynamic DataTables. It automates the initial structure development of both
-front-end and back-end resources via simple CLI commands.
+Krait is a powerful Laravel package that simplifies the creation of Ajax Dynamic DataTables. It automates the initial structure development of front-end
+and back-end resources via simple CLI commands.
 
 # Krait Package Monorepo
 To ensure consistent versioning and enhance the core front-end components development, along with the PHP package we’ve introduced a dedicated front-end
@@ -19,7 +19,7 @@ library called `krait-ui`. So the final package consists of two parts, included 
 
 ## Official Documentation
 
-More information about the package usage can be found on the [Krait Docs Website](https://mtrdesign.github.io/krait/).
+More information about the package can be found on the [Krait Docs Website](https://mtrdesign.github.io/krait/).
 
 # Quickstart
 Krait's installation process is pretty simple, you can follow this guide to get everything configured quickly
@@ -27,13 +27,13 @@ and then review the detailed official docs.
 
 ## Installation
 
-You can install Krait via Composer by running:
+You can install the package via Composer by running:
 
 ```bash
 composer require mtrdesign/krait
 ```
 
-Then, you should finish the installation by running:
+Then, you should complete the installation by running:
 
 ```bash
 php artisan krait:install
@@ -70,27 +70,26 @@ php artisan krait:table MyFirstTable
 ```
 
 This command will create three resources:
-* `/app/Tables/MyFirstTable.php` - the where you define all columns and processing callbacks of your table
+* `/app/Tables/MyFirstTable.php` - the table class definition (the table name, the columns, the callbacks, etc.)
 * `/app/Http/Controllers/Tables/MyFirstTableController.php` - the controller that fetches the table content
-* `/resources/js/components/tables/MyFirstTable.vue` - the front-end representation of the table
+* `/resources/js/components/tables/MyFirstTable.vue` - the front-end VueJS component that represents the data
 
 
 **IMPORTANT:**
-For consistency, all Table Classes in `app/Tables` should end on `Table` in order to be registered correctly.
+For consistency, all Table Classes in `app/Tables` should end on `Table` to be registered correctly.
 
-For more details around the installation and the tables definition, please check the official
-`installation & usage` guide.
+For more details about the Installation and the Usage, please check the [Official Docs](https://mtrdesign.github.io/krait/installation-guide/).
 
 ## Contribution
 
-Don't hesitate to raise issues and propse improvements!
+Don't hesitate to raise issues and propose improvements!
 Any help is welcome!
 
 You can find more information about the package development process in the monorepo projects:
 * `/krait-ui` - for the front-end functionality
 * `/krait` - for the back-end functionality
 
-More contribution details can be found in the [Krait Docs Website](https://mtrdesign.github.io/krait/contributions).
+More contribution details can be found in the [Official Contribution Section](https://mtrdesign.github.io/krait/contribution).
 
 ## License
 
