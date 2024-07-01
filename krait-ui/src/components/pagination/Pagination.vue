@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { FetchRecords } from '~/actions';
+import { FetchRecords, SaveRecordsPerPage } from '~/actions';
 import { useDispatcher, useTable } from '~/mixins';
+import { watch } from 'vue';
 
 const props = defineProps({
   tableName: {
@@ -16,6 +17,10 @@ const fetchPaginationLink = async (url: string) => {
   await dispatch<FetchRecords>(FetchRecords, {
     url,
   });
+};
+
+const onChange = async () => {
+  await dispatch<SaveRecordsPerPage>(SaveRecordsPerPage, {});
 };
 </script>
 
@@ -43,6 +48,7 @@ const fetchPaginationLink = async (url: string) => {
     <div class="form-group">
       <select
         v-model="pagination.itemsPerPage"
+        @change="onChange"
         class="form-control form-select form-select-sm"
         :disabled="isLoading"
       >

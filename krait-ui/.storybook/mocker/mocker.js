@@ -1,4 +1,4 @@
-import { getRecords } from "./responses.js";
+import { getRecords } from './responses.js';
 
 const MOCKED_KRAIT_CONFIG = {
   kraitPath: 'krait',
@@ -42,7 +42,7 @@ class Mocker {
       sort_direction: this.url.searchParams.get('sort_direction') ?? null,
       itemsPerPage: ipp ? parseInt(ipp) : 30,
       currentPage: page ? parseInt(page) : 1,
-    }
+    };
   }
 
   #getRecordsResponse() {
@@ -56,7 +56,9 @@ class Mocker {
   process() {
     if (this.url.pathname.startsWith('/' + MOCKED_KRAIT_CONFIG.tablesPath)) {
       return this.#getRecordsResponse();
-    } else if (this.url.pathname.startsWith('/' + MOCKED_KRAIT_CONFIG.kraitPath)) {
+    } else if (
+      this.url.pathname.startsWith('/' + MOCKED_KRAIT_CONFIG.kraitPath)
+    ) {
       return this.#getKraitResponse();
     } else {
       return new Response();
@@ -72,4 +74,4 @@ const mockedFetch = async (target, fetchInit) => {
 export const init = () => {
   window.Krait = MOCKED_KRAIT_CONFIG;
   window.fetch = mockedFetch;
-}
+};

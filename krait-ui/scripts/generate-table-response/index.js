@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { parse } from 'csv-parse';
-import * as fs from "fs";
+import * as fs from 'fs';
 import { finished } from 'stream/promises';
 
 const path = process.argv[2];
@@ -10,7 +10,8 @@ if (!fs.existsSync(path)) {
 }
 
 const getColumnPayload = (title) => {
-  const name = title.toLowerCase()
+  const name = title
+    .toLowerCase()
     .replaceAll(' ', '_')
     .replaceAll(',', '')
     .replaceAll('.', '');
@@ -27,17 +28,14 @@ const processFile = async () => {
   const columns = [];
   const records = [];
 
-  const parser = fs
-    .createReadStream(path)
-    .pipe(parse({}));
+  const parser = fs.createReadStream(path).pipe(parse({}));
 
-  parser.on('readable', function(){
+  parser.on('readable', function () {
     let row;
     while ((row = parser.read()) !== null) {
-
       if (columns.length === 0) {
         for (const column of row) {
-          columns.push(getColumnPayload(column))
+          columns.push(getColumnPayload(column));
         }
         continue;
       }
@@ -58,9 +56,9 @@ const processFile = async () => {
   };
 };
 
-const {columns, records} = await processFile();
+const { columns, records } = await processFile();
 
 await fs.promises.writeFile(
   '.storybook/mocks/data.json',
-  JSON.stringify({columns, data: records}, null, "\t")
+  JSON.stringify({ columns, data: records }, null, '\t'),
 );
