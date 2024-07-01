@@ -1,6 +1,6 @@
 # Krait UI Library
 
-Krait UI Library is VueJS-based project for handling the Krait DataTable components
+Krait UI Library is a VueJS-based project for handling the Krait DataTable components
 front-end functionality.
 
 <details>
@@ -29,17 +29,16 @@ front-end functionality.
 
 ## Overview
 
-This project contains VueJS and Bootstrap-based components for handling the datatable
-logic and appearance.
+This project contains VueJS and Bootstrap-based components for handling the Datatable
+Logic and Appearance features.
 
 ## Usage
 
-Although `krait-ui` is a separate NPM package (so it can be installed and used stand-alone),
-it's main purpose is to be integrated with the `krait` Laravel package. This is a fundamental
-structural idea that we want to strictly follow in the future as well. The package serves as a
-helper service to the main Laravel part.
+Although `krait-ui` is a separate NPM package (it can be installed and used as a stand-alone library,
+its purpose is the integration with the main `krait` Laravel package. The package serves as a helper service to the Laravel codebase.
 
-_Dev Note:_ Changes in the back-end package reflect in this package as well.
+_Dev Note:_
+_Changes in the back-end package will be reflected in this package as well._
 
 ## Local Setup
 
@@ -86,9 +85,8 @@ _Dev Note: Again - ensure that you are running this command inside the `krait-ui
 
 ## Local Development
 
-We have implemented [Storybook](https://storybook.js.org) for visualising and developing features
-locally. All the back-end functionalities as mocked, so this package can be developed separately
-without installing and linking it to the main `krait` laravel one locally.
+We have integrated [Storybook](https://storybook.js.org) to facilitate the visualization and development of features on local environments.
+All backend functionalities are mocked, enabling independent development of this package without the need for local installation and integration with the primary 'krait' Laravel setup.
 
 First, start the `local dev` server:
 
@@ -108,10 +106,10 @@ The repository contains the following core directories:
 
 - `/src` - the main source code
   - `/src/actions` - all the API actions grouped as `events` that can
-    be dispatched from all modules in the app.
-  - `/src/components` - all Vue components are there
+    be dispatched from all modules in the app
+  - `/src/components` - the Vue components
   - `/src/framework` - the core framework utils (Request, Response, Validation, etc.)
-  - `/src/mixins` - the Vue mixins (similar to the React hooks) that are shared across all components
+  - `/src/mixins` - the Vue mixins (similar to React hooks) that are shared across all components
   - `/src/types` - the more generic types
 - `/scripts` - local development helper scripts
 - `.storybook` - the Storybook configurations (all mocking functionality is there as well)
@@ -122,7 +120,7 @@ The repository contains the following core directories:
 
 #### Generate Table Response
 
-Converts CSV file to an example JSON BE response mock.
+Converts CSV file to an example back-end response (as a JSON file).
 
 ```sh
 generate-table-response {path to the file goes here}
