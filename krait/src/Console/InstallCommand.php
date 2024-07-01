@@ -38,13 +38,17 @@ class InstallCommand extends Command
             '--provider' => KraitServiceProvider::class,
         ]);
         $this->registerKraitProvider();
-        $this->info('Assets have been published successfully🚀');
+        $this->components->info('Assets published successfully ✅');
+
+        $this->info('Running DB migrations...');
+        $this->callSilent('migrate');
+        $this->components->info('Migrations ran successfully ✅');
 
         if (empty($this->option('dev'))) {
             $this->installJsPackage();
         }
 
-        $this->components->info('Krait has been installed successfully🎉');
+        $this->components->info('Krait has been installed successfully 🚀');
 
         return 0;
     }
@@ -78,7 +82,7 @@ class InstallCommand extends Command
         $this->info(sprintf('Installing the front-end library (%s)...', $jsPackage));
         $installation = Process::path(base_path())->run(sprintf('npm install --save %s', $jsPackage));
         if ($installation->successful()) {
-            $this->info('Krait UI installed successfully✅');
+            $this->components->info('Krait UI installed successfully✅');
         } else {
             $this->warn($installation->output());
             $this->fail('Krait UI hasn\'t been installed successfully.');
