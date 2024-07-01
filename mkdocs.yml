@@ -45,6 +45,14 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - attr_list
+  - md_in_html
+  - pymdownx.tasklist:
+      clickable_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
 
 extra:
   social:
@@ -55,7 +63,8 @@ extra:
 
 nav:
   - Overview: index.md
-  - Installation Guide: installation-guide.md
-  - Usage: usage.md
+  - Installation & Usage Guide:
+      - Installation: installation-guide.md
+      - Usage: usage.md
   - Core Components: core-components.md
   - Contribution: contribution.md
