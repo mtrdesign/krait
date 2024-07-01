@@ -74,7 +74,7 @@ readonly class TableColumnDTO
      */
     public function hasProcessingCallback(): bool
     {
-        return ! empty($this->callbacks);
+        return ! empty($this->callbacks['process']);
     }
 
     /**

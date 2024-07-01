@@ -128,7 +128,7 @@ abstract class BaseTable
      *
      * @throws Exception
      */
-    public function getColumn(string $columnName): TableColumnDTO
+    public function getColumn(string $columnName): ?TableColumnDTO
     {
         $columns = $this->getColumns();
 
@@ -138,6 +138,18 @@ abstract class BaseTable
         }
 
         return $column;
+    }
+
+    /**
+     * Returns specific column
+     *
+     * @throws Exception
+     */
+    public function hasColumn(string $name): bool
+    {
+        $columns = $this->getColumns();
+
+        return isset($columns[$name]);
     }
 
     /**
@@ -178,7 +190,7 @@ abstract class BaseTable
             } elseif (method_exists($this, $columnMethod)) {
                 $row[$column->name] = $this->{$columnMethod}($resource);
             } else {
-                $row = $resource->{$column->name} ?? $placeholder;
+                $row[$column->name] = $resource->{$column->name} ?? $placeholder;
             }
         }
 
@@ -200,6 +212,8 @@ abstract class BaseTable
      * Generates an API Resource Collection for the table.
      *
      * @param  mixed  $records  - The target records.
+     *
+     * @throws Exception
      */
     public static function from(mixed $records): TableCollection
     {

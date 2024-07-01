@@ -46,9 +46,13 @@ class PreviewConfigService
         KraitPreviewConfiguration $previewConfiguration,
         BaseTable $table,
     ): array|Builder|EloquentCollection|Collection {
-        if (in_array(null, [$previewConfiguration->sort_column, $previewConfiguration->sort_direction])) {
+        if (
+            in_array(null, [$previewConfiguration->sort_column, $previewConfiguration->sort_direction]) ||
+            ! $table->hasColumn($previewConfiguration->sort_column)
+        ) {
             return $records;
         }
+
         $column = $table->getColumn($previewConfiguration->sort_column);
 
         return $column->sort($records, $previewConfiguration->sort_direction);
