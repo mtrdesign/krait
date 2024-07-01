@@ -13,10 +13,10 @@ php artisan krait:table {here goes the table name}
 - All table names should end on `Table`
 
 ???+ info "Valid vs Invalid Examples"
-- `php artisan krait:table UsersTable` ✅
-- `php artisan krait:table TableForUsers` ❌
-- `php artisan krait:table users-table` ❌
-- `php artisan krait:table users_table` ❌
+    - `php artisan krait:table UsersTable` ✅
+    - `php artisan krait:table TableForUsers` ❌
+    - `php artisan krait:table users-table` ❌
+    - `php artisan krait:table users_table` ❌
 
 Let's suppose that we want to generate a table that shows all available users.
 
