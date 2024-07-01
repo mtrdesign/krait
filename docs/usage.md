@@ -1,0 +1,16 @@
+# Usage
+
+## Table creation
+...
+
+## Data adjustments
+...
+
+## Dynamic columns fetching
+...
+
+## Front-end Adjustments
+...
+
+## Configurations
+...
