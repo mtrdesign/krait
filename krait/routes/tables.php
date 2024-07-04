@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 foreach (app('tables') as $name => $table) {
-    $tableName = app($table['table'])->name();
-    Route::get($tableName, $table['controller'])->name($tableName);
+    $tableObject = app($table['table']);
+    $tableName = $tableObject->name();
+    Route::middleware($tableObject->middlewares())
+        ->get($tableName, $table['controller'])
+        ->name($tableName);
 }
