@@ -4,6 +4,7 @@ namespace MtrDesign\Krait\Tables;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Prompts\Table;
@@ -44,6 +45,23 @@ abstract class BaseTable
      * Initializes the table columns.
      */
     abstract public function initColumns(): void;
+
+    /**
+     * Flags if the request is authorized to see the table's data.
+     */
+    public function authorize(Request $request): bool
+    {
+        return true;
+    }
+
+    /**
+     * Returns the specific table middlewares that should be
+     * applied to the request.
+     */
+    public function middlewares(): array
+    {
+        return [];
+    }
 
     /**
      * Flags if the columns should be cached.

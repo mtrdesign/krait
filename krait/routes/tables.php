@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 foreach (app('tables') as $name => $table) {
-    $tableName = app($table['table'])->name();
-    Route::get($tableName, $table['controller'])->name($tableName);
+    $tableObject = app($table['table']);
+    $tableName = $tableObject->name();
+    Route::middleware(
+        array_merge(
+            config('krait.global_middlewares', []),
+            $tableObject->middlewares()
+        )
+    )->get($tableName, $table['controller'])->name($tableName);
 }

@@ -2,7 +2,7 @@
 
 namespace MtrDesign\Krait;
 
-use DirectoryIterator;
+use FilesystemIterator;
 use Illuminate\Contracts\Foundation\CachesRoutes;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +10,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use MtrDesign\Krait\Services\PreviewConfigService;
 use MtrDesign\Krait\Tables\BaseTable;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use RuntimeException;
 
 /**
@@ -125,31 +127,47 @@ class KraitServiceProvider extends ServiceProvider
      */
     protected function registerTables(): void
     {
+        $tablesDirectory = config('krait.tables_directory');
+        Krait::sanityPath($tablesDirectory);
+
         $tables = [];
         if (file_exists(config('krait.tables_directory'))) {
-            $directory = new DirectoryIterator(config('krait.tables_directory'));
+            $tablesDirectory = config('krait.tables_directory');
+            Krait::sanityPath($tablesDirectory);
 
-            foreach ($directory as $file) {
+            foreach (new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($tablesDirectory,
+                    FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST) as $file) {
+
                 if (! $file->isFile()) {
                     continue;
                 }
 
-                $tableClassName = substr($file, 0, -4);
-                $tableClass = config('krait.tables_namespace').$tableClassName;
-                if (! is_subclass_of($tableClass, BaseTable::class)) {
+                $namespace = Str::replace(app_path().'/', 'App/', $tablesDirectory);
+                $namespace = Str::replace('/', '\\', $namespace);
+
+                $className = explode($tablesDirectory.'/', $file->getPathname())[1];
+                $className = Str::replace('/', '\\', $className);
+                $className = substr($className, 0, -4);
+
+                $fullClass = sprintf('%s\%s', $namespace, $className);
+
+                if (! is_subclass_of($fullClass, BaseTable::class)) {
                     continue;
                 }
 
-                $this->app->singleton($tableClass, function ($app) use ($tableClass) {
+                $this->app->singleton($fullClass, function ($app) use ($fullClass) {
                     $previewConfigService = $app->make(PreviewConfigService::class);
-                    $table = new $tableClass($previewConfigService);
+                    $table = new $fullClass($previewConfigService);
                     $table->initColumns();
 
                     return $table;
                 });
-                $tables[$tableClassName] = [
-                    'table' => $tableClass,
-                    'controller' => 'App\\Http\\Controllers\\Tables\\'.$tableClassName.'Controller',
+
+                $tables[$className] = [
+                    'table' => $fullClass,
+                    'controller' => 'App\\Http\\Controllers\\Tables\\'.$className.'Controller',
                 ];
             }
         }

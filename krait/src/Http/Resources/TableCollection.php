@@ -39,6 +39,10 @@ class TableCollection extends ResourceCollection
 
     public function toArray(Request $request)
     {
+        if (! $this->table->authorize($request)) {
+            abort(403);
+        }
+
         return $this->collection->map(function ($record) {
             return array_merge(
                 [
