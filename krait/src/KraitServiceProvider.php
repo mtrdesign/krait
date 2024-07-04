@@ -92,7 +92,7 @@ class KraitServiceProvider extends ServiceProvider
             'prefix' => config('krait.path', 'krait'),
             'as' => 'krait.',
             'namespace' => 'MtrDesign\Krait\Http\Controllers',
-            'middleware' => config('krait.middleware', ['web', 'auth']),
+            'middleware' => config('krait.global_middlewares', ['web', 'auth']),
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });
@@ -100,7 +100,7 @@ class KraitServiceProvider extends ServiceProvider
         Route::group([
             'prefix' => config('krait.tables_path', 'tables'),
             'namespace' => 'App\Http\Controllers',
-            'middleware' => config('krait.middleware', ['web', 'auth']),
+            'middleware' => config('krait.global_middlewares', ['web', 'auth']),
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/tables.php');
         });
