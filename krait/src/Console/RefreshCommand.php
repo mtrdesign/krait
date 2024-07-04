@@ -27,6 +27,7 @@ class RefreshCommand extends Command
     {
         $tableComponentsPath = resource_path('js/components/tables');
         $components = glob("$tableComponentsPath/*.{vue}", GLOB_BRACE);
+        $components = array_merge($components, glob("$tableComponentsPath/**/*.{vue}", GLOB_BRACE));
 
         $tables = [];
 
@@ -43,7 +44,7 @@ class RefreshCommand extends Command
         }
 
         $importJs = implode(';'.PHP_EOL, $imports);
-        $exportJs = implode(','.PHP_EOL, array_keys($tables));
+        $exportJs = implode(','.PHP_EOL.'    ', array_keys($tables));
 
         $stub = Str::replace('{{imports}}', $importJs, $stub);
         $stub = Str::replace('{{exports}}', $exportJs, $stub);

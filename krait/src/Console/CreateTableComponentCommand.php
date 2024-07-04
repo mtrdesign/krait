@@ -75,7 +75,13 @@ class CreateTableComponentCommand extends GeneratorCommand
      */
     protected function getPath($name): string
     {
-        $name = class_basename(str_replace('\\', '/', $name));
+        $name = Str::replace('App\\', '', $name);
+        $name = Str::replace('\\', '/', $name);
+        $componentName = class_basename(str_replace('\\', '/', $name));
+
+        // Fixing the lower vs uppercase parts
+        $name = Str::lower($name);
+        $name = Str::replace(Str::lower($componentName), $componentName, $name);
 
         return resource_path("js/components/tables/{$name}.vue");
     }
