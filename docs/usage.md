@@ -8,6 +8,21 @@ Run the artisan command to create all table resource
 php artisan krait:table {here goes the table name}
 ```
 
+!!! info "Custom Directory"
+    Similar to other Laravel generation commands, you can specify the
+    table assets directory structure by prepending it to the name.
+
+    For example, this command:
+    ```sh
+    php artisan krait:table Admin\\StatisticsTable
+    ```
+    
+    will generate the following assets:
+
+    - _/app/Tables/Admin/StatisticsTable_
+    - _/app/Http/Controllers/Tables/Admin/StatisticsTable_
+    - _/resources/js/components/tables/admin/StatisticsTable.vue_
+
 ### Naming Conventions
 - All table names should follow the UpperCamelCase
 - All table names should end on `Table`
@@ -64,6 +79,51 @@ class UsersTable extends BaseTable
 - The `additionalData` method is the place for defining data that should be passed along with the column values to the front-end.
 - The `name` method returns the table name that's used for creating the routes.
 
+There are a couple of methods that you can override in order to further customise the table behaviour:
+
+##### Custom Authorization
+All Table Definition classes contain the `authotize` method that accepts the incoming request and returns a `boolean` value, 
+flagging if the request is authorized to access the table data.
+
+```php
+<?php
+...
+    class MyTable extends BaseTable
+    {
+        ...
+        public function authorize(\Illuminate\Http\Request $request): bool
+        {
+            /**
+            * Here you can check if the request is permitted or not.  
+            */
+            return true;
+        }
+    }
+```
+
+By default, all requests are permitted.
+
+##### Custom Middlewares
+Apart from the `global_middlewares` value from the `krait.php` configuration file,
+you can attach specific middlewares to each table, overriding the `middlewares` method.
+
+```php
+<?php
+...
+    class MyTable extends BaseTable
+    {
+        ...
+        public function middlewares(): array
+        {
+            /**
+            * Here you list the table specific middlewares.  
+            */
+            return ['my-custom-middleware'];
+        }
+    }
+```
+
+##### Columns Initialisation
 As you can see, all columns are defined in the `initColumns` method using the `column()` class helper.
 You can find more information on all column attributes and properties in the [Core Components Columns Section](/core-components/#table-columns).
 The Table Definition Class is a flexible way to define columns, they can even be fetched from a third-party library/dataset.
@@ -178,13 +238,13 @@ Krait will register the table VueJS component automatically for you. You can dir
 
 The Krait configurations are placed in the `config/krait.php` file.
 
-| Parameter     | Type       | Description                                                                         |
-|---------------|------------|-------------------------------------------------------------------------------------|
-| `debug`       | **bool**   | Turns the front-end debug mode on/off (showing more details in the console).        |
-| `krait_path`  | **string** | The internal Krait API path prefix (for Krait actions).                             |
-| `tables_path` | **string** | The Tables API path prefix (used to generate the routes for all registered tables). |
-| `middleware`  | **array**  | List of middlewares that should be applied to all Krait routes.                     |
-| `use_csrf`    | **bool**   | Flags if all Krait front-end requests should contain the CSRF token.                |
+| Parameter            | Type       | Description                                                                         |
+|----------------------|------------|-------------------------------------------------------------------------------------|
+| `debug`              | **bool**   | Turns the front-end debug mode on/off (showing more details in the console).        |
+| `krait_path`         | **string** | The internal Krait API path prefix (for Krait actions).                             |
+| `tables_path`        | **string** | The Tables API path prefix (used to generate the routes for all registered tables). |
+| `global_middlewares` | **array**  | List of middlewares that should be applied to all Krait routes.                     |
+| `use_csrf`           | **bool**   | Flags if all Krait front-end requests should contain the CSRF token.                |
 
 ???+ warning "Current Package Version Requires Authentication"
     For now, Krait works for registered users only. We will expand it for unauthenticated usage in the upcoming versions.
