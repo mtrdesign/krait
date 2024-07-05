@@ -8,7 +8,7 @@ Run the artisan command to create all table resource
 php artisan krait:table {here goes the table name}
 ```
 
-!!! info "Custom Directory"
+!!! tip "Custom Directory"
     Similar to other Laravel generation commands, you can specify the
     table assets directory structure by prepending it to the name.
 
