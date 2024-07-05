@@ -1,6 +1,12 @@
 # Installation Guide
 
-## Dependencies installation
+## Dependencies Installation
+**Please ensure that you have the following packages installed and configured in your project:**
+
+- [VueJS (^3.0.0)](https://vuejs.org)
+- [Bootstrap (^5.0.0)](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+
+
 You can install Krait via Composer by running:
 ```sh
 composer require mtrdesign/krait
