@@ -19,8 +19,8 @@ php artisan krait:table {here goes the table name}
     
     will generate the following assets:
 
-    - _/app/Tables/Admin/StatisticsTable_
-    - _/app/Http/Controllers/Tables/Admin/StatisticsTable_
+    - _/app/Tables/Admin/StatisticsTable.php_
+    - _/app/Http/Controllers/Tables/Admin/StatisticsTable.php_
     - _/resources/js/components/tables/admin/StatisticsTable.vue_
 
 ### Naming Conventions

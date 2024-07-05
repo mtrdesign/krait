@@ -49,6 +49,34 @@ class MyAwesomeTable extends BaseTable
 
 ## Methods
 
+***
+
+### authorize
+
+Flags if a request is authorized to retrieve the table's data.
+
+```php
+public authorize(\Illuminate\Http\Request $request): boolean
+```
+
+**Parameters:**
+
+| Parameter  | Type                           | Description          |
+|------------|--------------------------------|----------------------|
+| `$request` | **\Illuminate\Http\Request**   | The incoming request |
+
+***
+
+### middlewares
+
+Returns the middlewares that should be applied to the table's routes.
+
+```php
+public middlewares(): array
+```
+
+***
+
 ### name
 
 Returns the table name.
@@ -249,9 +277,9 @@ public additionalData(mixed $resource): array
 
 **Parameters:**
 
-| Parameter     | Type        | Description |
-|---------------|-------------|-------------|
-| `$resource`   | **mixed**   |             |
+| Parameter     | Type        | Description     |
+|---------------|-------------|-----------------|
+| `$resource`   | **mixed**   | The data record |
 
 
 ***
