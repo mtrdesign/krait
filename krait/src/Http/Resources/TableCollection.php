@@ -17,24 +17,30 @@ class TableCollection extends ResourceCollection
     private ?KraitPreviewConfiguration $previewConfiguration = null;
 
     public function __construct(
-        mixed $resource,
+        mixed $resources,
         BaseTable $table,
     ) {
         $this->table = $table;
 
-        $defaultItemsPerPage = config('krait.default_items_per_page', 30);
-        if ($resource instanceof Builder) {
-            $previewConfiguration = $this->getPreviewConfiguration();
-
-            if ($previewConfiguration && $previewConfiguration->items_per_page) {
-                $resource = $resource->paginate($previewConfiguration->items_per_page);
-            } else {
-                $resource = $resource->paginate($defaultItemsPerPage);
-            }
-        } elseif (! $resource instanceof LengthAwarePaginator) {
-            $resource = $this->getPaginator($resource, $defaultItemsPerPage);
+        $itemsPerPage = config('krait.default_items_per_page', 30);
+        $previewConfiguration = $this->getPreviewConfiguration();
+        if ($previewConfiguration && $previewConfiguration->items_per_page) {
+            $itemsPerPage = $previewConfiguration->items_per_page;
         }
-        parent::__construct($resource);
+
+        if ($resources instanceof Builder) {
+            $paginator = $resources->paginate($itemsPerPage);
+        } elseif (! $resources instanceof LengthAwarePaginator) {
+            $paginator = $this->getPaginator($resources, $itemsPerPage);
+        } else {
+            $paginator = $resources;
+        }
+
+        if ($paginator->currentPage() > 1 && $paginator->isEmpty()) {
+            $paginator = $resources->paginate($itemsPerPage, ['*'], 'page', $paginator->lastPage());
+        }
+
+        parent::__construct($paginator);
     }
 
     public function toArray(Request $request)
@@ -50,6 +56,9 @@ class TableCollection extends ResourceCollection
                 ],
                 $this->table->processRecord($record),
                 $this->table->additionalData($record),
+                [
+                    'action_links' => $this->table->actionLinks($record),
+                ]
             );
         });
     }

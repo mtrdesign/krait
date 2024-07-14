@@ -191,9 +191,9 @@ abstract class BaseTable
      *
      * @param  Model|array  $resource  - The record.
      * @param  mixed|null  $placeholder  - The placeholder for empty values.
-     * @return array|mixed
+     * @return array
      */
-    public function processRecord(Model|array $resource, mixed $placeholder = null)
+    public function processRecord(Model|array $resource, mixed $placeholder = null): array
     {
         if (is_array($resource)) {
             $resource = (object) $resource;
@@ -204,9 +204,9 @@ abstract class BaseTable
             $columnMethod = sprintf('get%s', Str::ucfirst($column->name));
 
             if ($column->hasProcessingCallback()) {
-                $row[$column->name] = $column->process($resource);
+                $row[$column->name] = $column->process($resource) ?? $placeholder;
             } elseif (method_exists($this, $columnMethod)) {
-                $row[$column->name] = $this->{$columnMethod}($resource);
+                $row[$column->name] = $this->{$columnMethod}($resource) ?? $placeholder;
             } else {
                 $row[$column->name] = $resource->{$column->name} ?? $placeholder;
             }
@@ -265,5 +265,13 @@ abstract class BaseTable
     public function getKeyName(): string
     {
         return 'uuid';
+    }
+
+    /**
+     * Returns the action links for specific resource
+     */
+    public function actionLinks(mixed $resource): array
+    {
+        return [];
     }
 }
