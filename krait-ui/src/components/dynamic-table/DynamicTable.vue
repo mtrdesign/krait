@@ -7,6 +7,7 @@ import { THead } from '@components/thead';
 import { Pagination } from '@components/pagination';
 import { ColumnsSelectionDropdown } from '@components/columns-selection-dropdown';
 import { FetchRecords } from '~/actions';
+import RowActionButtons from '@components/row-action-buttons/RowActionButtons.vue';
 
 const props = defineProps({
   tableName: {
@@ -55,11 +56,14 @@ const initFiltersListener = () => {
   );
 };
 
+const refreshTable = async () => {
+  await dispatch<FetchRecords>(FetchRecords, {});
+};
+
 onMounted(async () => {
   await dispatch<FetchRecords>(FetchRecords, {
     isInitialFetch: true,
   });
-
   initFiltersListener();
 });
 </script>
@@ -112,16 +116,18 @@ onMounted(async () => {
                 </slot>
               </td>
               <td class="text-nowrap align-middle">
-                <slot name="actions" :record="record"></slot>
+                <slot
+                  name="actions"
+                  :record="record"
+                  :refreshTable="refreshTable"
+                >
+                  <RowActionButtons
+                    :table-name="tableName"
+                    :action-links="record.action_links"
+                  />
+                </slot>
               </td>
             </tr>
-            <slot
-              name="additionalRows"
-              :record="record"
-              :columns="columns"
-              v-if="actionsColumn"
-            >
-            </slot>
           </template>
         </tbody>
       </table>

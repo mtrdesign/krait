@@ -23,6 +23,7 @@ class ApiClient {
   ): Promise<Response> {
     const request = new ApiRequest(...args);
     if (Config.useCsrfToken) {
+      console.log(Config.csrfToken);
       request.csrfToken = Config.csrfToken;
     }
 
