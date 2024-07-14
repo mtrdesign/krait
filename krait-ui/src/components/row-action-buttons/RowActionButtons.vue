@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import {
-  Eye,
-  Pencil,
-  Trash
-} from "@components/icons";
-import { ApiClient } from "~/framework";
-import {useDispatcher} from "~/mixins";
-import { DeleteRecord, FetchRecords, SaveColumnsOrder } from "~/actions";
+import { Eye, Pencil, Trash } from '@components/icons';
+import { ApiClient } from '~/framework';
+import { useDispatcher } from '~/mixins';
+import { DeleteRecord, FetchRecords, SaveColumnsOrder } from '~/actions';
 
 const props = defineProps({
   tableName: {
@@ -15,21 +11,20 @@ const props = defineProps({
   },
   actionLinks: {
     type: Object,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const {dispatch} = useDispatcher(props.tableName);
+const { dispatch } = useDispatcher(props.tableName);
 
 const followLink = (link: string) => {
   window.location.href = link;
 };
 
 const onDelete = async (url: string) => {
-  await dispatch<DeleteRecord>(DeleteRecord, {url});
+  await dispatch<DeleteRecord>(DeleteRecord, { url });
   await dispatch<FetchRecords>(FetchRecords, {});
-}
-
+};
 </script>
 
 <template>
@@ -58,5 +53,4 @@ const onDelete = async (url: string) => {
   </template>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

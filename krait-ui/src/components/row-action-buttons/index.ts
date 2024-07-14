@@ -1,1 +1,1 @@
-export {default as RowActionButtons} from './RowActionButtons.vue';
+export { default as RowActionButtons } from './RowActionButtons.vue';
