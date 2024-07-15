@@ -1,5 +1,6 @@
 import ApiRequest from './api-request.js';
 import Config from './config';
+import { ServerError, UnauthorizedError } from '~/framework/exceptions';
 
 /**
  * API Client Class
@@ -23,20 +24,17 @@ class ApiClient {
   ): Promise<Response> {
     const request = new ApiRequest(...args);
     if (Config.useCsrfToken) {
-      console.log(Config.csrfToken);
       request.csrfToken = Config.csrfToken;
     }
 
     const response = await fetch(request);
-    if (response.status < 200 || response.status >= 400) {
-      const errorText = await response.text();
-      console.warn(
-        `Request to ${request.url} failed with status code: ${response.status}`,
-      );
-      throw new Error(errorText);
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    } else if ([401, 403].includes(response.status)) {
+      throw new UnauthorizedError(response);
+    } else {
+      throw new ServerError(response);
     }
-
-    return response;
   }
 }
 

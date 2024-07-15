@@ -71,13 +71,11 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "bootstrap": "^5.0.1",
     "vue": "^3.0.0",
-    "vue3-spinner": "^0.0.16",
     "vuedraggable": "^4.1.0"
   },
   "peerDependencies": {
     "bootstrap": "^5.0.1",
     "vue": "^3.0.0",
-    "vue3-spinner": "^0.0.16",
     "vuedraggable": "^4.1.0"
   },
   "bin": {

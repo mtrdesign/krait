@@ -36,4 +36,5 @@ export interface ITableContext {
   records: Ref<UnwrapRef<IRow[]>>;
   sorting: UnwrapNestedRefs<ISorting> & {};
   visibleColumns: Ref<UnwrapRef<string[]>>;
+  isAuthorized: Ref<boolean>;
 }

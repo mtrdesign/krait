@@ -1,6 +1,7 @@
 import { Table, Responses } from '~/types';
 import { Config, ApiClient } from '~/framework';
 import BaseAction from './base-action';
+import { UnauthorizedError } from '~/framework/exceptions';
 
 interface IFetchRecordsOptions {
   filtersForm?: HTMLFormElement;
@@ -42,8 +43,19 @@ export default class FetchRecords extends BaseAction<
       url = this.generateUrl(options);
     }
 
-    const response = await ApiClient.fetch(url);
-    await this.parseResponse(response);
+    try {
+      const response = await ApiClient.fetch(url);
+      await this.parseResponse(response);
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
+        this.context.isAuthorized.value = false;
+        return {
+          success: true,
+        };
+      }
+
+      throw error;
+    }
 
     const currentUrl = new URL(window.location.href);
     const historyState = `${currentUrl.pathname}${url.search}`;

@@ -28,6 +28,7 @@ const getState = (): Table.ITableContext => {
   const records = ref<Table.IRow[]>([]);
   const isLoading = ref<boolean>(false);
   const links = ref<Responses.ILinks>({});
+  const isAuthorized = ref<boolean>(true);
 
   return {
     columns,
@@ -37,6 +38,7 @@ const getState = (): Table.ITableContext => {
     pagination,
     records,
     links,
+    isAuthorized,
   };
 };
 
