@@ -52,7 +52,7 @@ jobs:
         run: mkdir production-build && cd production-build
 
       - name: Download distribution build
-        run: curl -O $DOWNLOAD_URL
+        run: curl -OL $DOWNLOAD_URL
         env:
           DOWNLOAD_URL: ${{ steps.get_distribution_build.outputs.build_url }}
 
