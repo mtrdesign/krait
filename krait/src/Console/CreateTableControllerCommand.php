@@ -44,13 +44,16 @@ class CreateTableControllerCommand extends GeneratorCommand
 
     protected function replaceClass($stub, $name): string
     {
-        $namespace = $this->getNamespace($name);
-        $controllerClass = str_replace($namespace.'\\', '', $name);
-        $tableNamespace = config('krait.tables_namespace');
+        $name = $this->getNameInput();
+
+        $controllerNamespace = $this->getNamespace($name);
+        $controllerClass = str_replace($controllerNamespace.'\\', '', $name);
+
+        $tableNamespace = 'App\\Tables\\' . str_replace($controllerClass, '', $name);
         $tableClass = str_replace('Controller', '', $controllerClass);
 
         $code = $stub;
-        $code = str_replace('{{ namespace }}', $namespace, $code);
+        $code = str_replace('{{ namespace }}', $controllerNamespace, $code);
         $code = str_replace('{{ class }}', $controllerClass, $code);
         $code = str_replace('{{ tableNamespace }}', $tableNamespace, $code);
 
