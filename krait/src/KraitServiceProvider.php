@@ -24,9 +24,6 @@ class KraitServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('test', function () {
-            return 'asd';
-        });
         $this->mergeConfigFrom(__DIR__.'/../config/krait.php', 'krait');
 
         $this->registerTables();
