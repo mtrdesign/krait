@@ -48,9 +48,6 @@ jobs:
         env:
           ASSETS: ${{ toJson(github.event.release.assets) }}
 
-      - name: Create separate directory
-        run: mkdir production-build && cd production-build
-
       - name: Download distribution build
         run: curl -OL $DOWNLOAD_URL
         env:
@@ -68,7 +65,7 @@ jobs:
         id: update_package_version
         run: |
           RELEASE_VERSION=$(echo "$VERSION" | sed -e 's/-beta\.[[:digit:]_-]\{1,\}//g')
-          npm version $VERSION
+          npm version $RELEASE_VERSION
           git push
           echo "tag=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
           git push --tags
