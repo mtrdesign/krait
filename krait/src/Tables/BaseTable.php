@@ -191,7 +191,6 @@ abstract class BaseTable
      *
      * @param  Model|array  $resource  - The record.
      * @param  mixed|null  $placeholder  - The placeholder for empty values.
-     * @return array
      */
     public function processRecord(Model|array $resource, mixed $placeholder = null): array
     {
@@ -241,14 +240,6 @@ abstract class BaseTable
         $table->previewConfigService->sort($records, $previewConfiguration, $table);
 
         return new TableCollection($records, $table);
-    }
-
-    /**
-     * Returns the table name.
-     */
-    public static function getName(): string
-    {
-        return static::getFacade()->name();
     }
 
     /**

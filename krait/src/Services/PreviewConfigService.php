@@ -3,8 +3,6 @@
 namespace MtrDesign\Krait\Services;
 
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use MtrDesign\Krait\Models\KraitPreviewConfiguration;
@@ -42,10 +40,10 @@ class PreviewConfigService
      * @throws Exception
      */
     public function sort(
-        array|Collection|Builder|EloquentCollection $records,
+        mixed $records,
         KraitPreviewConfiguration $previewConfiguration,
         BaseTable $table,
-    ): array|Builder|EloquentCollection|Collection {
+    ): mixed {
         if (
             in_array(null, [$previewConfiguration->sort_column, $previewConfiguration->sort_direction]) ||
             ! $table->hasColumn($previewConfiguration->sort_column)

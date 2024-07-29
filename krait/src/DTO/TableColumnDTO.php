@@ -2,6 +2,8 @@
 
 namespace MtrDesign\Krait\DTO;
 
+use Illuminate\Support\Facades\Schema;
+
 /**
  * DTO Object for handling consistent column generation.
  */
@@ -63,6 +65,10 @@ readonly class TableColumnDTO
     public function sort(mixed $records, string $direction): mixed
     {
         if (empty($this->callbacks['sort'])) {
+            if (Schema::hasColumn($records->getModel()->getTable(), $this->name)) {
+                $records->orderBy($this->name, $direction);
+            }
+
             return $records;
         }
 
