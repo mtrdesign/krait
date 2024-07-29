@@ -49,7 +49,7 @@ class CreateTableControllerCommand extends GeneratorCommand
         $controllerNamespace = $this->getNamespace($name);
         $controllerClass = str_replace($controllerNamespace.'\\', '', $name);
 
-        $tableNamespace = 'App\\Tables\\' . str_replace($controllerClass, '', $name);
+        $tableNamespace = 'App\\Tables\\'.str_replace($controllerClass, '', $name);
         $tableClass = str_replace('Controller', '', $controllerClass);
 
         $code = $stub;
