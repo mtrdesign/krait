@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, reactive, UnwrapNestedRefs } from 'vue';
+import {
+  defineEmits,
+  defineProps,
+  onMounted,
+  reactive,
+  UnwrapNestedRefs,
+} from 'vue';
 import { ArrowDown, ArrowUp } from '@components/icons';
 
 interface IColumnState {
@@ -79,47 +85,21 @@ const resizeStop = (): void => {
     :class="{ 'd-none': !isVisible, 'fixed-column': !isResizable }"
     :style="{ width: `${width >= 50 ? width : 50}px` }"
   >
-    <div class="d-flex justify-content-between text-truncate head-content">
-      <div
-        class="flex-grow-1"
-        :class="{ 'cursor-pointer': isSortable }"
-        @click="toggleSort()"
-      >
-        <span v-if="!hideTitle">
-          {{ title }}
-        </span>
-      </div>
-      <span v-if="isSortable" class="sort" style="z-index: 1">
-        <ArrowDown
-          :color="isActive ? '#0D6EFD' : '#adb5bd'"
-          v-if="isActive && sortDirection === 'desc'"
-          @click="() => emit('sort', name, 'asc')"
-        ></ArrowDown>
-        <ArrowUp
-          :color="isActive ? '#0D6EFD' : '#adb5bd'"
-          @click="() => emit('sort', name, 'desc')"
-          v-else
-        ></ArrowUp>
-        <!--        <a-->
-        <!--          v-if="isActive && sortDirection === 'desc'"-->
-        <!--          :class="{ active: isActive }"-->
-        <!--          href="javascript:void(0)"-->
-        <!--          @click="emit('sort', name, 'asc')"-->
-        <!--        >-->
-        <!--          <ArrowDown></ArrowDown>-->
-        <!--          <i class="fa fa-angle-down"></i>-->
-        <!--        </a>-->
-        <!--        <a-->
-        <!--          v-else-->
-        <!--          href="javascript:void(0)"-->
-        <!--          :class="{ active: isActive }"-->
-        <!--          @click="emit('sort', name, 'desc')"-->
-        <!--        >-->
-        <!--          &lt;!&ndash;          <ArrowUp color="#0D6EFD"></ArrowUp>&ndash;&gt;-->
-        <!--          <i class="fa fa-angle-up"></i>-->
-        <!--        </a>-->
-      </span>
+    <div class="d-inline-block text-truncate pe-1" style="width: 95%">
+      asdasdawdsad
     </div>
+    <span v-if="isSortable" class="sort" style="z-index: 1">
+      <ArrowDown
+        :color="isActive ? '#0D6EFD' : '#adb5bd'"
+        v-if="isActive && sortDirection === 'desc'"
+        @click="() => emit('sort', name, 'asc')"
+      ></ArrowDown>
+      <ArrowUp
+        :color="isActive ? '#0D6EFD' : '#adb5bd'"
+        @click="() => emit('sort', name, 'desc')"
+        v-else
+      ></ArrowUp>
+    </span>
     <div
       v-if="isResizable"
       class="col-resizer"
@@ -151,12 +131,6 @@ th {
 
 .sort {
   position: absolute;
-  right: 7px;
-}
-
-.head-content {
-  margin-right: 15px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  right: 3px;
 }
 </style>

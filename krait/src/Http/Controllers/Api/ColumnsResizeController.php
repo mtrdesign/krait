@@ -14,7 +14,7 @@ class ColumnsResizeController extends Controller
     {
         $configuration = $this->getPreviewConfiguration($table);
 
-        $config = $record->columns_width ?? [];
+        $config = $configuration->columns_width ?? [];
         $config[$request->get('name')] = $request->get('width');
         $configuration->update([
             'columns_width' => $config,

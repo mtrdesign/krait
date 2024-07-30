@@ -25,7 +25,8 @@
     ".": {
       "import": "./dist/krait-ui.js",
       "require": "./dist/krait-ui.umd.cjs"
-    }
+    },
+    "./styles": "./dist/style.css"
   },
   "main": "./dist/krait-ui.umd.cjs",
   "module": "./dist/krait-ui.js",

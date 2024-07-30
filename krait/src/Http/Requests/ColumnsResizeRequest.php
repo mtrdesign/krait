@@ -24,7 +24,7 @@ class ColumnsResizeRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'width' => 'required|number',
+            'width' => 'required|numeric',
         ];
     }
 }
