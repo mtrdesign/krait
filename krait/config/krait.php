@@ -10,4 +10,5 @@ return [
     'default_items_per_page' => 30,
     'middleware' => ['web', 'auth'],
     'components_module' => 'components/tables',
+    'date_format' => 'm/d/Y, g:i a',
 ];

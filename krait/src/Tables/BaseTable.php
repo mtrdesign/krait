@@ -2,6 +2,7 @@
 
 namespace MtrDesign\Krait\Tables;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -208,6 +209,15 @@ abstract class BaseTable
                 $row[$column->name] = $this->{$columnMethod}($resource) ?? $placeholder;
             } else {
                 $row[$column->name] = $resource->{$column->name} ?? $placeholder;
+            }
+
+            if ($column->datetime && $row[$column->name] !== $placeholder) {
+                $date = $row[$column->name];
+                if (is_string($date)) {
+                    $date = Carbon::parse($date);
+                }
+
+                $row[$column->name] = $date ? $date->format($column->dateFormat) : $placeholder;
             }
         }
 

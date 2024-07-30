@@ -86,7 +86,7 @@ const resizeStop = (): void => {
     :style="{ width: `${width >= 50 ? width : 50}px` }"
   >
     <div class="d-inline-block text-truncate pe-1" style="width: 95%">
-      asdasdawdsad
+      {{ title }}
     </div>
     <span v-if="isSortable" class="sort" style="z-index: 1">
       <ArrowDown
