@@ -8,6 +8,7 @@ import { ColumnsSelectionDropdown } from '@components/columns-selection-dropdown
 import { FetchRecords } from '~/actions';
 import { RowActionButtons } from '@components/row-action-buttons';
 import ForbiddenScreen from './ForbiddenScreen.vue';
+import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDialog.vue';
 
 const props = defineProps({
   tableName: {
@@ -70,6 +71,7 @@ onMounted(async () => {
 
 <template>
   <ToastsList />
+  <ConfirmationDialog />
   <div class="d-flex justify-content-end mb-3" v-if="isAuthorized">
     <ColumnsSelectionDropdown
       :table-name="tableName"

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { Eye, Pencil, Trash } from '@components/icons';
-import { ApiClient } from '~/framework';
-import { useDispatcher } from '~/mixins';
-import { DeleteRecord, FetchRecords, SaveColumnsOrder } from '~/actions';
+import { useConfirmation, useDispatcher } from '~/mixins';
+import { DeleteRecord, FetchRecords } from '~/actions';
 
 const props = defineProps({
   tableName: {
@@ -16,14 +15,21 @@ const props = defineProps({
 });
 
 const { dispatch } = useDispatcher(props.tableName);
+const { ask } = useConfirmation();
 
 const followLink = (link: string) => {
   window.location.href = link;
 };
 
 const onDelete = async (url: string) => {
-  await dispatch<DeleteRecord>(DeleteRecord, { url });
-  await dispatch<FetchRecords>(FetchRecords, {});
+  const isConfirmed = await ask(
+    'Are you sure that you want to delete this record?',
+  );
+
+  if (isConfirmed) {
+    await dispatch<DeleteRecord>(DeleteRecord, { url });
+    await dispatch<FetchRecords>(FetchRecords, {});
+  }
 };
 </script>
 
