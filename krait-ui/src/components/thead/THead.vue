@@ -22,9 +22,7 @@ const props = defineProps({
   },
 });
 
-const { columns, visibleColumns, sorting, columnsWidth } = useTable(
-  props.tableName,
-);
+const { columns, visibleColumns, sorting } = useTable(props.tableName);
 const { dispatch } = useDispatcher(props.tableName);
 
 const dragging = ref<boolean>(false);
