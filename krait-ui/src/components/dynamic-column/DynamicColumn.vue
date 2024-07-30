@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, reactive, UnwrapNestedRefs } from 'vue';
+import { defineEmits, defineProps, onMounted, reactive, UnwrapNestedRefs } from "vue";
 import { ArrowDown, ArrowUp } from '@components/icons';
 
 interface IColumnState {
@@ -130,6 +130,7 @@ const resizeStop = (): void => {
 
 <style scoped lang="scss">
 th {
+  background: red;
   border-right: 1px solid #aaa;
   position: relative;
   width: 200px;

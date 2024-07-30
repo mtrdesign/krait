@@ -146,6 +146,16 @@ export default class FetchRecords extends BaseAction<
         );
       }
 
+      // @TODO: Refactor in a better way
+      if (preview_configuration?.columns_width) {
+        for (const column in preview_configuration?.columns_width) {
+          const targetColumn = this.context.columns.value.find(col => col.name == column);
+          if (targetColumn) {
+            targetColumn.width = preview_configuration.columns_width[column];
+          }
+        }
+      }
+
       if (
         preview_configuration &&
         this.context.sorting.sortBy === null &&
