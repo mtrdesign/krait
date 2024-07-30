@@ -17,6 +17,11 @@ readonly class TableColumnDTO
     private array $callbacks;
 
     /**
+     * The column date formatting (if it's datetime column).
+     */
+    public string $dateFormat;
+
+    /**
      * @param  string  $name  - The column name.
      * @param  string  $label  - The column label.
      * @param  bool  $hideLabel  - Flags if the label should be visible.
@@ -37,11 +42,20 @@ readonly class TableColumnDTO
         public ?string $classes = null,
         ?callable $process = null,
         ?callable $sort = null,
+        ?string $dateFormat = null
     ) {
         $this->callbacks = [
             'process' => $process,
             'sort' => $sort,
         ];
+
+        if ($this->datetime) {
+            if ($dateFormat !== null) {
+                $this->dateFormat = $dateFormat;
+            } else {
+                $this->dateFormat = config('krait.date_format', 'm/d/Y, g:i a');
+            }
+        }
     }
 
     /**

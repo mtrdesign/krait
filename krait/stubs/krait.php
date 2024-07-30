@@ -56,4 +56,15 @@ return [
     */
 
     'use_csrf' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Formatting
+    |--------------------------------------------------------------------------
+    |
+    | These config variables set the default front-end formatting of specific
+    | data types.
+    |
+    */
+    'date_format' => 'm/d/Y, g:i a',
 ];
