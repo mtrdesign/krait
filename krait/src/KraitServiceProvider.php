@@ -61,10 +61,6 @@ class KraitServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Console\InstallCommand::class,
-                Console\CreateTableClassCommand::class,
-                Console\CreateTableComponentCommand::class,
-                Console\CreateTableControllerCommand::class,
-                Console\CreateTableCommand::class,
                 Console\RefreshCommand::class,
                 Console\KraitTableCommand::class,
             ]);
