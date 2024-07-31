@@ -33,7 +33,7 @@ readonly class TableResourceDTO
             $this->namespace = PathUtils::dirToNamespace($pathname);
             $this->pathname = $pathname;
         } else {
-            throw new \Exception("Pathname or namespace must be specified.");
+            throw new \Exception('Pathname or namespace must be specified.');
         }
     }
 }

@@ -27,22 +27,17 @@ class KraitTableCommand extends Command
 
     /**
      * The target table classname
-     *
-     * @var string
      */
     protected string $tableClass;
 
     /**
      * The table cluster that contains the information for all resources.
-     *
-     * @var TableCluster
      */
     protected TableCluster $tableCluster;
 
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws Exception
      */
     public function handle(): int
@@ -67,7 +62,7 @@ class KraitTableCommand extends Command
     {
         if (preg_match('/[^a-zA-Z0-9\\\]/', $this->tableClass)) {
             $this->fail(
-                'The table name contains invalid characters. ' .
+                'The table name contains invalid characters. '.
                 "Only letters and '\\' are allowed"
             );
         }
@@ -150,7 +145,6 @@ class KraitTableCommand extends Command
         ]);
     }
 
-
     protected function processStub(string $stubPath, string $targetPath, ?array $arguments = null): void
     {
         $template = file_get_contents($stubPath);
@@ -159,7 +153,7 @@ class KraitTableCommand extends Command
         }
 
         $directory = dirname($targetPath);
-        if(! File::exists($directory)) {
+        if (! File::exists($directory)) {
             File::makeDirectory($directory, mode: 0775, recursive: true);
         }
 

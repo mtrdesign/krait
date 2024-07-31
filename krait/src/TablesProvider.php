@@ -23,20 +23,22 @@ class TablesProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(PreviewConfigService::class, PreviewConfigService::class);
-        $this->app->singleton(TablesOrchestrator::class, function($app) {
+        $this->app->singleton(TablesOrchestrator::class, function ($app) {
             $previewConfigService = $app->make(PreviewConfigService::class);
+
             return new TablesOrchestrator($previewConfigService);
         });
 
         foreach (TablesOrchestrator::getTablesDirectoryIterator() as $file) {
-            if (!$file->isFile()) {
+            if (! $file->isFile()) {
                 continue;
             }
 
             $this->tables[] = $file;
             $tableClass = TablesOrchestrator::getTableDefinitionClass($file->getPathname());
-            $this->app->singleton($tableClass, function($app) use ($tableClass) {
+            $this->app->singleton($tableClass, function ($app) use ($tableClass) {
                 $tablesOrchestrator = $app->make(TablesOrchestrator::class);
+
                 return $tablesOrchestrator->getTable($tableClass);
             });
         }

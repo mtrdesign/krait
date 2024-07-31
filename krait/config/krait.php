@@ -2,9 +2,6 @@
 
 return [
     'debug' => false,
-    'tables_directory' => app_path('Tables'),
-
-
 
     'table_definition_classes_directory' => app_path('Tables'),
     'table_controllers_directory' => app_path('Http/Controllers/Tables'),

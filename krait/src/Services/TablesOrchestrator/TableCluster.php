@@ -11,12 +11,17 @@ use MtrDesign\Krait\Tables\BaseTable;
 class TableCluster
 {
     protected string $definitionClass;
-    readonly public string $tableClass;
+
+    public readonly string $tableClass;
+
     protected string $tableName;
+
     protected ?string $tablePrefix = null;
+
     protected ?string $snakeTablePrefix = null;
 
     protected ?TableResourceDTO $controller = null;
+
     protected ?TableResourceDTO $vue = null;
 
     protected ?BaseTable $instance = null;
@@ -28,16 +33,16 @@ class TableCluster
         $classParts = explode('\\', $definitionClass);
 
         $this->tableClass = end($classParts);
-        $this->tableName = strtolower(preg_replace("/([a-z])([A-Z])/", "$1-$2", $this->tableClass));
+        $this->tableName = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $this->tableClass));
 
         $prefix = str_replace("\\$this->tableClass", '', $this->definitionClass);
-        $prefix = str_replace("App\\Tables", '', $prefix);
+        $prefix = str_replace('App\\Tables', '', $prefix);
         if ($prefix) {
             if (str_starts_with($prefix, '\\')) {
                 $prefix = substr($prefix, 1);
             }
             $this->tablePrefix = $prefix;
-            $this->snakeTablePrefix = strtolower(preg_replace("/([a-z])([A-Z])/", "$1_$2", $this->tablePrefix));
+            $this->snakeTablePrefix = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $this->tablePrefix));
         }
     }
 
@@ -70,6 +75,7 @@ class TableCluster
         }
 
         $this->controller = new TableResourceDTO(namespace: sprintf('%s\\%sController', $namespace, $this->tableClass));
+
         return $this->controller;
     }
 
@@ -85,6 +91,7 @@ class TableCluster
         }
 
         $this->vue = new TableResourceDTO(pathname: "$path/$this->tableClass.vue");
+
         return $this->vue;
     }
 

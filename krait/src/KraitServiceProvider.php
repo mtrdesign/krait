@@ -2,16 +2,11 @@
 
 namespace MtrDesign\Krait;
 
-use FilesystemIterator;
 use Illuminate\Contracts\Foundation\CachesRoutes;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use MtrDesign\Krait\Services\PreviewConfigService;
-use MtrDesign\Krait\Tables\BaseTable;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use RuntimeException;
 
 /**

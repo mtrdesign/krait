@@ -9,7 +9,6 @@ use MtrDesign\Krait\Utils\PathUtils;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-
 class TablesOrchestrator
 {
     /**
@@ -45,6 +44,7 @@ class TablesOrchestrator
     {
         $tablesDirectory = self::getTablesDefinitionDirectory();
         $directoryIterator = new RecursiveDirectoryIterator($tablesDirectory, FilesystemIterator::SKIP_DOTS);
+
         return new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);
     }
 

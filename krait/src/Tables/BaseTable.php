@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Prompts\Table;
 use MtrDesign\Krait\DTO\TableColumnDTO;
@@ -29,8 +28,6 @@ abstract class BaseTable
 
     /**
      * The table namespace based on
-     *
-     * @var string
      */
     protected string $namespace;
 
