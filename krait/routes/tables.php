@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-$tablesOrchestrator = app(\MtrDesign\Krait\TablesOrchestrator::class);
+$tablesOrchestrator = app(\MtrDesign\Krait\Services\TablesOrchestrator\TablesOrchestrator::class);
 
 foreach ($tablesOrchestrator->getTables() as $table) {
     $instance = $table->getInstance();

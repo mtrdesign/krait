@@ -28,19 +28,21 @@ abstract class BaseTable
     protected array $columns;
 
     /**
+     * The table namespace based on
+     *
+     * @var string
+     */
+    protected string $namespace;
+
+    /**
      * The preview configuration service.
      */
     public PreviewConfigService $previewConfigService;
 
-    public function __construct(PreviewConfigService $previewConfigService)
+    public function __construct(PreviewConfigService $previewConfigService, ?string $namespace = null)
     {
         $this->previewConfigService = $previewConfigService;
     }
-
-    /**
-     * Returns the table name.
-     */
-    abstract public function name(): string;
 
     /**
      * Initializes the table columns.
@@ -62,15 +64,6 @@ abstract class BaseTable
     public function middlewares(): array
     {
         return [];
-    }
-
-    /**
-     * Flags if the columns should be cached.
-     * Usable for dynamic columns serving (from a third-party services).
-     */
-    protected function shouldCache(): bool
-    {
-        return config('krait.cache_columns', false);
     }
 
     /**
@@ -126,17 +119,9 @@ abstract class BaseTable
      */
     public function getColumns(): array
     {
-        if ($this->shouldCache() && $columns = $this->getCachedColumns()) {
-            return $columns;
-        }
-
         if ($this->shouldRefresh() || empty($this->columns)) {
             $this->columns = [];
             $this->initColumns();
-        }
-
-        if ($this->shouldCache()) {
-            Cache::put($this->name(), $this->columns, 5 * 60);
         }
 
         return $this->columns;
@@ -169,14 +154,6 @@ abstract class BaseTable
         $columns = $this->getColumns();
 
         return isset($columns[$name]);
-    }
-
-    /**
-     * Returns the columns from the cache (if there are any)
-     */
-    protected function getCachedColumns(): ?array
-    {
-        return Cache::get($this->name());
     }
 
     /**

@@ -1,12 +1,11 @@
 <?php
 
-namespace MtrDesign\Krait;
+namespace MtrDesign\Krait\Services\TablesOrchestrator;
 
 use FilesystemIterator;
-use Laravel\Prompts\Table;
 use MtrDesign\Krait\Services\PreviewConfigService;
-use MtrDesign\Krait\Services\TablesOrchestrator\TableCluster;
 use MtrDesign\Krait\Tables\BaseTable;
+use MtrDesign\Krait\Utils\PathUtils;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -24,7 +23,7 @@ class TablesOrchestrator
 
     public function registerTable(\SplFileInfo $table): TablesOrchestrator
     {
-        $definitionClass = self::getTableDefinitionClass($table->getPathname());
+        $definitionClass = PathUtils::dirToNamespace($table->getPathname());
 
         $this->tables[$definitionClass] = new TableCluster($definitionClass);
         $this->tables[$definitionClass]->instantiate($this->previewConfigService);
