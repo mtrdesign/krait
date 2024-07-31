@@ -40,9 +40,13 @@ class TablesOrchestrator
         return $this->tables;
     }
 
-    public static function getTablesDirectoryIterator(): RecursiveIteratorIterator
+    public static function getTablesDirectoryIterator(): ?RecursiveIteratorIterator
     {
         $tablesDirectory = self::getTablesDefinitionDirectory();
+        if (! file_exists($tablesDirectory)) {
+            return null;
+        }
+
         $directoryIterator = new RecursiveDirectoryIterator($tablesDirectory, FilesystemIterator::SKIP_DOTS);
 
         return new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);

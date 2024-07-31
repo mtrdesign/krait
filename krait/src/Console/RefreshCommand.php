@@ -4,6 +4,7 @@ namespace MtrDesign\Krait\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use MtrDesign\Krait\Services\TablesOrchestrator\TablesOrchestrator;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'krait:refresh')]
@@ -26,25 +27,35 @@ class RefreshCommand extends Command
     public function handle()
     {
         $tableComponentsPath = resource_path('js/components/tables');
-        $components = glob("$tableComponentsPath/*.{vue}", GLOB_BRACE);
-        $components = array_merge($components, glob("$tableComponentsPath/**/*.{vue}", GLOB_BRACE));
 
-        $tables = [];
+        $tablesOrchestrator = app(TablesOrchestrator::class);
+        $tables = $tablesOrchestrator->getTables();
+        $components = [];
+        foreach ($tables as $table) {
+            $pathname = $table->getVue()->pathname;
 
-        foreach ($components as $component) {
-            $tableName = Str::replace('.vue', '', basename($component));
-            $relativeModulePath = '.'.explode('/components/tables', $component)[1];
-            $tables[$tableName] = $relativeModulePath;
+            $import = str_replace(
+                config('krait.table_components_directory').'/',
+                '',
+                $pathname
+            );
+            $importParts = explode('/', $import);
+            foreach ($importParts as $index => $part) {
+                $importParts[$index] = ucfirst($part);
+            }
+            $componentName = implode('', $importParts);
+            $componentName = str_replace('.vue', '', $componentName);
+            $components[$componentName] = './'.$import;
         }
 
         $stub = $this->getStub();
         $imports = [];
-        foreach ($tables as $tableName => $modulePath) {
-            $imports[] = sprintf('import %s from "%s"', $tableName, $modulePath);
+        foreach ($components as $componentName => $import) {
+            $imports[] = sprintf('import %s from "%s"', $componentName, $import);
         }
 
         $importJs = implode(';'.PHP_EOL, $imports);
-        $exportJs = implode(','.PHP_EOL.'    ', array_keys($tables));
+        $exportJs = implode(','.PHP_EOL.'    ', array_keys($components));
 
         $stub = Str::replace('{{imports}}', $importJs, $stub);
         $stub = Str::replace('{{exports}}', $exportJs, $stub);

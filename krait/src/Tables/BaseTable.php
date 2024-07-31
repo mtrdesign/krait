@@ -32,13 +32,21 @@ abstract class BaseTable
     protected string $namespace;
 
     /**
+     * The table namespace based on
+     */
+    public readonly string $name;
+
+    /**
      * The preview configuration service.
      */
     public PreviewConfigService $previewConfigService;
 
-    public function __construct(PreviewConfigService $previewConfigService, ?string $namespace = null)
-    {
+    public function __construct(
+        PreviewConfigService $previewConfigService,
+        ?string $name = null
+    ) {
         $this->previewConfigService = $previewConfigService;
+        $this->name = $name;
     }
 
     /**
@@ -220,7 +228,8 @@ abstract class BaseTable
     {
         $table = static::getFacade();
         $user = request()->user();
-        $previewConfiguration = $table->previewConfigService->getConfiguration($user, $table->name());
+
+        $previewConfiguration = $table->previewConfigService->getConfiguration($user, $table->name);
         $table->previewConfigService->sort($records, $previewConfiguration, $table);
 
         return new TableCollection($records, $table);

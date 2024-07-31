@@ -49,7 +49,7 @@ class KraitServiceProvider extends ServiceProvider
             ], 'krait-js');
             $this->publishesMigrations([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
-            ]);
+            ], 'krait-migrations');
         }
     }
 

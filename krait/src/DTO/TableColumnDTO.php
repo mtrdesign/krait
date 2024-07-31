@@ -2,6 +2,7 @@
 
 namespace MtrDesign\Krait\DTO;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -79,7 +80,9 @@ readonly class TableColumnDTO
     public function sort(mixed $records, string $direction): mixed
     {
         if (empty($this->callbacks['sort'])) {
-            if (Schema::hasColumn($records->getModel()->getTable(), $this->name)) {
+            if ($records instanceof Collection) {
+                $records->sortBy($this->name, SORT_REGULAR, $direction === 'desc');
+            } elseif (method_exists($records, 'getModel') && Schema::hasColumn($records->getModel()->getTable(), $this->name)) {
                 $records->orderBy($this->name, $direction);
             }
 

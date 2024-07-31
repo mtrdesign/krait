@@ -29,19 +29,23 @@ class TablesProvider extends ServiceProvider
             return new TablesOrchestrator($previewConfigService);
         });
 
-        foreach (TablesOrchestrator::getTablesDirectoryIterator() as $file) {
-            if (! $file->isFile()) {
-                continue;
+        $iterator = TablesOrchestrator::getTablesDirectoryIterator();
+        if ($iterator) {
+            foreach (TablesOrchestrator::getTablesDirectoryIterator() as $file) {
+                if (! $file->isFile()) {
+                    continue;
+                }
+
+                $this->tables[] = $file;
+                $tableClass = TablesOrchestrator::getTableDefinitionClass($file->getPathname());
+                $this->app->singleton($tableClass, function ($app) use ($tableClass) {
+                    $tablesOrchestrator = $app->make(TablesOrchestrator::class);
+
+                    return $tablesOrchestrator->getTable($tableClass);
+                });
             }
-
-            $this->tables[] = $file;
-            $tableClass = TablesOrchestrator::getTableDefinitionClass($file->getPathname());
-            $this->app->singleton($tableClass, function ($app) use ($tableClass) {
-                $tablesOrchestrator = $app->make(TablesOrchestrator::class);
-
-                return $tablesOrchestrator->getTable($tableClass);
-            });
         }
+
     }
 
     /**

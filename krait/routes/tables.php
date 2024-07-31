@@ -7,8 +7,8 @@ $tablesOrchestrator = app(\MtrDesign\Krait\Services\TablesOrchestrator\TablesOrc
 foreach ($tablesOrchestrator->getTables() as $table) {
     $instance = $table->getInstance();
 
-    $action = str_replace('App\\Http\\Controllers', '', $table->getController());
+    $action = str_replace('App\\Http\\Controllers\\', '', $table->getController()->namespace);
 
     Route::middleware($instance->middlewares())
-        ->get($table->getRoute(), $table->getController());
+        ->get($table->getRoute(), $action);
 }

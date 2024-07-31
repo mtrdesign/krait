@@ -90,7 +90,7 @@ class TableCollection extends ResourceCollection
 
         $this->previewConfiguration = KraitPreviewConfiguration::where([
             ['user_id', $user->id],
-            ['table_name', $this->table->name()],
+            ['table_name', $this->table->name],
         ])->first();
 
         return $this->previewConfiguration;

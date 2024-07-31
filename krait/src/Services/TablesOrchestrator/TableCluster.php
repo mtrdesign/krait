@@ -99,7 +99,7 @@ class TableCluster
     {
         if (empty($this->instance)) {
             $definitionClass = $this->getDefinitionClass();
-            $this->instance = new $definitionClass->namespace($previewConfigService);
+            $this->instance = new $definitionClass->namespace($previewConfigService, $this->getRoute());
         }
 
         return $this;
@@ -112,6 +112,10 @@ class TableCluster
 
     public function getRoute(): string
     {
-        return "$this->snakeTablePrefix/$this->tableName";
+        if ($this->snakeTablePrefix) {
+            return "$this->snakeTablePrefix/$this->tableName";
+        }
+
+        return "$this->tableName";
     }
 }
