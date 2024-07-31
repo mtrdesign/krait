@@ -2,8 +2,14 @@
 
 return [
     'debug' => false,
-    'tables_namespace' => 'App\\Tables\\',
     'tables_directory' => app_path('Tables'),
+
+
+
+    'table_definition_classes_directory' => app_path('Tables'),
+    'table_controllers_directory' => app_path('Http/Controllers/Tables'),
+    'table_components_directory' => resource_path('js/components/tables'),
+
     'krait_path' => 'krait',
     'tables_path' => 'tables',
     'use_csrf' => true,

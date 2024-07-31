@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-foreach (app('tables') as $name => $table) {
-    $tableObject = app($table['table']);
-    $tableName = $tableObject->name();
-    Route::middleware($tableObject->middlewares())
-        ->get($tableName, $table['controller'])
-        ->name($tableName);
+$tablesOrchestrator = app(\MtrDesign\Krait\TablesOrchestrator::class);
+
+foreach ($tablesOrchestrator->getTables() as $table) {
+    $instance = $table->getInstance();
+
+    $action = str_replace("App\\Http\\Controllers", '', $table->getController());
+
+    Route::middleware($instance->middlewares())
+        ->get($table->getRoute(), $table->getController());
 }

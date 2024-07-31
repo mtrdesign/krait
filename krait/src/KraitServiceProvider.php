@@ -26,6 +26,8 @@ class KraitServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/krait.php', 'krait');
 
+        $this->app->register(TablesProvider::class);
+
         $this->registerTables();
         $this->registerServices();
     }
@@ -94,13 +96,13 @@ class KraitServiceProvider extends ServiceProvider
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });
 
-        Route::group([
-            'prefix' => config('krait.tables_path', 'tables'),
-            'namespace' => 'App\Http\Controllers',
-            'middleware' => config('krait.global_middlewares', ['web', 'auth']),
-        ], function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/tables.php');
-        });
+//        Route::group([
+//            'prefix' => config('krait.tables_path', 'tables'),
+//            'namespace' => 'App\Http\Controllers',
+//            'middleware' => config('krait.global_middlewares', ['web', 'auth']),
+//        ], function () {
+//            $this->loadRoutesFrom(__DIR__.'/../routes/tables.php');
+//        });
     }
 
     /**
