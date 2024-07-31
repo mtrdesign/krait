@@ -1,12 +1,12 @@
 <?php
 
-namespace {{ namespace }};
+namespace {{controller_namespace}};
 
 use MtrDesign\Krait\Http\Resources\TableCollection;
-use {{ rootNamespace }}Http\Controllers\Controller;
-use {{ tableNamespace }}{{ tableClass }};
+use App\Http\Controllers\Controller;
+use {{table_class}};
 
-class {{ class }} extends Controller
+class {{controller_classname}} extends Controller
 {
     public function __invoke(): TableCollection
     {
@@ -16,6 +16,6 @@ class {{ class }} extends Controller
             ]
         ]);
 
-        return {{ tableClass }}::from($items);
+        return {{table_classname}}::from($items);
     }
 }

@@ -6,11 +6,6 @@ use MtrDesign\Krait\Tables\BaseTable;
 
 class {{table_classname}} extends BaseTable
 {
-    function name(): string
-    {
-        return '{{table_name}}';
-    }
-
     function initColumns(): void
     {
         $this->column(

@@ -2,20 +2,22 @@
 
 namespace MtrDesign\Krait\Services\TablesOrchestrator;
 
+use Exception;
 use JetBrains\PhpStorm\NoReturn;
+use MtrDesign\Krait\DTO\TableResourceDTO;
 use MtrDesign\Krait\Services\PreviewConfigService;
 use MtrDesign\Krait\Tables\BaseTable;
 
 class TableCluster
 {
     protected string $definitionClass;
-    protected string $tableClass;
+    readonly public string $tableClass;
     protected string $tableName;
     protected ?string $tablePrefix = null;
     protected ?string $snakeTablePrefix = null;
 
-    protected ?string $controller = null;
-    protected ?string $vue = null;
+    protected ?TableResourceDTO $controller = null;
+    protected ?TableResourceDTO $vue = null;
 
     protected ?BaseTable $instance = null;
 
@@ -39,12 +41,20 @@ class TableCluster
         }
     }
 
-    public function getDefinitionClass(): string
+    /**
+     * @throws Exception
+     */
+    public function getDefinitionClass(): TableResourceDTO
     {
-        return $this->definitionClass;
+        return new TableResourceDTO(
+            namespace: $this->definitionClass
+        );
     }
 
-    public function getController(): string
+    /**
+     * @throws Exception
+     */
+    public function getController(): TableResourceDTO
     {
         if ($this->controller) {
             return $this->controller;
@@ -59,11 +69,11 @@ class TableCluster
             $namespace = "$namespace\\$this->tablePrefix";
         }
 
-        $this->controller = sprintf('%s\\%sController', $namespace, $this->tableClass);
+        $this->controller = new TableResourceDTO(namespace: sprintf('%s\\%sController', $namespace, $this->tableClass));
         return $this->controller;
     }
 
-    public function getVue(): string
+    public function getVue(): TableResourceDTO
     {
         if ($this->vue) {
             return $this->vue;
@@ -74,14 +84,15 @@ class TableCluster
             $path = "$path/$this->snakeTablePrefix";
         }
 
-        return "$path/$this->tableClass.vue";
+        $this->vue = new TableResourceDTO(pathname: "$path/$this->tableClass.vue");
+        return $this->vue;
     }
 
     public function instantiate(PreviewConfigService $previewConfigService): TableCluster
     {
         if (empty($this->instance)) {
             $definitionClass = $this->getDefinitionClass();
-            $this->instance = new $definitionClass($previewConfigService);
+            $this->instance = new $definitionClass->namespace($previewConfigService);
         }
 
         return $this;
