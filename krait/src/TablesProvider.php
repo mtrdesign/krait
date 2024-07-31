@@ -2,18 +2,24 @@
 
 namespace MtrDesign\Krait;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use MtrDesign\Krait\Services\PreviewConfigService;
 use MtrDesign\Krait\Services\TablesOrchestrator\TablesOrchestrator;
+use SplFileInfo;
 
 /**
- * KraitServiceProvider
+ * TablesProvider
+ *
+ * Handles the App Tables Registration functionalities.
  */
 class TablesProvider extends ServiceProvider
 {
     /**
-     * @var \SplFileInfo[]
+     * The app table definition files
+     *
+     * @var SplFileInfo[]
      */
     protected array $tables = [];
 
@@ -45,11 +51,12 @@ class TablesProvider extends ServiceProvider
                 });
             }
         }
-
     }
 
     /**
      * Configures the package resources.
+     *
+     * @throws BindingResolutionException
      */
     public function boot(): void
     {

@@ -10,20 +10,44 @@ use MtrDesign\Krait\Tables\BaseTable;
 
 class TableCluster
 {
+    /**
+     * The table definition class
+     */
     protected string $definitionClass;
 
+    /**
+     * The table classname
+     */
     public readonly string $tableClass;
 
+    /**
+     * The table name
+     */
     protected string $tableName;
 
+    /**
+     * The table prefix
+     */
     protected ?string $tablePrefix = null;
 
+    /**
+     * The table prefix in snake_case
+     */
     protected ?string $snakeTablePrefix = null;
 
+    /**
+     * The table controller resource
+     */
     protected ?TableResourceDTO $controller = null;
 
+    /**
+     * The table vue component resource
+     */
     protected ?TableResourceDTO $vue = null;
 
+    /**
+     * The table instance
+     */
     protected ?BaseTable $instance = null;
 
     #[NoReturn]
@@ -47,6 +71,10 @@ class TableCluster
     }
 
     /**
+     * Returns the table definition class resource.
+     *
+     * @return TableResourceDTO - the definition class resource
+     *
      * @throws Exception
      */
     public function getDefinitionClass(): TableResourceDTO
@@ -57,6 +85,10 @@ class TableCluster
     }
 
     /**
+     * Returns the table Controller resource.
+     *
+     * @return TableResourceDTO - the table controller resource
+     *
      * @throws Exception
      */
     public function getController(): TableResourceDTO
@@ -79,6 +111,13 @@ class TableCluster
         return $this->controller;
     }
 
+    /**
+     * Returns the VueJS component resource.
+     *
+     * @return TableResourceDTO - the VueJS component resource
+     *
+     * @throws Exception
+     */
     public function getVue(): TableResourceDTO
     {
         if ($this->vue) {
@@ -95,6 +134,14 @@ class TableCluster
         return $this->vue;
     }
 
+    /**
+     * Instantiate a new instance of the table.
+     *
+     * @param  PreviewConfigService  $previewConfigService  - the Preview Configuration service
+     * @return $this
+     *
+     * @throws Exception
+     */
     public function instantiate(PreviewConfigService $previewConfigService): TableCluster
     {
         if (empty($this->instance)) {
@@ -105,11 +152,21 @@ class TableCluster
         return $this;
     }
 
+    /**
+     * Returns the table instance (if it's instantiated).
+     *
+     * @return BaseTable|null - the table instance
+     */
     public function getInstance(): ?BaseTable
     {
         return $this->instance;
     }
 
+    /**
+     * Returns the table api route.
+     *
+     * @return string - the table route
+     */
     public function getRoute(): string
     {
         if ($this->snakeTablePrefix) {

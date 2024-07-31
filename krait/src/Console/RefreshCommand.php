@@ -67,11 +67,17 @@ class RefreshCommand extends Command
         return 0;
     }
 
+    /**
+     * Returns the path of the stub file.
+     */
     private function getStubPath(): string
     {
         return dirname(__DIR__, 2).'/stubs/tables-index.stub';
     }
 
+    /**
+     * Returns the stub content.
+     */
     private function getStub(): string
     {
         return file_get_contents($this->getStubPath());

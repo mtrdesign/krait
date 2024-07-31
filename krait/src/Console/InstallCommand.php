@@ -90,7 +90,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * @throws Throwable
+     * Installs the @mtrdesign/krait-ui package.
      */
     private function installJsPackage(): void
     {
@@ -107,6 +107,9 @@ class InstallCommand extends Command
         }
     }
 
+    /**
+     * Creates the resource skeleton.
+     */
     private function createResourcesStructure(): void
     {
         $directory = config('krait.table_components_directory');

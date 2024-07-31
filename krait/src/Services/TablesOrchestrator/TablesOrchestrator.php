@@ -8,10 +8,18 @@ use MtrDesign\Krait\Tables\BaseTable;
 use MtrDesign\Krait\Utils\PathUtils;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use SplFileInfo;
 
+/**
+ * TableOrchestrator
+ *
+ * Handles the Tables registration functionalities.
+ */
 class TablesOrchestrator
 {
     /**
+     * All tables in the project
+     *
      * @var TableCluster[]
      */
     protected array $tables = [];
@@ -20,7 +28,13 @@ class TablesOrchestrator
         protected PreviewConfigService $previewConfigService
     ) {}
 
-    public function registerTable(\SplFileInfo $table): TablesOrchestrator
+    /**
+     * Registers a new table to the Container.
+     *
+     * @param  SplFileInfo  $table  - the table definition class file
+     * @return $this
+     */
+    public function registerTable(SplFileInfo $table): TablesOrchestrator
     {
         $definitionClass = PathUtils::dirToNamespace($table->getPathname());
 
@@ -30,16 +44,31 @@ class TablesOrchestrator
         return $this;
     }
 
+    /**
+     * Return the registered instance of specific table.
+     *
+     * @param  string  $tableClass  - the target table definition class
+     */
     public function getTable(string $tableClass): BaseTable
     {
         return $this->tables[$tableClass]->getInstance();
     }
 
+    /**
+     * Returns all available tables in the app.
+     *
+     * @return TableCluster[] - the registered tables
+     */
     public function getTables(): array
     {
         return $this->tables;
     }
 
+    /**
+     * Generates a directory iterator for all table definition classes.
+     *
+     * @return RecursiveIteratorIterator|null - the directory iterator
+     */
     public static function getTablesDirectoryIterator(): ?RecursiveIteratorIterator
     {
         $tablesDirectory = self::getTablesDefinitionDirectory();
@@ -52,11 +81,21 @@ class TablesOrchestrator
         return new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);
     }
 
+    /**
+     * Returns the Tables Definition Classes directory.
+     *
+     * @return string - the table definition classes directory
+     */
     public static function getTablesDefinitionDirectory(): string
     {
         return config('krait.table_definition_classes_directory');
     }
 
+    /**
+     * Returns the Table Definition Class based on its pathname.
+     *
+     * @param  string  $pathname  - the definition class file pathname
+     */
     public static function getTableDefinitionClass(string $pathname): string
     {
         $class = str_replace(app_path(), 'App', $pathname);

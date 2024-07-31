@@ -27,12 +27,7 @@ abstract class BaseTable
     protected array $columns;
 
     /**
-     * The table namespace based on
-     */
-    protected string $namespace;
-
-    /**
-     * The table namespace based on
+     * The table name (used in the API routes)
      */
     public readonly string $name;
 
@@ -56,6 +51,8 @@ abstract class BaseTable
 
     /**
      * Flags if the request is authorized to see the table's data.
+     *
+     * @param  Request  $request  - the incoming request
      */
     public function authorize(Request $request): bool
     {
@@ -98,6 +95,7 @@ abstract class BaseTable
         string $label,
         bool $hideLabel = false,
         bool $datetime = false,
+        ?string $dateformat = null,
         bool $sortable = true,
         bool $fixed = false,
         ?string $classes = null,
@@ -113,7 +111,8 @@ abstract class BaseTable
             fixed: $fixed,
             classes: $classes,
             process: $process,
-            sort: $sort
+            sort: $sort,
+            dateFormat: $dateformat
         );
     }
 
@@ -133,7 +132,10 @@ abstract class BaseTable
     }
 
     /**
-     * Returns specific column
+     * Returns specific column.
+     *
+     * @param  string  $columnName  - the target column name
+     * @return TableColumnDTO|null - the column
      *
      * @throws Exception
      */
@@ -150,7 +152,9 @@ abstract class BaseTable
     }
 
     /**
-     * Returns specific column
+     * Checks if the column exists.
+     *
+     * @return bool - flags if the column exists
      *
      * @throws Exception
      */
@@ -163,6 +167,8 @@ abstract class BaseTable
 
     /**
      * Returns a Laravel Facade of the Table class.
+     *
+     * @return BaseTable - the instance registered in the Container
      */
     protected static function getFacade(): BaseTable
     {
@@ -209,8 +215,8 @@ abstract class BaseTable
     /**
      * Processes a record.
      *
-     * @param  mixed  $resource  - The target record.
-     * @param  mixed|null  $placeholder  - The placeholder for empty values.
+     * @param  mixed  $resource  - The target record
+     * @param  mixed|null  $placeholder  - The placeholder for empty values
      */
     public static function process(mixed $resource, mixed $placeholder = null): mixed
     {
@@ -220,7 +226,7 @@ abstract class BaseTable
     /**
      * Generates an API Resource Collection for the table.
      *
-     * @param  mixed  $records  - The target records.
+     * @param  mixed  $records  - The target records
      *
      * @throws Exception
      */
@@ -237,6 +243,9 @@ abstract class BaseTable
 
     /**
      * Returns the table additional data passed to the FE.
+     *
+     * @param  mixed  $resource  - the target resource
+     * @return array - the additional data
      */
     public function additionalData(mixed $resource): array
     {
@@ -245,6 +254,8 @@ abstract class BaseTable
 
     /**
      * Returns the record ID key.
+     *
+     * @return string - the name of the key field
      */
     public function getKeyName(): string
     {
@@ -253,6 +264,9 @@ abstract class BaseTable
 
     /**
      * Returns the action links for specific resource
+     *
+     * @param  mixed  $resource  - the target resource
+     * @return array - the action links
      */
     public function actionLinks(mixed $resource): array
     {

@@ -16,7 +16,7 @@ use MtrDesign\Krait\Tables\BaseTable;
 class PreviewConfigService
 {
     /**
-     * Returns the current user preview config for specific table.
+     * Returns the user preview configuration.
      */
     public function getConfiguration(mixed $user, string $tableName): KraitPreviewConfiguration
     {
@@ -36,6 +36,11 @@ class PreviewConfigService
 
     /**
      * Sorts records collection based on the Table and User configurations.
+     *
+     * @param  mixed  $records  - the target records
+     * @param  KraitPreviewConfiguration  $previewConfiguration  - the user preview configuration
+     * @param  BaseTable  $table  - the table instance
+     * @return mixed - the sorted records
      *
      * @throws Exception
      */

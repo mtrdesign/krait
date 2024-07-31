@@ -10,10 +10,21 @@ use Illuminate\Support\Collection;
 use MtrDesign\Krait\Models\KraitPreviewConfiguration;
 use MtrDesign\Krait\Tables\BaseTable;
 
+/**
+ * TableCollection class
+ *
+ * Handles the API response for all table routes.
+ */
 class TableCollection extends ResourceCollection
 {
+    /**
+     * The target table instance.
+     */
     protected BaseTable $table;
 
+    /**
+     * The user preview configuration.
+     */
     private ?KraitPreviewConfiguration $previewConfiguration = null;
 
     public function __construct(
@@ -125,6 +136,13 @@ class TableCollection extends ResourceCollection
         return array_values($rawColumns);
     }
 
+    /**
+     * Generates a paginator on the fly for edge-case resources
+     * like Collections, arrays, etc.
+     *
+     * @param  Collection|array  $resource  - the resources collection
+     * @param  int  $itemsPerPage  - the target ipp value
+     */
     private function getPaginator(Collection|array $resource, int $itemsPerPage): LengthAwarePaginator
     {
         if ($resource instanceof Collection) {
