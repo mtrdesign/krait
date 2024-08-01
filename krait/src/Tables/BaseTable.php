@@ -81,7 +81,7 @@ abstract class BaseTable
      * Adds a column to the table
      *
      * @param  string  $name  - The columns name
-     * @param  string  $label  - The columns label
+     * @param  ?string  $label  - The columns label (using the name by default)
      * @param  bool  $hideLabel  - Flags if the label should be visible in the header.
      * @param  bool  $datetime  - Flags if the column contains datetime object.
      * @param  bool  $sortable  - Flags if the column is sortable.
@@ -89,19 +89,31 @@ abstract class BaseTable
      * @param  string|null  $classes  - Additional classes that will be added on FE.
      * @param  callable|null  $process  - The column result generation callback.
      * @param  callable|null  $sort  - The column sorting callback.
+     *
+     * @throws Exception
      */
     protected function column(
         string $name,
-        string $label,
+        ?string $label = null,
         bool $hideLabel = false,
         bool $datetime = false,
-        ?string $dateformat = null,
+        ?string $dateFormat = null,
         bool $sortable = true,
         bool $fixed = false,
         ?string $classes = null,
         ?callable $process = null,
         ?callable $sort = null,
     ): void {
+        if (! empty($this->columns[$name])) {
+            throw new Exception("Column $name already exists.");
+        }
+
+        if ($label === null) {
+            $label = str_replace('_', ' ', $name);
+            $label = str_replace('-', ' ', $label);
+            $label = ucfirst($label);
+        }
+
         $this->columns[$name] = new TableColumnDTO(
             name: $name,
             label: $label,
@@ -112,7 +124,7 @@ abstract class BaseTable
             classes: $classes,
             process: $process,
             sort: $sort,
-            dateFormat: $dateformat
+            dateFormat: $dateFormat
         );
     }
 
