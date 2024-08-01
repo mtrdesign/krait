@@ -10,8 +10,7 @@ defineProps({
 
 <template>
   <DynamicTable
-    apiEndpoint="{table_name}"
-    tableName="{table_name}"
+    apiEndpoint="{{table_name}}"
     :filtersForm="filtersForm"
   >
     <template #row="{ record, column }">

@@ -11,13 +11,12 @@ export default {
   install: (app: App, { tables }: IOptions) => {
     app.component('DynamicTable', DynamicTable);
 
-    for (const table of tables) {
-      const componentName =
-        table.__name.charAt(0).toLowerCase() + table.__name.slice(1);
+    for (const [key, component] of Object.entries(tables)) {
+      const componentName = key.charAt(0).toLowerCase() + key.slice(1);
       const elementName = componentName
         .replace(/([A-Z])/g, '-$1')
         .toLowerCase();
-      app.component(elementName, table);
+      app.component(elementName, component);
     }
   },
 };

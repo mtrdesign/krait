@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Prompts\Table;
 use MtrDesign\Krait\DTO\TableColumnDTO;
@@ -28,19 +27,22 @@ abstract class BaseTable
     protected array $columns;
 
     /**
+     * The table name (used in the API routes)
+     */
+    public readonly string $name;
+
+    /**
      * The preview configuration service.
      */
     public PreviewConfigService $previewConfigService;
 
-    public function __construct(PreviewConfigService $previewConfigService)
-    {
+    public function __construct(
+        PreviewConfigService $previewConfigService,
+        ?string $name = null
+    ) {
         $this->previewConfigService = $previewConfigService;
+        $this->name = $name;
     }
-
-    /**
-     * Returns the table name.
-     */
-    abstract public function name(): string;
 
     /**
      * Initializes the table columns.
@@ -49,6 +51,8 @@ abstract class BaseTable
 
     /**
      * Flags if the request is authorized to see the table's data.
+     *
+     * @param  Request  $request  - the incoming request
      */
     public function authorize(Request $request): bool
     {
@@ -62,15 +66,6 @@ abstract class BaseTable
     public function middlewares(): array
     {
         return [];
-    }
-
-    /**
-     * Flags if the columns should be cached.
-     * Usable for dynamic columns serving (from a third-party services).
-     */
-    protected function shouldCache(): bool
-    {
-        return config('krait.cache_columns', false);
     }
 
     /**
@@ -100,6 +95,7 @@ abstract class BaseTable
         string $label,
         bool $hideLabel = false,
         bool $datetime = false,
+        ?string $dateformat = null,
         bool $sortable = true,
         bool $fixed = false,
         ?string $classes = null,
@@ -115,7 +111,8 @@ abstract class BaseTable
             fixed: $fixed,
             classes: $classes,
             process: $process,
-            sort: $sort
+            sort: $sort,
+            dateFormat: $dateformat
         );
     }
 
@@ -126,24 +123,19 @@ abstract class BaseTable
      */
     public function getColumns(): array
     {
-        if ($this->shouldCache() && $columns = $this->getCachedColumns()) {
-            return $columns;
-        }
-
         if ($this->shouldRefresh() || empty($this->columns)) {
             $this->columns = [];
             $this->initColumns();
-        }
-
-        if ($this->shouldCache()) {
-            Cache::put($this->name(), $this->columns, 5 * 60);
         }
 
         return $this->columns;
     }
 
     /**
-     * Returns specific column
+     * Returns specific column.
+     *
+     * @param  string  $columnName  - the target column name
+     * @return TableColumnDTO|null - the column
      *
      * @throws Exception
      */
@@ -160,7 +152,9 @@ abstract class BaseTable
     }
 
     /**
-     * Returns specific column
+     * Checks if the column exists.
+     *
+     * @return bool - flags if the column exists
      *
      * @throws Exception
      */
@@ -172,15 +166,9 @@ abstract class BaseTable
     }
 
     /**
-     * Returns the columns from the cache (if there are any)
-     */
-    protected function getCachedColumns(): ?array
-    {
-        return Cache::get($this->name());
-    }
-
-    /**
      * Returns a Laravel Facade of the Table class.
+     *
+     * @return BaseTable - the instance registered in the Container
      */
     protected static function getFacade(): BaseTable
     {
@@ -227,8 +215,8 @@ abstract class BaseTable
     /**
      * Processes a record.
      *
-     * @param  mixed  $resource  - The target record.
-     * @param  mixed|null  $placeholder  - The placeholder for empty values.
+     * @param  mixed  $resource  - The target record
+     * @param  mixed|null  $placeholder  - The placeholder for empty values
      */
     public static function process(mixed $resource, mixed $placeholder = null): mixed
     {
@@ -238,7 +226,7 @@ abstract class BaseTable
     /**
      * Generates an API Resource Collection for the table.
      *
-     * @param  mixed  $records  - The target records.
+     * @param  mixed  $records  - The target records
      *
      * @throws Exception
      */
@@ -246,7 +234,8 @@ abstract class BaseTable
     {
         $table = static::getFacade();
         $user = request()->user();
-        $previewConfiguration = $table->previewConfigService->getConfiguration($user, $table->name());
+
+        $previewConfiguration = $table->previewConfigService->getConfiguration($user, $table->name);
         $table->previewConfigService->sort($records, $previewConfiguration, $table);
 
         return new TableCollection($records, $table);
@@ -254,6 +243,9 @@ abstract class BaseTable
 
     /**
      * Returns the table additional data passed to the FE.
+     *
+     * @param  mixed  $resource  - the target resource
+     * @return array - the additional data
      */
     public function additionalData(mixed $resource): array
     {
@@ -262,6 +254,8 @@ abstract class BaseTable
 
     /**
      * Returns the record ID key.
+     *
+     * @return string - the name of the key field
      */
     public function getKeyName(): string
     {
@@ -270,6 +264,9 @@ abstract class BaseTable
 
     /**
      * Returns the action links for specific resource
+     *
+     * @param  mixed  $resource  - the target resource
+     * @return array - the action links
      */
     public function actionLinks(mixed $resource): array
     {

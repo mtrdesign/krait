@@ -11,10 +11,6 @@ import ForbiddenScreen from './ForbiddenScreen.vue';
 import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDialog.vue';
 
 const props = defineProps({
-  tableName: {
-    type: String,
-    required: true,
-  },
   apiEndpoint: {
     type: String,
     required: true,
@@ -32,9 +28,9 @@ const props = defineProps({
 });
 
 const { columns, isLoading, records, visibleColumns, isAuthorized } = useTable(
-  props.tableName,
+  props.apiEndpoint,
 );
-const { dispatch } = useDispatcher(props.tableName);
+const { dispatch } = useDispatcher(props.apiEndpoint);
 
 const initFiltersListener = () => {
   if (!props.filtersForm) {
@@ -74,7 +70,7 @@ onMounted(async () => {
   <ConfirmationDialog />
   <div class="d-flex justify-content-end mb-3" v-if="isAuthorized">
     <ColumnsSelectionDropdown
-      :table-name="tableName"
+      :table-name="apiEndpoint"
     ></ColumnsSelectionDropdown>
   </div>
   <div class="table-responsive table-wrapper" ref="wrapper">
@@ -86,7 +82,7 @@ onMounted(async () => {
           :class="{ 'table-secondary': isLoading }"
         >
           <THead
-            :table-name="tableName"
+            :table-name="apiEndpoint"
             :actions-column="actionsColumn"
           ></THead>
           <tr v-if="records.length === 0 && !isLoading">
@@ -116,7 +112,7 @@ onMounted(async () => {
                     :refreshTable="refreshTable"
                   >
                     <RowActionButtons
-                      :table-name="tableName"
+                      :table-name="apiEndpoint"
                       :action-links="record.action_links"
                     />
                   </slot>
@@ -126,7 +122,7 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Pagination :table-name="tableName" />
+      <Pagination :table-name="apiEndpoint" />
     </template>
     <ForbiddenScreen v-else />
   </div>
