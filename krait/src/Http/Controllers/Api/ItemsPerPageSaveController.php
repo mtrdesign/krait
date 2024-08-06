@@ -12,6 +12,7 @@ class ItemsPerPageSaveController extends Controller
      */
     public function __invoke(ItemsPerPageSaveRequest $request, string $table): JsonResponse
     {
+        $table = urldecode($table);
         $configuration = $this->getPreviewConfiguration($table);
         $configuration->update([
             'items_per_page' => $request->get('items_per_page'),

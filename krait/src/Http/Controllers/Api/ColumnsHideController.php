@@ -12,6 +12,7 @@ class ColumnsHideController extends Controller
      */
     public function __invoke(ColumnsHideRequest $request, string $table): JsonResponse
     {
+        $table = urldecode($table);
         $configuration = $this->getPreviewConfiguration($table);
         $configuration->update([
             'visible_columns' => $request->get('visible_columns'),

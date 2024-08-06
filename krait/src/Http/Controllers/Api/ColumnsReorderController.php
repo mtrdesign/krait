@@ -12,6 +12,7 @@ class ColumnsReorderController extends Controller
      */
     public function __invoke(ColumnsReorderRequest $request, string $table): JsonResponse
     {
+        $table = urldecode($table);
         $configuration = $this->getPreviewConfiguration($table);
         $configuration->update([
             'columns_order' => $request->get('columns'),

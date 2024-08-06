@@ -34,7 +34,8 @@ export default class HideColumn extends BaseAction<
     }
 
     const url = Config.kraitUrl;
-    url.pathname = `${url.pathname}/preview-configurations/${this.tableName}/columns/visibility`;
+    const tablePath = encodeURIComponent(encodeURIComponent(this.tableName));
+    url.pathname = `${url.pathname}/preview-configurations/${tablePath}/columns/visibility`;
 
     await ApiClient.fetch(
       url,

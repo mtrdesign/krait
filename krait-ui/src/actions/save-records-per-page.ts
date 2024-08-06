@@ -25,7 +25,8 @@ export default class SaveRecordsPerPage extends BaseAction<
    */
   async process(_options: ISaveRecordsPerPageOptions) {
     const url = Config.kraitUrl;
-    url.pathname = `${url.pathname}/preview-configurations/${this.tableName}/columns/items-per-page`;
+    const tablePath = encodeURIComponent(encodeURIComponent(this.tableName));
+    url.pathname = `${url.pathname}/preview-configurations/${tablePath}/columns/items-per-page`;
 
     console.log({
       items_per_page: this.context.pagination.itemsPerPage,

@@ -54,7 +54,9 @@ export default class ResizeColumn extends BaseAction<
    */
   private async saveColumn(name: string, width: number): Promise<void> {
     const url = Config.kraitUrl;
-    url.pathname = `${url.pathname}/preview-configurations/${this.tableName}/columns/resize`;
+    const tablePath = encodeURIComponent(encodeURIComponent(this.tableName));
+    url.pathname = `${url.pathname}/preview-configurations/${tablePath}/columns/resize`;
+    console.log(tablePath);
 
     await ApiClient.fetch(url, { name, width }, 'POST');
   }

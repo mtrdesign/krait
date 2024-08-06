@@ -12,8 +12,8 @@ class ColumnsResizeController extends Controller
      */
     public function __invoke(ColumnsResizeRequest $request, string $table): JsonResponse
     {
+        $table = urldecode($table);
         $configuration = $this->getPreviewConfiguration($table);
-
         $config = $configuration->columns_width ?? [];
         $config[$request->get('name')] = $request->get('width');
         $configuration->update([
