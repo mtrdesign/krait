@@ -33,7 +33,8 @@ export default class SaveColumnsOrder extends BaseAction<
     });
 
     const url = Config.kraitUrl;
-    url.pathname = `${url.pathname}/preview-configurations/${this.tableName}/columns/reorder`;
+    const tablePath = encodeURIComponent(encodeURIComponent(this.tableName));
+    url.pathname = `${url.pathname}/preview-configurations/${tablePath}/columns/reorder`;
 
     await ApiClient.fetch(
       url,

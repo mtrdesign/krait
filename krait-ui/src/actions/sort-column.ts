@@ -31,7 +31,8 @@ export default class SortColumn extends BaseAction<
     this.context.sorting.direction = options.direction;
 
     const url = new URL(Config.kraitUrl);
-    url.pathname = `${url.pathname}/preview-configurations/${this.tableName}/columns/sort`;
+    const tablePath = encodeURIComponent(encodeURIComponent(this.tableName));
+    url.pathname = `${url.pathname}/preview-configurations/${tablePath}/columns/sort`;
 
     await ApiClient.fetch(
       url,

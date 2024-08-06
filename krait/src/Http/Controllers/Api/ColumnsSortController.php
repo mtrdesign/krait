@@ -12,6 +12,7 @@ class ColumnsSortController extends Controller
      */
     public function __invoke(ColumnsSortRequest $request, string $table): JsonResponse
     {
+        $table = urldecode($table);
         $configuration = $this->getPreviewConfiguration($table);
         $configuration->update([
             'sort_column' => $request->get('name'),
