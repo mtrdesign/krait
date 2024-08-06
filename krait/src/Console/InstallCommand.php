@@ -38,9 +38,8 @@ class InstallCommand extends Command
     {
         $this->info('Publishing assets...');
 
-        $alreadyMigrated = Schema::hasTable('krait_preview_configurations');
         $tags = 'krait-config|krait-js';
-        if ($alreadyMigrated) {
+        if (Schema::hasTable('krait_preview_configurations')) {
             $tags = "$tags|krait-migrations";
         }
         $this->callSilent('vendor:publish', [
@@ -49,14 +48,6 @@ class InstallCommand extends Command
         ]);
         $this->registerKraitProvider();
         $this->components->info('Assets published successfully ✅');
-
-        if (! $alreadyMigrated) {
-            $this->info('Running DB migrations...');
-            $this->callSilent('migrate');
-            $this->components->info('Migrations ran successfully ✅');
-        } else {
-            $this->info('Skipping the migrations as the table exists...');
-        }
 
         if (empty($this->option('dev'))) {
             $this->installJsPackage();
