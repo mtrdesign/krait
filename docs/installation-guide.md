@@ -43,7 +43,16 @@ php artisan krait:install
 
     **Important Note**: Both package versions should match each other.
 
-## Front-end Configuration
+The final steps is to run the migration:
+```shell
+php artisan migrate
+```
+
+!!! info
+
+    You can check the krait migration file and update the `users` table index columns if needed.
+
+## Front-end Configurations
 After we install all required packages, we should attach the `Krait` plugin to our Vue application.
 
 Take a look at the example `app.js` file. And implement the code in your project. 
@@ -78,6 +87,21 @@ directory and its `index.js` file for listing all available tables.
     ```sh
     php artisan krait:refresh
     ```
+
+The last step is to inject the `krait js` additional resources to your app `head` HTML element.
+```html title="layout.blade" hl_lines="5"
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>My Awesome Project</title>
+    ...
+    {{ \MtrDesign\Krait\Krait::js() }}
+</head>
+<body>
+...
+</body>
+</html>
+```
 
 ## My First Table (check if everything is configured)
 
