@@ -29,6 +29,7 @@ const getState = (): Table.ITableContext => {
   const isLoading = ref<boolean>(false);
   const links = ref<Responses.ILinks>({});
   const isAuthorized = ref<boolean>(true);
+  const queryParameters = ref<Table.IQueryParameters>({});
 
   return {
     columns,
@@ -39,6 +40,7 @@ const getState = (): Table.ITableContext => {
     records,
     links,
     isAuthorized,
+    queryParameters,
   };
 };
 

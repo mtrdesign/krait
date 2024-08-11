@@ -25,12 +25,23 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  apiQueryParameters: {
+    type: Object,
+    required: false,
+    default: {},
+  },
 });
 
-const { columns, isLoading, records, visibleColumns, isAuthorized } = useTable(
-  props.apiEndpoint,
-);
+const {
+  columns,
+  isLoading,
+  records,
+  visibleColumns,
+  isAuthorized,
+  queryParameters,
+} = useTable(props.apiEndpoint);
 const { dispatch } = useDispatcher(props.apiEndpoint);
+queryParameters.value = props.apiQueryParameters;
 
 const initFiltersListener = () => {
   if (!props.filtersForm) {
