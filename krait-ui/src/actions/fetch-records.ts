@@ -187,6 +187,13 @@ export default class FetchRecords extends BaseAction<
     this.setSorting(this.context.sorting, url);
     this.setPagination(this.context.pagination, url);
 
+    for (const parameter in this.context.queryParameters.value) {
+      url.searchParams.set(
+        parameter,
+        String(this.context.queryParameters.value[parameter]),
+      );
+    }
+
     return url;
   }
 }

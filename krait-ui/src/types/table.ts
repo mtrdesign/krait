@@ -28,6 +28,10 @@ export interface IColumn {
   width?: number;
 }
 
+export interface IQueryParameters {
+  [key: string]: string | number;
+}
+
 export interface ITableContext {
   isLoading: Ref<UnwrapRef<boolean>>;
   pagination: UnwrapNestedRefs<IPagination> & {};
@@ -37,4 +41,5 @@ export interface ITableContext {
   sorting: UnwrapNestedRefs<ISorting> & {};
   visibleColumns: Ref<UnwrapRef<string[]>>;
   isAuthorized: Ref<boolean>;
+  queryParameters: Ref<IQueryParameters>;
 }
