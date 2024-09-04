@@ -6,8 +6,8 @@ import {
   reactive,
   UnwrapNestedRefs,
 } from 'vue';
-import {ArrowDown, ArrowUp} from '@components/icons';
-import { debounce } from "~/framework/utils";
+import { ArrowDown, ArrowUp } from '@components/icons';
+import { debounce } from '~/framework/utils';
 
 interface IColumnState {
   xAxisCurrentCoords: any;
@@ -58,7 +58,7 @@ const debouncedEmitResize = debounce((e, name, colWidth) => {
 const mouseMove = (e: MouseEvent) => {
   state.xAxisNewCoords = state.xAxisCurrentCoords - e.clientX;
   state.colWidth = Math.floor(
-      state.rect.width - (state.xAxisCurrentCoords - e.clientX),
+    state.rect.width - (state.xAxisCurrentCoords - e.clientX),
   );
 
   debouncedEmitResize(e, props.name, state.colWidth);
@@ -85,36 +85,35 @@ const resizeStop = (): void => {
 
 onMounted(() => {
   state.colWidth = props.width;
-})
-
+});
 </script>
 
 <template>
   <th
-      :key="name"
-      scope="col"
-      :class="{ 'd-none': !isVisible, 'fixed-column': !isResizable }"
-      :style="{ width: `${state.colWidth >= 50 ? state.colWidth : 50}px` }"
+    :key="name"
+    scope="col"
+    :class="{ 'd-none': !isVisible, 'fixed-column': !isResizable }"
+    :style="{ width: `${state.colWidth >= 50 ? state.colWidth : 50}px` }"
   >
     <div class="d-inline-block text-truncate pe-1" style="width: 95%">
       {{ title }}
     </div>
     <span v-if="isSortable" class="sort" style="z-index: 1">
       <ArrowDown
-          :color="isActive ? '#0D6EFD' : '#adb5bd'"
-          v-if="isActive && sortDirection === 'desc'"
-          @click="() => emit('sort', name, 'asc')"
+        :color="isActive ? '#0D6EFD' : '#adb5bd'"
+        v-if="isActive && sortDirection === 'desc'"
+        @click="() => emit('sort', name, 'asc')"
       ></ArrowDown>
       <ArrowUp
-          :color="isActive ? '#0D6EFD' : '#adb5bd'"
-          @click="() => emit('sort', name, 'desc')"
-          v-else
+        :color="isActive ? '#0D6EFD' : '#adb5bd'"
+        @click="() => emit('sort', name, 'desc')"
+        v-else
       ></ArrowUp>
     </span>
     <div
-        v-if="isResizable"
-        class="col-resizer"
-        @mousedown="resizeCols($event)"
+      v-if="isResizable"
+      class="col-resizer"
+      @mousedown="resizeCols($event)"
     ></div>
   </th>
 </template>
