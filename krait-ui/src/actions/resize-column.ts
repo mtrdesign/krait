@@ -27,12 +27,9 @@ export default class ResizeColumn extends BaseAction<
    * @param {IResizeColumnOptions} options - The column options.
    */
   async process(options: IResizeColumnOptions) {
-    const column = this.context.columns.value.find((column) => {
-      if (column.name === options.name) {
-        column.width = options.width;
-        return true;
-      }
-    });
+    const column = this.context.columns.value.find(
+      (column) => column.name === options.name,
+    );
 
     if (!column) {
       throw new Error(`Column ${options.name} not found.`);

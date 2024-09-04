@@ -7,6 +7,7 @@ import {
   UnwrapNestedRefs,
 } from 'vue';
 import { ArrowDown, ArrowUp } from '@components/icons';
+import { debounce } from '~/framework/utils';
 
 interface IColumnState {
   xAxisCurrentCoords: any;
@@ -50,12 +51,17 @@ const toggleSort = () => {
   emit('sort', props.name, nextDirection);
 };
 
+const debouncedEmitResize = debounce((e, name, colWidth) => {
+  emit('resize', e, name, colWidth);
+}, 300);
+
 const mouseMove = (e: MouseEvent) => {
   state.xAxisNewCoords = state.xAxisCurrentCoords - e.clientX;
   state.colWidth = Math.floor(
     state.rect.width - (state.xAxisCurrentCoords - e.clientX),
   );
-  emit('resize', e, props.name, state.colWidth);
+
+  debouncedEmitResize(e, props.name, state.colWidth);
 };
 
 const resizeCols = (event: MouseEvent) => {
@@ -76,6 +82,10 @@ const resizeStop = (): void => {
   document.removeEventListener('mousemove', mouseMove);
   document.removeEventListener('mouseup', resizeStop);
 };
+
+onMounted(() => {
+  state.colWidth = props.width;
+});
 </script>
 
 <template>
@@ -83,7 +93,7 @@ const resizeStop = (): void => {
     :key="name"
     scope="col"
     :class="{ 'd-none': !isVisible, 'fixed-column': !isResizable }"
-    :style="{ width: `${width >= 50 ? width : 50}px` }"
+    :style="{ width: `${state.colWidth >= 50 ? state.colWidth : 50}px` }"
   >
     <div class="d-inline-block text-truncate pe-1" style="width: 95%">
       {{ title }}
@@ -119,6 +129,7 @@ th {
     border-right: none;
   }
 }
+
 .col-resizer {
   position: absolute;
   right: -10px;
