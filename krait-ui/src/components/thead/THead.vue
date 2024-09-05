@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 import Draggable from 'vuedraggable';
-import { useDispatcher, useTable } from '~/mixins';
-import { DynamicColumn } from '@components/dynamic-column';
+import {useDispatcher, useTable} from '~/mixins';
+import {DynamicColumn} from '@components/dynamic-column';
 import {
   ResizeColumn,
   SortColumn,
-  FetchRecords,
   SaveColumnsOrder,
 } from '~/actions';
 
@@ -22,11 +21,13 @@ const props = defineProps({
   },
 });
 
-const { columns, visibleColumns, sorting } = useTable(props.tableName);
-const { dispatch } = useDispatcher(props.tableName);
+const emit = defineEmits(['refreshTable'])
+
+const {columns, visibleColumns, sorting,} = useTable(props.tableName);
+const {dispatch} = useDispatcher(props.tableName);
 
 const dragging = ref<boolean>(false);
-const reorderColumn = async ({ moved }: { moved: boolean }) => {
+const reorderColumn = async ({moved}: { moved: boolean }) => {
   if (!moved) {
     return;
   }
@@ -46,23 +47,24 @@ const sortColumn = async (name: string, direction: string) => {
     name,
     direction,
   });
-  await dispatch<FetchRecords>(FetchRecords, {});
+
+  emit('refreshTable');
 };
 </script>
 
 <template>
   <thead>
-    <tr>
-      <draggable
+  <tr>
+    <draggable
         v-model="columns"
         tag="transition-group"
         :scroll-sensitivity="150"
         @start="dragging = true"
         @change="(args) => reorderColumn(args)"
         @end="dragging = false"
-      >
-        <template #item="{ element }">
-          <DynamicColumn
+    >
+      <template #item="{ element }">
+        <DynamicColumn
             :name="element.name"
             :title="element.label"
             :is-visible="visibleColumns.includes(element.name)"
@@ -74,16 +76,16 @@ const sortColumn = async (name: string, direction: string) => {
             :width="element.width ?? 100"
             @resize="resizeColumn"
             @sort="sortColumn"
-          ></DynamicColumn>
-        </template>
-      </draggable>
-      <th
+        ></DynamicColumn>
+      </template>
+    </draggable>
+    <th
         class="text-nowrap"
         scope="col"
         :style="`width: 100px`"
         v-if="actionsColumn"
-      ></th>
-    </tr>
+    ></th>
+  </tr>
   </thead>
 </template>
 

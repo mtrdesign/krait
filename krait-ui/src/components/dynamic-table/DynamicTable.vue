@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useDispatcher, useTable } from '~/mixins';
-import { ToastsList } from '@components/toast';
-import { THead } from '@components/thead';
-import { Pagination } from '@components/pagination';
-import { ColumnsSelectionDropdown } from '@components/columns-selection-dropdown';
-import { FetchRecords } from '~/actions';
-import { RowActionButtons } from '@components/row-action-buttons';
+import {onMounted} from 'vue';
+import {useDispatcher, useTable} from '~/mixins';
+import {ToastsList} from '@components/toast';
+import {THead} from '@components/thead';
+import {Pagination} from '@components/pagination';
+import {ColumnsSelectionDropdown} from '@components/columns-selection-dropdown';
+import {FetchRecords} from '~/actions';
+import {RowActionButtons} from '@components/row-action-buttons';
 import ForbiddenScreen from './ForbiddenScreen.vue';
 import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDialog.vue';
 
@@ -40,7 +40,7 @@ const {
   isAuthorized,
   queryParameters,
 } = useTable(props.apiEndpoint);
-const { dispatch } = useDispatcher(props.apiEndpoint);
+const {dispatch} = useDispatcher(props.apiEndpoint);
 queryParameters.value = props.apiQueryParameters;
 
 const initFiltersListener = () => {
@@ -53,19 +53,31 @@ const initFiltersListener = () => {
   }
 
   form.addEventListener(
-    'submit',
-    (e) => {
-      dispatch<FetchRecords>(FetchRecords, {
-        filtersForm: form,
-      });
-      e.preventDefault();
-    },
-    false,
+      'submit',
+      (e) => {
+        dispatch<FetchRecords>(FetchRecords, {
+          filtersForm: form,
+        });
+        e.preventDefault();
+      },
+      false,
   );
 };
 
 const refreshTable = async () => {
-  await dispatch<FetchRecords>(FetchRecords, {});
+  if (!props.filtersForm) {
+    await dispatch<FetchRecords>(FetchRecords, {});
+    return;
+  }
+
+  const form = document.querySelector<HTMLFormElement>(props.filtersForm);
+  if (!form) {
+    throw new Error('No filters form found.');
+  }
+
+  await dispatch<FetchRecords>(FetchRecords, {
+    filtersForm: form,
+  });
 };
 
 onMounted(async () => {
@@ -77,24 +89,25 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ToastsList />
-  <ConfirmationDialog />
+  <ToastsList/>
+  <ConfirmationDialog/>
   <div class="d-flex justify-content-end mb-3" v-if="isAuthorized">
     <ColumnsSelectionDropdown
-      :table-name="apiEndpoint"
+        :table-name="apiEndpoint"
     ></ColumnsSelectionDropdown>
   </div>
   <div class="table-responsive table-wrapper" ref="wrapper">
     <template v-if="isAuthorized">
       <div class="table-responsive table-wrapper">
         <table
-          ref="table"
-          class="table table-hover table-striped dynamic-table"
-          :class="{ 'table-secondary': isLoading }"
+            ref="table"
+            class="table table-hover table-striped dynamic-table"
+            :class="{ 'table-secondary': isLoading }"
         >
           <THead
-            :table-name="apiEndpoint"
-            :actions-column="actionsColumn"
+              :table-name="apiEndpoint"
+              :actions-column="actionsColumn"
+              @refreshTable="refreshTable"
           ></THead>
           <tr v-if="records.length === 0 && !isLoading">
             <td colspan="100%">
@@ -102,40 +115,40 @@ onMounted(async () => {
             </td>
           </tr>
           <tbody>
-            <template v-for="record in records" :key="record.uuid">
-              <tr>
-                <td
+          <template v-for="record in records" :key="record.uuid">
+            <tr>
+              <td
                   v-for="column in columns"
                   :key="column.name"
                   class="text-nowrap overflow-hidden text-align-middle align-middle"
                   :class="{
                     'd-none': !visibleColumns.includes(column.name),
                   }"
-                >
-                  <slot name="row" :record="record" :column="column">
-                    {{ record[column.name] ?? 'N/A' }}
-                  </slot>
-                </td>
-                <td class="text-nowrap align-middle">
-                  <slot
+              >
+                <slot name="row" :record="record" :column="column">
+                  {{ record[column.name] ?? 'N/A' }}
+                </slot>
+              </td>
+              <td class="text-nowrap align-middle">
+                <slot
                     name="actions"
                     :record="record"
                     :refreshTable="refreshTable"
-                  >
-                    <RowActionButtons
+                >
+                  <RowActionButtons
                       :table-name="apiEndpoint"
                       :action-links="record.action_links"
-                    />
-                  </slot>
-                </td>
-              </tr>
-            </template>
+                  />
+                </slot>
+              </td>
+            </tr>
+          </template>
           </tbody>
         </table>
       </div>
-      <Pagination :table-name="apiEndpoint" />
+      <Pagination :table-name="apiEndpoint"/>
     </template>
-    <ForbiddenScreen v-else />
+    <ForbiddenScreen v-else/>
   </div>
 </template>
 
