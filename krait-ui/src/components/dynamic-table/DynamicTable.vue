@@ -65,7 +65,19 @@ const initFiltersListener = () => {
 };
 
 const refreshTable = async () => {
-  await dispatch<FetchRecords>(FetchRecords, {});
+  if (!props.filtersForm) {
+    await dispatch<FetchRecords>(FetchRecords, {});
+    return;
+  }
+
+  const form = document.querySelector<HTMLFormElement>(props.filtersForm);
+  if (!form) {
+    throw new Error('No filters form found.');
+  }
+
+  await dispatch<FetchRecords>(FetchRecords, {
+    filtersForm: form,
+  });
 };
 
 onMounted(async () => {
@@ -95,6 +107,7 @@ onMounted(async () => {
           <THead
             :table-name="apiEndpoint"
             :actions-column="actionsColumn"
+            @refreshTable="refreshTable"
           ></THead>
           <tr v-if="records.length === 0 && !isLoading">
             <td colspan="100%">

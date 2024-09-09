@@ -3,12 +3,7 @@ import { ref } from 'vue';
 import Draggable from 'vuedraggable';
 import { useDispatcher, useTable } from '~/mixins';
 import { DynamicColumn } from '@components/dynamic-column';
-import {
-  ResizeColumn,
-  SortColumn,
-  FetchRecords,
-  SaveColumnsOrder,
-} from '~/actions';
+import { ResizeColumn, SortColumn, SaveColumnsOrder } from '~/actions';
 
 const props = defineProps({
   tableName: {
@@ -21,6 +16,8 @@ const props = defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(['refreshTable']);
 
 const { columns, visibleColumns, sorting } = useTable(props.tableName);
 const { dispatch } = useDispatcher(props.tableName);
@@ -46,7 +43,8 @@ const sortColumn = async (name: string, direction: string) => {
     name,
     direction,
   });
-  await dispatch<FetchRecords>(FetchRecords, {});
+
+  emit('refreshTable');
 };
 </script>
 
