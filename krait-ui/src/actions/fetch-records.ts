@@ -4,9 +4,9 @@ import BaseAction from './base-action';
 import { UnauthorizedError } from '~/framework/exceptions';
 
 interface IFetchRecordsOptions {
-  filtersForm?: HTMLFormElement;
   isInitialFetch?: boolean;
   url?: string;
+  tableConfigurationProps: Table.ITableConfiguration;
 }
 
 interface IFetchRecordsResult {
@@ -70,11 +70,17 @@ export default class FetchRecords extends BaseAction<
    * Sets the filters query to the request url using
    * the passed form.
    *
-   * @param {HTMLFormElement} form - The filters form element.
+   * @param {string} formSelector - The query selector for filter form element.
    * @param {URL} url - The request url
    * @private
    */
-  private setFilters(form: HTMLFormElement, url: URL): void {
+  private setFilters(formSelector: string, url: URL): void {
+    const form = document.querySelector<HTMLFormElement>(formSelector);
+
+    if (!form) {
+      throw new Error('No filters form found.');
+    }
+
     const filtersForm = new FormData(form);
     for (const [name, value] of filtersForm) {
       if (value instanceof File || value === '') {
@@ -181,16 +187,17 @@ export default class FetchRecords extends BaseAction<
     const url = Config.tablesUrl;
     url.pathname = `${url.pathname}/${this.tableName}`;
 
-    if (options.filtersForm) {
-      this.setFilters(options.filtersForm, url);
+    if (options.tableConfigurationProps.filtersForm) {
+      this.setFilters(options.tableConfigurationProps.filtersForm, url);
     }
     this.setSorting(this.context.sorting, url);
     this.setPagination(this.context.pagination, url);
 
-    for (const parameter in this.context.queryParameters.value) {
+    for (const parameter in options.tableConfigurationProps
+      .apiQueryParameters) {
       url.searchParams.set(
         parameter,
-        String(this.context.queryParameters.value[parameter]),
+        String(options.tableConfigurationProps.apiQueryParameters[parameter]),
       );
     }
 

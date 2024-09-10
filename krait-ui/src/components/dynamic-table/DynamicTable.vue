@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useDispatcher, useTable } from '~/mixins';
+import { onMounted, ref, watch } from 'vue';
+import { useDispatcher, useTable, useTableConfiguration } from '~/mixins';
 import { ToastsList } from '@components/toast';
 import { THead } from '@components/thead';
 import { Pagination } from '@components/pagination';
@@ -32,22 +32,21 @@ const props = defineProps({
   },
 });
 
-const {
-  columns,
-  isLoading,
-  records,
-  visibleColumns,
-  isAuthorized,
-  queryParameters,
-} = useTable(props.apiEndpoint);
+const { columns, isLoading, records, visibleColumns, isAuthorized } = useTable(
+  props.apiEndpoint,
+);
+const configuration = ref(useTableConfiguration(props.apiEndpoint, props));
 const { dispatch } = useDispatcher(props.apiEndpoint);
-queryParameters.value = props.apiQueryParameters;
 
 const initFiltersListener = () => {
-  if (!props.filtersForm) {
+  if (!configuration.value.filtersForm) {
     return;
   }
-  const form = document.querySelector<HTMLFormElement>(props.filtersForm);
+
+  const form = document.querySelector<HTMLFormElement>(
+    configuration.value.filtersForm,
+  );
+
   if (!form) {
     throw new Error('No filters form found.');
   }
@@ -56,7 +55,7 @@ const initFiltersListener = () => {
     'submit',
     (e) => {
       dispatch<FetchRecords>(FetchRecords, {
-        filtersForm: form,
+        tableConfigurationProps: configuration.value,
       });
       e.preventDefault();
     },
@@ -65,26 +64,21 @@ const initFiltersListener = () => {
 };
 
 const refreshTable = async () => {
-  if (!props.filtersForm) {
-    await dispatch<FetchRecords>(FetchRecords, {});
-    return;
-  }
-
-  const form = document.querySelector<HTMLFormElement>(props.filtersForm);
-  if (!form) {
-    throw new Error('No filters form found.');
-  }
-
   await dispatch<FetchRecords>(FetchRecords, {
-    filtersForm: form,
+    tableConfigurationProps: configuration.value,
   });
 };
 
 onMounted(async () => {
   await dispatch<FetchRecords>(FetchRecords, {
     isInitialFetch: true,
+    tableConfigurationProps: configuration.value,
   });
   initFiltersListener();
+});
+
+watch(props, (newValue) => {
+  configuration.value = useTableConfiguration(props.apiEndpoint, newValue);
 });
 </script>
 

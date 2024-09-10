@@ -43,3 +43,25 @@ export interface ITableContext {
   isAuthorized: Ref<boolean>;
   queryParameters: Ref<IQueryParameters>;
 }
+
+export interface ITableConfiguration {
+  filtersForm: {
+    type: String;
+    required: false;
+    default: undefined;
+  };
+  actionsColumn: {
+    type: Boolean;
+    required: false;
+    default: false;
+  };
+  apiQueryParameters: {
+    type: Object;
+    required: false;
+    default: {};
+  };
+  apiEndpoint: {
+    type: String;
+    required: true;
+  };
+}
