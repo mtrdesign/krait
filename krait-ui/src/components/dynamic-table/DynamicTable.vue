@@ -9,6 +9,7 @@ import { FetchRecords } from '~/actions';
 import { RowActionButtons } from '@components/row-action-buttons';
 import ForbiddenScreen from './ForbiddenScreen.vue';
 import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDialog.vue';
+import { Table } from '~/types';
 
 const props = defineProps({
   apiEndpoint: {
@@ -35,7 +36,9 @@ const props = defineProps({
 const { columns, isLoading, records, visibleColumns, isAuthorized } = useTable(
   props.apiEndpoint,
 );
-const configuration = ref(useTableConfiguration(props.apiEndpoint, props));
+const configuration = ref(
+  useTableConfiguration(props.apiEndpoint, props as Table.ITableConfiguration),
+);
 const { dispatch } = useDispatcher(props.apiEndpoint);
 
 const initFiltersListener = () => {
@@ -78,7 +81,10 @@ onMounted(async () => {
 });
 
 watch(props, (newValue) => {
-  configuration.value = useTableConfiguration(props.apiEndpoint, newValue);
+  configuration.value = useTableConfiguration(
+    props.apiEndpoint,
+    newValue as Table.ITableConfiguration,
+  );
 });
 </script>
 
