@@ -19,6 +19,8 @@ use MtrDesign\Krait\Services\PreviewConfigService;
  */
 abstract class BaseTable
 {
+    private const METHOD_SUFFIX = 'KraitAttribute';
+
     /**
      * The internal table columns.
      *
@@ -201,7 +203,7 @@ abstract class BaseTable
 
         $row = [];
         foreach ($this->getColumns() as $column) {
-            $columnMethod = sprintf('get%s', Str::ucfirst($column->name));
+            $columnMethod = sprintf('get%s%s', Str::ucfirst($column->name), self::METHOD_SUFFIX);
 
             if ($column->hasProcessingCallback()) {
                 $row[$column->name] = $column->process($resource) ?? $placeholder;
