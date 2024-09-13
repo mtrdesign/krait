@@ -74,20 +74,6 @@ class TableCollection extends ResourceCollection
         });
     }
 
-    public function with(Request $request): array
-    {
-        $user = $request->user();
-        $previewConfiguration = null;
-        if ($user) {
-            $previewConfiguration = $this->getPreviewConfiguration();
-        }
-
-        return [
-            'preview_configuration' => $previewConfiguration ? new KraitPreviewConfigurationResource($previewConfiguration) : null,
-            'columns' => $this->getColumns($previewConfiguration),
-        ];
-    }
-
     private function getPreviewConfiguration(): ?KraitPreviewConfiguration
     {
         if ($this->previewConfiguration !== null) {
@@ -105,35 +91,6 @@ class TableCollection extends ResourceCollection
         ])->first();
 
         return $this->previewConfiguration;
-    }
-
-    private function getColumns(?KraitPreviewConfiguration $previewConfiguration = null): array
-    {
-        $columns = $this->table->getColumns();
-        $columnsCount = count($columns);
-        $rawColumns = [];
-
-        $order = $previewConfiguration?->columns_order;
-        $orderFlipped = $order ? array_flip($order) : null;
-
-        foreach ($columns as $column) {
-            $data = $column->toArray();
-            if (! empty($order) && in_array($column->name, $order)) {
-                $rawColumns[$orderFlipped[$column->name]] = $data;
-
-                continue;
-            }
-
-            if (empty($rawColumns[$columnsCount])) {
-                $rawColumns[$columnsCount] = $data;
-            } else {
-                $rawColumns[] = $data;
-            }
-        }
-
-        ksort($rawColumns);
-
-        return array_values($rawColumns);
     }
 
     /**

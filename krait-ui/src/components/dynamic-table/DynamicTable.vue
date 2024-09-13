@@ -5,7 +5,7 @@ import { ToastsList } from '@components/toast';
 import { THead } from '@components/thead';
 import { Pagination } from '@components/pagination';
 import { ColumnsSelectionDropdown } from '@components/columns-selection-dropdown';
-import { FetchRecords } from '~/actions';
+import { FetchRecords, FetchStructure } from '~/actions';
 import { RowActionButtons } from '@components/row-action-buttons';
 import ForbiddenScreen from './ForbiddenScreen.vue';
 import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDialog.vue';
@@ -73,8 +73,8 @@ const refreshTable = async () => {
 };
 
 onMounted(async () => {
+  await dispatch<FetchStructure>(FetchStructure, {});
   await dispatch<FetchRecords>(FetchRecords, {
-    isInitialFetch: true,
     tableConfigurationProps: configuration.value,
   });
   initFiltersListener();

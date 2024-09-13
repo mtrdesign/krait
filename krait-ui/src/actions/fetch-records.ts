@@ -4,7 +4,6 @@ import BaseAction from './base-action';
 import { UnauthorizedError } from '~/framework/exceptions';
 
 interface IFetchRecordsOptions {
-  isInitialFetch?: boolean;
   url?: string;
   tableConfigurationProps: Table.ITableConfiguration;
 }
@@ -24,18 +23,12 @@ export default class FetchRecords extends BaseAction<
   IFetchRecordsOptions,
   IFetchRecordsResult
 > {
-  private isInitialFetch: boolean = false;
-
   /**
    * Prepares the URL and fetches the records.
    *
    * @param {IFetchRecordsOptions} options - The column options.
    */
   async process(options: IFetchRecordsOptions) {
-    if (options.isInitialFetch) {
-      this.isInitialFetch = options.isInitialFetch;
-    }
-
     let url: URL;
     if (options.url) {
       url = new URL(options.url);
@@ -131,48 +124,14 @@ export default class FetchRecords extends BaseAction<
    * @private
    */
   private async parseResponse(response: Response) {
-    const { data, meta, columns, preview_configuration, links } =
-      (await response.json()) as Responses.ITableResponse;
+    const { data, meta, links } =
+      (await response.json()) as Responses.ITableDataResponse;
 
     this.context.records.value = data;
     this.context.pagination.currentPage = meta.current_page;
     this.context.pagination.itemsPerPage = meta.per_page;
     this.context.pagination.totalItems = meta.total;
     this.context.pagination.links = meta.links;
-
-    if (this.isInitialFetch) {
-      this.context.columns.value = columns;
-
-      if (preview_configuration?.visible_columns) {
-        this.context.visibleColumns.value =
-          preview_configuration?.visible_columns;
-      } else {
-        this.context.visibleColumns.value = columns.map(
-          (column) => column.name,
-        );
-      }
-
-      // @TODO: Refactor in a better way
-      if (preview_configuration?.columns_width) {
-        for (const column in preview_configuration?.columns_width) {
-          const targetColumn = this.context.columns.value.find(
-            (col) => col.name == column,
-          );
-          if (targetColumn) {
-            targetColumn.width = preview_configuration.columns_width[column];
-          }
-        }
-      }
-
-      if (
-        preview_configuration &&
-        this.context.sorting.sortBy === null &&
-        this.context.sorting.direction === null
-      ) {
-        this.context.sorting.sortBy = preview_configuration.sort_column;
-        this.context.sorting.direction = preview_configuration.sort_direction;
-      }
-    }
 
     this.context.links.value = links;
   }
@@ -187,18 +146,20 @@ export default class FetchRecords extends BaseAction<
     const url = Config.tablesUrl;
     url.pathname = `${url.pathname}/${this.tableName}`;
 
-    if (options.tableConfigurationProps.filtersForm) {
+    if (options?.tableConfigurationProps?.filtersForm) {
       this.setFilters(options.tableConfigurationProps.filtersForm, url);
     }
     this.setSorting(this.context.sorting, url);
     this.setPagination(this.context.pagination, url);
 
-    for (const parameter in options.tableConfigurationProps
-      .apiQueryParameters) {
-      url.searchParams.set(
-        parameter,
-        String(options.tableConfigurationProps.apiQueryParameters[parameter]),
-      );
+    if (options?.tableConfigurationProps?.apiQueryParameters) {
+      for (const parameter in options.tableConfigurationProps
+        .apiQueryParameters) {
+        url.searchParams.set(
+          parameter,
+          String(options.tableConfigurationProps.apiQueryParameters[parameter]),
+        );
+      }
     }
 
     return url;
