@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useDispatcher, useTable, useTableConfiguration } from '~/mixins';
 import { ToastsList } from '@components/toast';
 import { THead } from '@components/thead';
@@ -36,18 +36,19 @@ const props = defineProps({
 const { columns, isLoading, records, visibleColumns, isAuthorized } = useTable(
   props.apiEndpoint,
 );
-const configuration = ref(
-  useTableConfiguration(props.apiEndpoint, props as Table.ITableConfiguration),
+const configuration = useTableConfiguration(
+  props.apiEndpoint,
+  props as Table.ITableConfiguration,
 );
 const { dispatch } = useDispatcher(props.apiEndpoint);
 
 const initFiltersListener = () => {
-  if (!configuration.value.filtersForm) {
+  if (!configuration.filtersForm) {
     return;
   }
 
   const form = document.querySelector<HTMLFormElement>(
-    configuration.value.filtersForm,
+    configuration.filtersForm,
   );
 
   if (!form) {
@@ -57,9 +58,7 @@ const initFiltersListener = () => {
   form.addEventListener(
     'submit',
     (e) => {
-      dispatch<FetchRecords>(FetchRecords, {
-        tableConfigurationProps: configuration.value,
-      });
+      dispatch<FetchRecords>(FetchRecords, {});
       e.preventDefault();
     },
     false,
@@ -67,24 +66,14 @@ const initFiltersListener = () => {
 };
 
 const refreshTable = async () => {
-  await dispatch<FetchRecords>(FetchRecords, {
-    tableConfigurationProps: configuration.value,
-  });
+  await dispatch<FetchRecords>(FetchRecords, {});
 };
 
 onMounted(async () => {
   await dispatch<FetchRecords>(FetchRecords, {
     isInitialFetch: true,
-    tableConfigurationProps: configuration.value,
   });
   initFiltersListener();
-});
-
-watch(props, (newValue) => {
-  configuration.value = useTableConfiguration(
-    props.apiEndpoint,
-    newValue as Table.ITableConfiguration,
-  );
 });
 </script>
 

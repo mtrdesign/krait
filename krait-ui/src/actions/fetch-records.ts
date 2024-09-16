@@ -6,7 +6,6 @@ import { UnauthorizedError } from '~/framework/exceptions';
 interface IFetchRecordsOptions {
   isInitialFetch?: boolean;
   url?: string;
-  tableConfigurationProps: Table.ITableConfiguration;
 }
 
 interface IFetchRecordsResult {
@@ -180,25 +179,24 @@ export default class FetchRecords extends BaseAction<
   /**
    * Generates a new FetchRecords url.
    *
-   * @param {IFetchRecordsOptions} options - The fetch options.
    * @private
    */
-  private generateUrl(options: IFetchRecordsOptions): URL {
+  private generateUrl(): URL {
     const url = Config.tablesUrl;
     url.pathname = `${url.pathname}/${this.tableName}`;
-
-    if (options.tableConfigurationProps.filtersForm) {
-      this.setFilters(options.tableConfigurationProps.filtersForm, url);
+    if (this.tableProps?.filtersForm) {
+      this.setFilters(this.tableProps.filtersForm, url);
     }
     this.setSorting(this.context.sorting, url);
     this.setPagination(this.context.pagination, url);
 
-    for (const parameter in options.tableConfigurationProps
-      .apiQueryParameters) {
-      url.searchParams.set(
-        parameter,
-        String(options.tableConfigurationProps.apiQueryParameters[parameter]),
-      );
+    if (this.tableProps?.apiQueryParameters) {
+      for (const parameter in this.tableProps.apiQueryParameters) {
+        url.searchParams.set(
+          parameter,
+          String(this.tableProps.apiQueryParameters[parameter]),
+        );
+      }
     }
 
     return url;

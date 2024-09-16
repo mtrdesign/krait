@@ -45,8 +45,8 @@ export interface ITableContext {
 }
 
 export interface ITableConfiguration {
-  filtersForm: string;
-  actionsColumn: boolean;
-  apiQueryParameters: any;
+  filtersForm?: string;
+  actionsColumn?: boolean;
+  apiQueryParameters?: { [key: string]: string | number };
   apiEndpoint: string;
 }
