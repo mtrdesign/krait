@@ -71,8 +71,7 @@ const refreshTable = async () => {
 
 onMounted(async () => {
   await dispatch<FetchStructure>(FetchStructure, {});
-  await dispatch<FetchRecords>(FetchRecords, {
-  });
+  await dispatch<FetchRecords>(FetchRecords, {});
   initFiltersListener();
 });
 </script>
