@@ -20,7 +20,7 @@ on:
           - no update
 
 env:
-  NODE_VERSION: "18.20.3"
+  NODE_VERSION: "20.16.0"
 
 concurrency:
   group: release

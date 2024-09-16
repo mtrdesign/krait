@@ -28,10 +28,6 @@ export default class SaveRecordsPerPage extends BaseAction<
     const tablePath = encodeURIComponent(encodeURIComponent(this.tableName));
     url.pathname = `${url.pathname}/preview-configurations/${tablePath}/columns/items-per-page`;
 
-    console.log({
-      items_per_page: this.context.pagination.itemsPerPage,
-    });
-
     await ApiClient.fetch(
       url,
       {

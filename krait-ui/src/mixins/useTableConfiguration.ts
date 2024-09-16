@@ -11,6 +11,7 @@ const useTableConfiguration = (
   props?: Table.ITableConfiguration,
 ): DeepReadonly<Table.ITableConfiguration> => {
   const configuration = tableConfigurations.get(tableName);
+
   if (configuration && !props) {
     return configuration;
   }

@@ -36,10 +36,13 @@ export interface IPreviewConfiguration {
   visible_columns: string[] | null;
 }
 
-export interface ITableResponse {
+export interface ITableDataResponse {
   data: IRow[];
   links: ILinks;
   meta: IMeta;
+}
+
+export interface ITableStructureResponse {
   preview_configuration: IPreviewConfiguration | null;
   columns: IColumn[];
 }
