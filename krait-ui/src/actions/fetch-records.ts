@@ -125,8 +125,15 @@ export default class FetchRecords extends BaseAction<
    * @private
    */
   private async parseResponse(response: Response) {
-    const { data, meta, columns, preview_configuration, links } =
-      (await response.json()) as Responses.ITableResponse;
+    const {
+      data,
+      meta,
+      columns,
+      preview_configuration,
+      links,
+      selectable_rows,
+      bulk_action_links,
+    } = (await response.json()) as Responses.ITableResponse;
 
     this.context.records.value = data;
     this.context.pagination.currentPage = meta.current_page;
@@ -136,6 +143,8 @@ export default class FetchRecords extends BaseAction<
 
     if (this.isInitialFetch) {
       this.context.columns.value = columns;
+      this.context.isSelectableRows.value = selectable_rows;
+      this.context.bulkActionLinks.value = bulk_action_links;
 
       if (preview_configuration?.visible_columns) {
         this.context.visibleColumns.value =

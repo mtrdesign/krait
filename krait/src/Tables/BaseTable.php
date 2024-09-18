@@ -34,6 +34,11 @@ abstract class BaseTable
     public readonly string $name;
 
     /**
+     * Determines whether the user can select rows. Defaults to false.
+     */
+    protected bool $isSelectableRows = false;
+
+    /**
      * The preview configuration service.
      */
     public PreviewConfigService $previewConfigService;
@@ -180,6 +185,14 @@ abstract class BaseTable
     }
 
     /**
+     * Returns the value of selectableRows
+     */
+    public function getIsSelectableRows(): bool
+    {
+        return $this->isSelectableRows;
+    }
+
+    /**
      * Returns a Laravel Facade of the Table class.
      *
      * @return BaseTable - the instance registered in the Container
@@ -283,6 +296,16 @@ abstract class BaseTable
      * @return array - the action links
      */
     public function actionLinks(mixed $resource): array
+    {
+        return [];
+    }
+
+    /**
+     * Returns the bulk action links for table
+     *
+     * @return array - the bulk action links
+     */
+    public function bulkActionLinks(): array
     {
         return [];
     }

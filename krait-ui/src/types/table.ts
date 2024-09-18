@@ -42,4 +42,7 @@ export interface ITableContext {
   visibleColumns: Ref<UnwrapRef<string[]>>;
   isAuthorized: Ref<boolean>;
   queryParameters: Ref<IQueryParameters>;
+  isSelectableRows: Ref<boolean>;
+  bulkActionLinks: Ref<UnwrapRef<{ [key: string]: string }>>;
+  selectedRows: Ref<string[] | number[]>;
 }

@@ -42,4 +42,6 @@ export interface ITableResponse {
   meta: IMeta;
   preview_configuration: IPreviewConfiguration | null;
   columns: IColumn[];
+  selectable_rows: boolean;
+  bulk_action_links: { [key: string]: string };
 }
