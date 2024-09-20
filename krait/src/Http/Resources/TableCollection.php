@@ -40,7 +40,7 @@ class TableCollection extends ResourceCollection
         }
 
         if ($resources instanceof Builder) {
-            $paginator = $resources->paginate($itemsPerPage);
+            $paginator = $resources->paginate($itemsPerPage)->withQueryString();
         } elseif (! $resources instanceof LengthAwarePaginator) {
             $paginator = $this->getPaginator($resources, $itemsPerPage);
         } else {
