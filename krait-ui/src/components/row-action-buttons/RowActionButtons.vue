@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Eye, Pencil, Trash } from '@components/icons';
-import { useConfirmation, useDispatcher } from '~/mixins';
+import {
+  useConfirmation,
+  useDispatcher,
+  useTableConfiguration,
+} from '~/mixins';
 import { DeleteRecord, FetchRecords } from '~/actions';
 
 const props = defineProps({
@@ -15,6 +19,7 @@ const props = defineProps({
 });
 
 const { dispatch } = useDispatcher(props.tableName);
+const configuration = useTableConfiguration(props.tableName);
 const { ask } = useConfirmation();
 
 const followLink = (link: string) => {
@@ -28,7 +33,9 @@ const onDelete = async (url: string) => {
 
   if (isConfirmed) {
     await dispatch<DeleteRecord>(DeleteRecord, { url });
-    await dispatch<FetchRecords>(FetchRecords, {});
+    await dispatch<FetchRecords>(FetchRecords, {
+      tableConfigurationProps: configuration,
+    });
   }
 };
 </script>

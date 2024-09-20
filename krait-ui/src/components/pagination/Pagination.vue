@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FetchRecords, SaveRecordsPerPage } from '~/actions';
-import { useDispatcher, useTable } from '~/mixins';
+import { useDispatcher, useTable, useTableConfiguration } from '~/mixins';
 import { watch } from 'vue';
 
 const props = defineProps({
@@ -11,6 +11,7 @@ const props = defineProps({
 });
 
 const { pagination, isLoading } = useTable(props.tableName);
+const configuration = useTableConfiguration(props.tableName);
 const { dispatch } = useDispatcher(props.tableName);
 
 const fetchPaginationLink = async (url: string) => {
@@ -21,6 +22,9 @@ const fetchPaginationLink = async (url: string) => {
 
 const onChange = async () => {
   await dispatch<SaveRecordsPerPage>(SaveRecordsPerPage, {});
+  await dispatch<FetchRecords>(FetchRecords, {
+    tableConfigurationProps: configuration,
+  });
 };
 </script>
 

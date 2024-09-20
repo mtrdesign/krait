@@ -9,10 +9,16 @@ import { Table } from '~/types';
  */
 export default abstract class BaseAction<OptionsT = any, ResultT = any> {
   protected context: Table.ITableContext;
+  protected tableProps: Table.ITableConfiguration;
   protected tableName: string;
 
-  constructor(context: Table.ITableContext, tableName: string) {
+  constructor(
+    context: Table.ITableContext,
+    tableName: string,
+    tableProps: Table.ITableConfiguration,
+  ) {
     this.context = context;
+    this.tableProps = tableProps;
     this.tableName = tableName;
   }
 

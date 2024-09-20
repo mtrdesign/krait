@@ -30,3 +30,13 @@ Route::group([
             ->name('save-items-per-page');
     });
 });
+
+Route::group([
+    'prefix' => 'table',
+    'as' => 'table',
+], function () {
+    Route::post(
+        'structure',
+        '\MtrDesign\Krait\Http\Controllers\Api\TableStructureController'
+    )->name('structure');
+});
