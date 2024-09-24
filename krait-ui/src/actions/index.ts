@@ -1,5 +1,6 @@
 export { default as ResizeColumn } from './resize-column';
 export { default as FetchRecords } from './fetch-records';
+export { default as FetchStructure } from './fetch-structure';
 export { default as SortColumn } from './sort-column';
 export { default as SaveColumnsOrder } from './save-columns-order';
 export { default as HideColumn } from './hide-column';

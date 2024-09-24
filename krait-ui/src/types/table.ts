@@ -46,3 +46,10 @@ export interface ITableContext {
   bulkActionLinks: Ref<UnwrapRef<{ [key: string]: string }>>;
   selectedRows: Ref<string[] | number[]>;
 }
+
+export interface ITableConfiguration {
+  filtersForm?: string;
+  actionsColumn?: boolean;
+  apiQueryParameters?: { [key: string]: string | number };
+  apiEndpoint: string;
+}
