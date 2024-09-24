@@ -87,8 +87,10 @@ const toggleRowSelection = (recordUuid: string) => {
 };
 
 onMounted(async () => {
-  await dispatch<FetchStructure>(FetchStructure, {});
-  await dispatch<FetchRecords>(FetchRecords, {});
+  const fetchStructurePromise = dispatch<FetchStructure>(FetchStructure, {});
+  const fetchRecordsPromise = dispatch<FetchRecords>(FetchRecords, {});
+
+  await Promise.all([fetchStructurePromise, fetchRecordsPromise]);
   initFiltersListener();
 });
 </script>
