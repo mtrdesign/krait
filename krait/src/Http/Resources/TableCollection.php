@@ -85,7 +85,7 @@ class TableCollection extends ResourceCollection
         return [
             'preview_configuration' => $previewConfiguration ? new KraitPreviewConfigurationResource($previewConfiguration) : null,
             'columns' => $this->getColumns($previewConfiguration),
-            'selectable_rows' => $this->table->getIsSelectableRows(),
+            'selectable_rows' => $this->table->isSelectableRows(),
             'bulk_action_links' => $this->table->bulkActionLinks(),
         ];
     }
