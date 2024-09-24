@@ -65,6 +65,22 @@ class TablesOrchestrator
     }
 
     /**
+     * Return the registered instance of a specific table by its name.
+     *
+     * @param  string  $tableName  - the target table name
+     */
+    public function getTableByRoute(string $tableName): ?BaseTable
+    {
+        foreach ($this->tables as $table) {
+            if ($table->getRoute() === $tableName) {
+                return $table->getInstance();
+            }
+        }
+
+        return null; // Return null if no table matches the name
+    }
+
+    /**
      * Generates a directory iterator for all table definition classes.
      *
      * @return RecursiveIteratorIterator|null - the directory iterator

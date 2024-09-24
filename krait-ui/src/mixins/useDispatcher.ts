@@ -2,6 +2,7 @@ import { Table } from '~/types';
 import { BaseAction } from '~/actions';
 import { tables } from './useTable';
 import useToast, { MessageTypes } from './useToast';
+import { tableConfigurations } from '~/mixins/useTableConfiguration';
 
 interface IUseDispatcher {
   dispatch: <T extends BaseAction>(
@@ -27,6 +28,7 @@ const useDispatcher = (tableName: string): IUseDispatcher => {
     throw new Error(`Table ${tableName} has not been initialized.`);
   }
 
+  const tableProps = tableConfigurations.get(tableName);
   /**
    * Dispatches a new action.
    *
@@ -40,7 +42,7 @@ const useDispatcher = (tableName: string): IUseDispatcher => {
     options,
   ) {
     try {
-      const action = new actionClass(state, tableName);
+      const action = new actionClass(state, tableName, tableProps);
       return await action.process(options);
     } catch (e) {
       console.error(e);
