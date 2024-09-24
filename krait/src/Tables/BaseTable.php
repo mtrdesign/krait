@@ -40,9 +40,8 @@ abstract class BaseTable
 
     public function __construct(
         PreviewConfigService $previewConfigService,
-        ?string              $name = null
-    )
-    {
+        ?string $name = null
+    ) {
         $this->previewConfigService = $previewConfigService;
         $this->name = $name;
     }
@@ -55,7 +54,7 @@ abstract class BaseTable
     /**
      * Flags if the request is authorized to see the table's data.
      *
-     * @param Request $request - the incoming request
+     * @param  Request  $request  - the incoming request
      */
     public function authorize(Request $request): bool
     {
@@ -83,32 +82,31 @@ abstract class BaseTable
     /**
      * Adds a column to the table
      *
-     * @param string $name - The columns name
-     * @param  ?string $label - The columns label (using the name by default)
-     * @param bool $hideLabel - Flags if the label should be visible in the header.
-     * @param bool $datetime - Flags if the column contains datetime object.
-     * @param bool $sortable - Flags if the column is sortable.
-     * @param bool $fixed - Flags if the column is resizable.
-     * @param string|null $classes - Additional classes that will be added on FE.
-     * @param callable|null $process - The column result generation callback.
-     * @param callable|null $sort - The column sorting callback.
+     * @param  string  $name  - The columns name
+     * @param  ?string  $label  - The columns label (using the name by default)
+     * @param  bool  $hideLabel  - Flags if the label should be visible in the header.
+     * @param  bool  $datetime  - Flags if the column contains datetime object.
+     * @param  bool  $sortable  - Flags if the column is sortable.
+     * @param  bool  $fixed  - Flags if the column is resizable.
+     * @param  string|null  $classes  - Additional classes that will be added on FE.
+     * @param  callable|null  $process  - The column result generation callback.
+     * @param  callable|null  $sort  - The column sorting callback.
      *
      * @throws Exception
      */
     protected function column(
-        string    $name,
-        ?string   $label = null,
-        bool      $hideLabel = false,
-        bool      $datetime = false,
-        ?string   $dateFormat = null,
-        bool      $sortable = true,
-        bool      $fixed = false,
-        ?string   $classes = null,
+        string $name,
+        ?string $label = null,
+        bool $hideLabel = false,
+        bool $datetime = false,
+        ?string $dateFormat = null,
+        bool $sortable = true,
+        bool $fixed = false,
+        ?string $classes = null,
         ?callable $process = null,
         ?callable $sort = null,
-    ): void
-    {
-        if (!empty($this->columns[$name])) {
+    ): void {
+        if (! empty($this->columns[$name])) {
             throw new Exception("Column $name already exists.");
         }
 
@@ -150,7 +148,7 @@ abstract class BaseTable
     /**
      * Returns specific column.
      *
-     * @param string $columnName - the target column name
+     * @param  string  $columnName  - the target column name
      * @return TableColumnDTO|null - the column
      *
      * @throws Exception
@@ -184,7 +182,7 @@ abstract class BaseTable
     /**
      * Returns if selectable rows Defaults to false.
      */
-    public function isSelectableRows() : bool
+    public function isSelectableRows(): bool
     {
         return false;
     }
@@ -202,13 +200,13 @@ abstract class BaseTable
     /**
      * Processes one record.
      *
-     * @param Model|array $resource - The record.
-     * @param mixed|null $placeholder - The placeholder for empty values.
+     * @param  Model|array  $resource  - The record.
+     * @param  mixed|null  $placeholder  - The placeholder for empty values.
      */
     public function processRecord(Model|array $resource, mixed $placeholder = null): array
     {
         if (is_array($resource)) {
-            $resource = (object)$resource;
+            $resource = (object) $resource;
         }
 
         $row = [];
@@ -239,8 +237,8 @@ abstract class BaseTable
     /**
      * Processes a record.
      *
-     * @param mixed $resource - The target record
-     * @param mixed|null $placeholder - The placeholder for empty values
+     * @param  mixed  $resource  - The target record
+     * @param  mixed|null  $placeholder  - The placeholder for empty values
      */
     public static function process(mixed $resource, mixed $placeholder = null): mixed
     {
@@ -250,7 +248,7 @@ abstract class BaseTable
     /**
      * Generates an API Resource Collection for the table.
      *
-     * @param mixed $records - The target records
+     * @param  mixed  $records  - The target records
      *
      * @throws Exception
      */
@@ -268,7 +266,7 @@ abstract class BaseTable
     /**
      * Returns the table additional data passed to the FE.
      *
-     * @param mixed $resource - the target resource
+     * @param  mixed  $resource  - the target resource
      * @return array - the additional data
      */
     public function additionalData(mixed $resource): array
@@ -289,7 +287,7 @@ abstract class BaseTable
     /**
      * Returns the action links for specific resource
      *
-     * @param mixed $resource - the target resource
+     * @param  mixed  $resource  - the target resource
      * @return array - the action links
      */
     public function actionLinks(mixed $resource): array

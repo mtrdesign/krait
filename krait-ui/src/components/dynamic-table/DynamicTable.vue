@@ -44,8 +44,8 @@ const {
   selectedRows,
 } = useTable(props.apiEndpoint);
 const configuration = useTableConfiguration(
-    props.apiEndpoint,
-    props as Table.ITableConfiguration,
+  props.apiEndpoint,
+  props as Table.ITableConfiguration,
 );
 const { dispatch } = useDispatcher(props.apiEndpoint);
 
