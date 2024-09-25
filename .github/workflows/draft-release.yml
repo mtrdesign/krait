@@ -3,7 +3,7 @@ name: Draft Release
 on:
   push:
     branches:
-      - main
+      - fix-github-actions
   workflow_dispatch:
 
 concurrency:
@@ -41,7 +41,19 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 release_id: filtered[0].id
-              })
+              });
+            
+              try {
+                console.log("Deleting old 'unreleased' tag");
+                await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: 'tags/unreleased'
+                });
+                console.log("Deleted old 'unreleased' tag");
+              } catch (error) {
+                console.log("Tag 'unreleased' does not exist or could not be deleted");
+              }
               console.log("Creating a new untagged release")
               await github.rest.repos.createRelease({
                 owner: context.repo.owner,

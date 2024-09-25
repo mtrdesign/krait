@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useDispatcher, useTable } from '~/mixins';
+import { useDispatcher, useTable, useTableConfiguration } from '~/mixins';
 import { ToastsList } from '@components/toast';
 import { THead } from '@components/thead';
 import { Pagination } from '@components/pagination';
 import { ColumnsSelectionDropdown } from '@components/columns-selection-dropdown';
-import { FetchRecords } from '~/actions';
+import { FetchRecords, FetchStructure } from '~/actions';
 import { RowActionButtons } from '@components/row-action-buttons';
 import ForbiddenScreen from './ForbiddenScreen.vue';
 import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDialog.vue';
+import { Table } from '~/types';
 
 const props = defineProps({
   apiEndpoint: {
@@ -32,22 +33,24 @@ const props = defineProps({
   },
 });
 
-const {
-  columns,
-  isLoading,
-  records,
-  visibleColumns,
-  isAuthorized,
-  queryParameters,
-} = useTable(props.apiEndpoint);
+const { columns, isLoading, records, visibleColumns, isAuthorized } = useTable(
+  props.apiEndpoint,
+);
+const configuration = useTableConfiguration(
+  props.apiEndpoint,
+  props as Table.ITableConfiguration,
+);
 const { dispatch } = useDispatcher(props.apiEndpoint);
-queryParameters.value = props.apiQueryParameters;
 
 const initFiltersListener = () => {
-  if (!props.filtersForm) {
+  if (!configuration.filtersForm) {
     return;
   }
-  const form = document.querySelector<HTMLFormElement>(props.filtersForm);
+
+  const form = document.querySelector<HTMLFormElement>(
+    configuration.filtersForm,
+  );
+
   if (!form) {
     throw new Error('No filters form found.');
   }
@@ -55,9 +58,7 @@ const initFiltersListener = () => {
   form.addEventListener(
     'submit',
     (e) => {
-      dispatch<FetchRecords>(FetchRecords, {
-        filtersForm: form,
-      });
+      dispatch<FetchRecords>(FetchRecords, {});
       e.preventDefault();
     },
     false,
@@ -65,25 +66,12 @@ const initFiltersListener = () => {
 };
 
 const refreshTable = async () => {
-  if (!props.filtersForm) {
-    await dispatch<FetchRecords>(FetchRecords, {});
-    return;
-  }
-
-  const form = document.querySelector<HTMLFormElement>(props.filtersForm);
-  if (!form) {
-    throw new Error('No filters form found.');
-  }
-
-  await dispatch<FetchRecords>(FetchRecords, {
-    filtersForm: form,
-  });
+  await dispatch<FetchRecords>(FetchRecords, {});
 };
 
 onMounted(async () => {
-  await dispatch<FetchRecords>(FetchRecords, {
-    isInitialFetch: true,
-  });
+  await dispatch<FetchStructure>(FetchStructure, {});
+  await dispatch<FetchRecords>(FetchRecords, {});
   initFiltersListener();
 });
 </script>
