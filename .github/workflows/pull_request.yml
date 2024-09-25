@@ -1,0 +1,37 @@
+name: PR Opened
+
+on:
+  pull_request:
+    types: [ opened ]
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: ./krait-ui
+
+env:
+  NODE_VERSION: '20.16.0'
+  PHP_VERSION: '8.2.22'
+
+jobs:
+  run-tests:
+    runs-on: 'ubuntu-20.04'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run Prettier Check
+        run: npm run prettier
+
+      - name: Build
+        run: npm run build

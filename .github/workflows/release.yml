@@ -1,96 +1,122 @@
-name: Release
+name: Release Packages
 
 on:
   release:
-    types: [released]
+    types: [published]
 
 env:
   NODE_VERSION: "20.16.0"
-
-concurrency:
-  group: release
-  cancel-in-progress: false
+  PHP_VERSION: "8.2.22"
 
 permissions:
   contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    working-directory: ./krait-ui
 
 jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-20.04
+  build_ui:
+    runs-on: "ubuntu-20.04"
+    name: Build UI
     steps:
-      - name: Get Token
-        id: get_workflow_token
-        uses: peter-murray/workflow-application-token-action@v3
-        with:
-          application_id: ${{ vars.GH_MTR_PACKAGE_VERSIONS_APP_ID }}
-          application_private_key: ${{ secrets.GH_MTR_PACKAGE_VERSIONS_APP_SECRET }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Checkout the repo
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          lfs: false
-          token: ${{ steps.get_workflow_token.outputs.token }}
+      - name: Get release title and tag
+        id: get_version_details
+        run: |
+          echo "RELEASE_TITLE=${{ github.event.release.name }}" >> $GITHUB_ENV
+          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
 
-      - name: Install NodeJS
-        uses: actions/setup-node@v4
+      - name: Check release title format
+        run: |
+          if [[ -z "$RELEASE_TITLE" ]]; then
+            echo "Release title cannot be empty"
+            exit 1
+          fi
+
+          TITLE_VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+(-alpha|-beta)?$"
+          if [[ ! $RELEASE_TITLE =~ $TITLE_VERSION_REGEX ]]; then
+            echo "Invalid release title format: $RELEASE_TITLE"
+            exit 1
+          else
+            echo "Release title $RELEASE_TITLE is valid"
+          fi
+
+      - name: Check release tag format
+        run: |
+          if [[ -z "$RELEASE_TAG" ]]; then
+            echo "Release tag cannot be empty"
+            exit 1
+          fi
+
+          TAG_VERSION_REGEX="^[0-9]+\.[0-9]+\.[0-9]+(-alpha|-beta)?$"
+          if [[ ! $RELEASE_TAG =~ $TAG_VERSION_REGEX ]]; then
+            echo "Invalid release tag format: $RELEASE_TAG"
+            exit 1
+          else
+            echo "Release tag $RELEASE_TAG is valid"
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
 
-      - name: Get build url
-        id: get_distribution_build
+      - name: Retrieve the npm dependencies cache
+        uses: actions/cache@v4
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('./krait/package-lock.json') }}
+          restore-keys: |
+            npm-dependencies-${{ hashFiles('./krait/package-lock.json') }}
+            npm-dependencies-
+
+      - name: Install npm dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Update package.json version
+        id: update-package-version
         run: |
-          BUILD_URL=$(node .github/scripts/find_build_url.js "$ASSETS")
-          echo "build_url=$BUILD_URL" >> "$GITHUB_OUTPUT"
-          echo "$BUILD_URL"
-        env:
-          ASSETS: ${{ toJson(github.event.release.assets) }}
+          npm version $RELEASE_TAG
 
-      - name: Download distribution build
-        run: curl -OL $DOWNLOAD_URL
-        env:
-          DOWNLOAD_URL: ${{ steps.get_distribution_build.outputs.build_url }}
+      - name: Build UI
+        id: build-ui-job
+        run: npm run build
 
-      - name: Unzip distribution-package.zip
-        run: unzip -q distribution-package.zip
-
-      - name: Configure GH user
+      - name: Config Github User
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"}
+          git config user.name "github-actions[bot]"
 
-      - name: Update package version
-        id: update_package_version
-        run: |
-          RELEASE_VERSION=$(echo "$VERSION" | sed -e 's/-beta\.[[:digit:]_-]\{1,\}//g')
-          npm version $RELEASE_VERSION
-          git push
-          echo "tag=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
-          git push --tags
-        env:
-          VERSION: ${{ github.event.release.tag_name }}
-          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
-
-      - name: Publish the NPM package
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
-      - name: Update release tag
-        uses: actions/github-script@v6
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        id: create_pr
         with:
-          script: |
-            const {TAG_NAME, RELEASE_ID} = process.env
-
-            github.rest.repos.updateRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: RELEASE_ID,
-                name: TAG_NAME,
-                tag_name: TAG_NAME,
-            });
+          branch: version-bump/${{ env.RELEASE_TAG }}
+          title: "Bump version to ${{ env.RELEASE_TAG }}"
+          body: "This PR bumps the version to ${{ env.RELEASE_TAG }}."
+          base: main
+          labels: |
+            automerge
         env:
-          RELEASE_ID: ${{ github.event.release.id }}
-          TAG_NAME: ${{ steps.update_package_version.outputs.tag }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Automerge PR
+        uses: "pascalgn/automerge-action@v0.16.4"
+        id: automerge
+        with:
+          merge_error_fail: "true"
+          merge_delete_branch: "true"
+          merge_method: "rebase"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          PULL_REQUEST: ${{ steps.create_pr.outputs.pull-request-number }}
+#      - name: Publish the NPM package
+#        run: npm publish --access public
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
