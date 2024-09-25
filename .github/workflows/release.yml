@@ -22,17 +22,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-#      - name: Get release title and tag
-#        id: get_version_details
-#        run: |
-#          echo "RELEASE_TITLE=${{ github.event.release.name }}" >> $GITHUB_ENV
-#          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
-
       - name: Get release title and tag
         id: get_version_details
         run: |
-          echo "RELEASE_TITLE=${{ env.RELEASE_TITLE_ENV }}" >> $GITHUB_ENV
-          echo "RELEASE_TAG=${{ env.RELEASE_TAG_ENV }}" >> $GITHUB_ENV
+          echo "RELEASE_TITLE=${{ github.event.release.name }}" >> $GITHUB_ENV
+          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
 
       - name: Check release title format
         run: |
