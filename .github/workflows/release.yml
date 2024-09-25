@@ -17,6 +17,9 @@ jobs:
     runs-on: 'ubuntu-20.04'
     name: Build UI
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Get release title and tag
         id: get_version_details
         run: |
@@ -53,9 +56,6 @@ jobs:
             echo "Release tag $RELEASE_TAG is valid"
           fi
 
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -89,7 +89,7 @@ jobs:
       - name: Build UI
         run: npm run build
 
-      - name: Publish the NPM package
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+#      - name: Publish the NPM package
+#        run: npm publish --access public
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
