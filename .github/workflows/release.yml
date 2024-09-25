@@ -17,9 +17,6 @@ jobs:
     runs-on: 'ubuntu-20.04'
     name: Build UI
     steps:
-      - name: List
-        run: ls -a
-
       - name: Get release title and tag
         id: get_version_details
         run: |
