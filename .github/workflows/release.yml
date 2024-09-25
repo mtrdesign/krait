@@ -7,6 +7,8 @@ on:
 env:
   NODE_VERSION: '20.16.0'
   PHP_VERSION: '8.2.22'
+  RELEASE_TITLE_ENV: 'v1.0.9-beta'
+  RELEASE_TAG: '1.0.9-beta'
 
 defaults:
   run:
@@ -20,11 +22,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+#      - name: Get release title and tag
+#        id: get_version_details
+#        run: |
+#          echo "RELEASE_TITLE=${{ github.event.release.name }}" >> $GITHUB_ENV
+#          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
       - name: Get release title and tag
         id: get_version_details
         run: |
-          echo "RELEASE_TITLE=${{ github.event.release.name }}" >> $GITHUB_ENV
-          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          echo "RELEASE_TITLE=${{ env.RELEASE_TITLE_ENV }}" >> $GITHUB_ENV
+          echo "RELEASE_TAG=${{ env.RELEASE_TAG_ENV }}" >> $GITHUB_ENV
 
       - name: Check release title format
         run: |
@@ -66,9 +74,9 @@ jobs:
         id: node-modules-cache
         with:
           path: node_modules
-          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
+          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('./krait/package-lock.json') }}
           restore-keys: |
-            npm-dependencies-${{ hashFiles('./package-lock.json') }}
+            npm-dependencies-${{ hashFiles('./krait/package-lock.json') }}
             npm-dependencies-
 
       - name: Install npm dependencies
@@ -76,20 +84,48 @@ jobs:
         run: npm ci
 
       - name: Update package.json version
+        id: update-package-version
         run: |
-          npm version $RELEASE_TAG --no-git-tag-version
+          npm version $RELEASE_TAG
 
-      - name: Commit version bump
+      - name: Build UI
+        needs: update-package-version
+        id: build-ui-job
+        run: npm run build
+
+      - name: Commit version bump in different branch
+        needs: build-ui-job
+        id: create-release-branch
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
+          
+          git checkout -b version-bump/$RELEASE_TAG
           git commit -am "Bump version to $RELEASE_TAG"
-          git push origin HEAD:refs/heads/main
+          git push origin version-bump/$RELEASE_TAG
 
-      - name: Build UI
-        run: npm run build
+      - name: Create Pull Request
+        needs: create-release-branch
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: version-bump/$RELEASE_TAG
+          title: "Bump version to $RELEASE_TAG"
+          body: "This PR bumps the version to $RELEASE_TAG."
+          base: main
+          labels: |
+            automated pr
 
-      - name: Publish the NPM package
-        run: npm publish --access public
+      - name: Auto merge PR
+        uses: "pascalgn/automerge-action@v0.16.4"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: feedback
+        if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
+        run: |
+          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
+      
+
+#      - name: Publish the NPM package
+#        run: npm publish --access public
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
