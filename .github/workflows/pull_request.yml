@@ -27,18 +27,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Retrieve the npm dependencies cache
-        uses: actions/cache@v4
-        id: node-modules-cache
-        with:
-          path: node_modules
-          key: npm-dependencies-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
-          restore-keys: |
-            npm-dependencies-${{ hashFiles('./package-lock.json') }}
-            npm-dependencies-
-
       - name: Install npm dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Run Prettier Check
