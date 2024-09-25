@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: ./krait-ui
+
 env:
   NODE_VERSION: '20.16.0'
   PHP_VERSION: '8.2.22'
