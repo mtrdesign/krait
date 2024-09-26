@@ -109,6 +109,8 @@ jobs:
       - name: Automerge PR
         uses: "pascalgn/automerge-action@v0.16.4"
         id: automerge
+        with:
+          merge_method: rebase
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PULL_REQUEST: ${{ steps.create_pr.outputs.pull-request-number }}
