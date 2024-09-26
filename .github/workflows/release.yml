@@ -12,7 +12,7 @@ env:
 
 permissions:
   contents: write
-
+  
 defaults:
   run:
     working-directory: ./krait-ui
@@ -106,7 +106,19 @@ jobs:
         id: build-ui-job
         run: npm run build
 
+      - name: Commit version bump in different branch
+        needs: build-ui-job
+        id: create-release-branch
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          
+          git checkout -b version-bump/$RELEASE_TAG
+          git commit -am "Bump version to $RELEASE_TAG"
+          git push origin version-bump/$RELEASE_TAG
+
       - name: Create Pull Request
+        needs: create-release-branch
         uses: peter-evans/create-pull-request@v7
         with:
           branch: version-bump/$RELEASE_TAG
@@ -117,6 +129,10 @@ jobs:
             automated pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto merge PR
+        uses: "pascalgn/automerge-action@v0.16.4"
+        env:
 
       - name: Auto merge PR
         uses: "pascalgn/automerge-action@v0.16.4"
