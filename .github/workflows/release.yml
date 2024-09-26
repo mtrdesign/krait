@@ -107,7 +107,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: version-bump/${{ RELEASE_TAG }}
+          branch: version-bump/${{ env.RELEASE_TAG }}
           title: "Bump version to $RELEASE_TAG"
           body: "This PR bumps the version to $RELEASE_TAG."
           base: main
