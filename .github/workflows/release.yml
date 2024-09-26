@@ -16,11 +16,22 @@ defaults:
   run:
     working-directory: ./krait-ui
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   build_ui:
     runs-on: 'ubuntu-20.04'
     name: Build UI
     steps:
+      - name: Get Token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v3
+        with:
+          application_id: ${{ vars.GH_MTR_PACKAGE_VERSIONS_APP_ID }}
+          application_private_key: ${{ secrets.GH_MTR_PACKAGE_VERSIONS_APP_SECRET }}
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -88,34 +99,15 @@ jobs:
         id: build-ui-job
         run: npm run build
 
-      - name: Config Github User
+      - name: Commit version bump in different branch
+        id: create-release-branch
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        id: create_pr
-        with:
-          branch: version-bump/${{ env.RELEASE_TAG }}
-          title: "Bump version to ${{ env.RELEASE_TAG }}"
-          body: "This PR bumps the version to ${{ env.RELEASE_TAG }}."
-          base: main
-          labels: |
-            automerge
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Automerge PR
-        uses: "pascalgn/automerge-action@v0.16.4"
-        id: automerge
-        with:
-          merge_error_fail: "true"
-          merge_delete_branch: "true"
-          merge_method: "rebase"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          PULL_REQUEST: ${{ steps.create_pr.outputs.pull-request-number }}
+          
+          git add .
+          git commit -am "Bump version to ${{ env.RELEASE_TAG }}"
+          git push
 
 #      - name: Publish the NPM package
 #        run: npm publish --access public
