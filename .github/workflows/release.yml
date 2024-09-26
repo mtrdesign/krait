@@ -71,18 +71,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Commit version bump in different branch
-        id: create-release-branch
-        run: |
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-
-          git checkout -b version-bump/$RELEASE_TAG
-          git commit -am "Bump version to $RELEASE_TAG"
-          git push origin version-bump/$RELEASE_TAG
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Retrieve the npm dependencies cache
         uses: actions/cache@v4
         id: node-modules-cache
