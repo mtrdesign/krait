@@ -102,7 +102,7 @@ jobs:
           body: "This PR bumps the version to ${{ env.RELEASE_TAG }}."
           base: main
           labels: |
-            automated pr
+            automerge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -113,10 +113,16 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PULL_REQUEST: ${{ steps.create_pr.outputs.pull-request-number }}
 
+      - name: Fail if not merged
+        if: ${{ steps.automerge.outputs.mergeResult != 'merged' }}
+        run: |
+          echo "Automerge failed"
+          exit 1
+
       - name: Automerge Feedback
         if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
         run: |
-          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
+          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged successfully!"
 
 #      - name: Publish the NPM package
 #        run: npm publish --access public
