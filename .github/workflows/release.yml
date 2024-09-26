@@ -92,20 +92,10 @@ jobs:
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-          
-      #      - name: Commit version bump in different branch
-      #        id: create-release-branch
-      #        run: |
-      #          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      #          git config user.name "github-actions[bot]"
-      #
-      #          git checkout -b version-bump/$RELEASE_TAG
-      #          git add package.json
-      #          git commit -am "Bump version to $RELEASE_TAG"
-      #          git push origin version-bump/$RELEASE_TAG
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+        id: create_pr
         with:
           branch: version-bump/${{ env.RELEASE_TAG }}
           title: "Bump version to ${{ env.RELEASE_TAG }}"
@@ -116,11 +106,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Auto merge PR
+      - name: Automerge PR
         uses: "pascalgn/automerge-action@v0.16.4"
+        id: automerge
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - name: feedback
+          PULL_REQUEST: ${{ steps.create_pr.outputs.pull-request-number }}
+
+      - name: Automerge Feedback
         if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
         run: |
           echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
