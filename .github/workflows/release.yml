@@ -107,7 +107,6 @@ jobs:
         run: npm run build
 
       - name: Commit version bump in different branch
-        needs: build-ui-job
         id: create-release-branch
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -118,7 +117,6 @@ jobs:
           git push origin version-bump/$RELEASE_TAG
 
       - name: Create Pull Request
-        needs: create-release-branch
         uses: peter-evans/create-pull-request@v7
         with:
           branch: version-bump/$RELEASE_TAG
