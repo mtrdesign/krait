@@ -102,7 +102,7 @@ jobs:
           body: "This PR bumps the version to ${{ env.RELEASE_TAG }}."
           base: main
           labels: |
-            automated pr
+            automerge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
