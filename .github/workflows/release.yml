@@ -115,7 +115,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
 
-#      - name: Publish the NPM package
-#        run: npm publish --access public
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Publish the NPM package
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
