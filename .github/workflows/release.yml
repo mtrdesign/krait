@@ -108,6 +108,8 @@ jobs:
           git add .
           git commit -am "Bump version to ${{ env.RELEASE_TAG }}"
           git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
 
 #      - name: Publish the NPM package
 #        run: npm publish --access public
