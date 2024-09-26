@@ -7,8 +7,6 @@ on:
 env:
   NODE_VERSION: '20.16.0'
   PHP_VERSION: '8.2.22'
-#  RELEASE_TITLE_ENV: 'v1.0.9-beta'
-#  RELEASE_TAG_ENV: '1.0.9-beta'
 
 permissions:
   contents: write
@@ -30,11 +28,6 @@ jobs:
         run: |
           echo "RELEASE_TITLE=${{ github.event.release.name }}" >> $GITHUB_ENV
           echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
-      #      - name: Get release title and tag
-      #        id: get_version_details
-      #        run: |
-      #          echo "RELEASE_TITLE=${{ env.RELEASE_TITLE_ENV }}" >> $GITHUB_ENV
-      #          echo "RELEASE_TAG=${{ env.RELEASE_TAG_ENV }}" >> $GITHUB_ENV
 
       - name: Check release title format
         run: |
@@ -101,6 +94,7 @@ jobs:
           git config user.name "github-actions[bot]"
           
           git checkout -b version-bump/$RELEASE_TAG
+          git add package.json
           git commit -am "Bump version to $RELEASE_TAG"
           git push origin version-bump/$RELEASE_TAG
 
@@ -108,8 +102,8 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: version-bump/${{ env.RELEASE_TAG }}
-          title: "Bump version to $RELEASE_TAG"
-          body: "This PR bumps the version to $RELEASE_TAG."
+          title: "Bump version to ${{ env.RELEASE_TAG }}"
+          body: "This PR bumps the version to ${{ env.RELEASE_TAG }}."
           base: main
           labels: |
             automated pr
@@ -124,7 +118,6 @@ jobs:
         if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
         run: |
           echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
-
 
 #      - name: Publish the NPM package
 #        run: npm publish --access public
