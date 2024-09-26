@@ -2,7 +2,7 @@ name: Release Packages
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 env:
   NODE_VERSION: '20.16.0'
@@ -12,7 +12,7 @@ env:
 
 permissions:
   contents: write
-  
+
 defaults:
   run:
     working-directory: ./krait-ui
@@ -30,11 +30,11 @@ jobs:
         run: |
           echo "RELEASE_TITLE=${{ github.event.release.name }}" >> $GITHUB_ENV
           echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
-#      - name: Get release title and tag
-#        id: get_version_details
-#        run: |
-#          echo "RELEASE_TITLE=${{ env.RELEASE_TITLE_ENV }}" >> $GITHUB_ENV
-#          echo "RELEASE_TAG=${{ env.RELEASE_TAG_ENV }}" >> $GITHUB_ENV
+      #      - name: Get release title and tag
+      #        id: get_version_details
+      #        run: |
+      #          echo "RELEASE_TITLE=${{ env.RELEASE_TITLE_ENV }}" >> $GITHUB_ENV
+      #          echo "RELEASE_TAG=${{ env.RELEASE_TAG_ENV }}" >> $GITHUB_ENV
 
       - name: Check release title format
         run: |
@@ -107,7 +107,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: version-bump/$RELEASE_TAG
+          branch: version-bump/${{ RELEASE_TAG }}
           title: "Bump version to $RELEASE_TAG"
           body: "This PR bumps the version to $RELEASE_TAG."
           base: main
@@ -124,7 +124,7 @@ jobs:
         if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
         run: |
           echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
-      
+
 
 #      - name: Publish the NPM package
 #        run: npm publish --access public
