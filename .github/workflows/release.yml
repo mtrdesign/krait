@@ -107,7 +107,7 @@ jobs:
           
           git add .
           git commit -am "Bump version to ${{ env.RELEASE_TAG }}"
-          git push
+          git push origin HEAD:main
 
 #      - name: Publish the NPM package
 #        run: npm publish --access public
