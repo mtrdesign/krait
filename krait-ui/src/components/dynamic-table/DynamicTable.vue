@@ -54,6 +54,7 @@ const initFiltersListener = () => {
     return;
   }
 
+  // getting the form as a HTMLFormElement
   const form = document.querySelector<HTMLFormElement>(
     configuration.filtersForm,
   );
