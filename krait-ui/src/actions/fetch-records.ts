@@ -62,12 +62,13 @@ export default class FetchRecords extends BaseAction<
    * Sets the filters query to the request url using
    * the passed form.
    *
-   * @param {string} formSelector - The query selector for filter form element.
    * @param {URL} url - The request url
    * @private
    */
-  private setFilters(formSelector: string, url: URL): void {
-    const form = document.querySelector<HTMLFormElement>(formSelector);
+  private setFilters(url: URL): void {
+    const form = document.querySelector<HTMLFormElement>(
+      this.tableProps.filtersForm,
+    );
 
     if (!form) {
       throw new Error('No filters form found.');
@@ -144,7 +145,7 @@ export default class FetchRecords extends BaseAction<
     const url = Config.tablesUrl;
     url.pathname = `${url.pathname}/${this.tableName}`;
     if (this.tableProps?.filtersForm) {
-      this.setFilters(this.tableProps.filtersForm, url);
+      this.setFilters(url);
     }
     this.setSorting(this.context.sorting, url);
     this.setPagination(this.context.pagination, url);

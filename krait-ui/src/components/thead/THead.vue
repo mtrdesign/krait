@@ -4,6 +4,7 @@ import Draggable from 'vuedraggable';
 import { useDispatcher, useTable } from '~/mixins';
 import { DynamicColumn } from '@components/dynamic-column';
 import { ResizeColumn, SortColumn, SaveColumnsOrder } from '~/actions';
+import { SelectAllCheckbox } from '@components/select-all-checkbox';
 
 const props = defineProps({
   tableName: {
@@ -19,7 +20,9 @@ const props = defineProps({
 
 const emit = defineEmits(['refreshTable']);
 
-const { columns, visibleColumns, sorting } = useTable(props.tableName);
+const { columns, visibleColumns, sorting, isSelectableRows } = useTable(
+  props.tableName,
+);
 const { dispatch } = useDispatcher(props.tableName);
 
 const dragging = ref<boolean>(false);
@@ -51,6 +54,14 @@ const sortColumn = async (name: string, direction: string) => {
 <template>
   <thead>
     <tr>
+      <th
+        class="text-nowrap"
+        scope="col"
+        :style="`width: 35px`"
+        v-if="isSelectableRows"
+      >
+        <SelectAllCheckbox :table-name="props.tableName"></SelectAllCheckbox>
+      </th>
       <draggable
         v-model="columns"
         tag="transition-group"

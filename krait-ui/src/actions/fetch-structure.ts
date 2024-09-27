@@ -64,13 +64,29 @@ export default class FetchStructure extends BaseAction<
   private async parseResponse(response: Response) {
     const { data } = await response.json();
 
-    const { columns, preview_configuration } =
-      data as Responses.ITableStructureResponse;
+    const {
+      columns,
+      preview_configuration,
+      selectable_rows,
+      bulk_action_links,
+    } = data as Responses.ITableStructureResponse;
 
     this.setColumns(columns);
     this.setSorting(preview_configuration);
     this.setVisibleColumns(preview_configuration);
     this.setColumnWidth(preview_configuration);
+    this.setIsSelectableRows(selectable_rows);
+    this.setBulkActionLinks(bulk_action_links);
+  }
+
+  private setBulkActionLinks(
+    bulkActions: Responses.ITableStructureResponse['bulk_action_links'],
+  ) {
+    this.context.bulkActionLinks.value = bulkActions;
+  }
+
+  private setIsSelectableRows(value: boolean) {
+    this.context.isSelectableRows.value = value;
   }
 
   private setColumns(columns: IColumn[]) {

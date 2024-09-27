@@ -29,6 +29,9 @@ const getState = (): Table.ITableContext => {
   const isLoading = ref<boolean>(false);
   const links = ref<Responses.ILinks>({});
   const isAuthorized = ref<boolean>(true);
+  const isSelectableRows = ref<boolean>(false);
+  const selectedRows = ref<Array<string | number>>([]);
+  const bulkActionLinks = ref<{ [key: string]: string }>({});
 
   return {
     columns,
@@ -39,6 +42,9 @@ const getState = (): Table.ITableContext => {
     records,
     links,
     isAuthorized,
+    isSelectableRows,
+    selectedRows,
+    bulkActionLinks,
   };
 };
 

@@ -3,6 +3,7 @@ import BaseAction from './base-action';
 
 interface IFetchRecordsOptions {
   url: string;
+  body: any;
 }
 
 interface IFetchRecordsResult {
@@ -20,9 +21,12 @@ export default class DeleteRecord extends BaseAction<
   IFetchRecordsOptions,
   IFetchRecordsResult
 > {
-  async process({ url }: IFetchRecordsOptions): Promise<IFetchRecordsResult> {
+  async process({
+    url,
+    body = null,
+  }: IFetchRecordsOptions): Promise<IFetchRecordsResult> {
     this.context.isLoading.value = true;
-    await ApiClient.fetch(url, null, 'DELETE');
+    await ApiClient.fetch(url, body, 'DELETE');
 
     this.context.isLoading.value = false;
 

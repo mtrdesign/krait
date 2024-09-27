@@ -9,6 +9,7 @@ import { FetchRecords, FetchStructure } from '~/actions';
 import { RowActionButtons } from '@components/row-action-buttons';
 import ForbiddenScreen from './ForbiddenScreen.vue';
 import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDialog.vue';
+import { BulkActionLinksList } from '@components/bulk-action-links';
 import { Table } from '~/types';
 
 const props = defineProps({
@@ -33,9 +34,15 @@ const props = defineProps({
   },
 });
 
-const { columns, isLoading, records, visibleColumns, isAuthorized } = useTable(
-  props.apiEndpoint,
-);
+const {
+  columns,
+  isLoading,
+  records,
+  visibleColumns,
+  isAuthorized,
+  isSelectableRows,
+  selectedRows,
+} = useTable(props.apiEndpoint);
 const configuration = useTableConfiguration(
   props.apiEndpoint,
   props as Table.ITableConfiguration,
@@ -70,9 +77,21 @@ const refreshTable = async () => {
   await dispatch<FetchRecords>(FetchRecords, {});
 };
 
+const toggleRowSelection = (recordUuid: string) => {
+  if (selectedRows.value.includes(recordUuid)) {
+    selectedRows.value = selectedRows.value.filter(
+      (uuid) => uuid !== recordUuid,
+    );
+  } else {
+    selectedRows.value.push(recordUuid);
+  }
+};
+
 onMounted(async () => {
-  await dispatch<FetchStructure>(FetchStructure, {});
-  await dispatch<FetchRecords>(FetchRecords, {});
+  const fetchStructurePromise = dispatch<FetchStructure>(FetchStructure, {});
+  const fetchRecordsPromise = dispatch<FetchRecords>(FetchRecords, {});
+
+  await Promise.all([fetchStructurePromise, fetchRecordsPromise]);
   initFiltersListener();
 });
 </script>
@@ -80,7 +99,8 @@ onMounted(async () => {
 <template>
   <ToastsList />
   <ConfirmationDialog />
-  <div class="d-flex justify-content-end mb-3" v-if="isAuthorized">
+  <div class="d-flex justify-content-end mb-3 gap-2" v-if="isAuthorized">
+    <BulkActionLinksList :table-name="apiEndpoint"></BulkActionLinksList>
     <ColumnsSelectionDropdown
       :table-name="apiEndpoint"
     ></ColumnsSelectionDropdown>
@@ -106,6 +126,14 @@ onMounted(async () => {
           <tbody>
             <template v-for="record in records" :key="record.uuid">
               <tr>
+                <td v-if="isSelectableRows">
+                  <input
+                    type="checkbox"
+                    :value="record.uuid"
+                    :checked="selectedRows.includes(record.uuid)"
+                    @change="toggleRowSelection(record.uuid)"
+                  />
+                </td>
                 <td
                   v-for="column in columns"
                   :key="column.name"
