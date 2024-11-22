@@ -180,6 +180,14 @@ abstract class BaseTable
     }
 
     /**
+     * Returns if selectable rows Defaults to false.
+     */
+    public function isSelectableRows(): bool
+    {
+        return false;
+    }
+
+    /**
      * Returns a Laravel Facade of the Table class.
      *
      * @return BaseTable - the instance registered in the Container
@@ -283,6 +291,16 @@ abstract class BaseTable
      * @return array - the action links
      */
     public function actionLinks(mixed $resource): array
+    {
+        return [];
+    }
+
+    /**
+     * Returns the bulk action links for table
+     *
+     * @return array - the bulk action links
+     */
+    public function bulkActionLinks(): array
     {
         return [];
     }
