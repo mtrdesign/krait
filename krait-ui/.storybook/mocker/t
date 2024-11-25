@@ -1,0 +1,353 @@
+{
+    "data": {
+        "preview_configuration": {
+            "uuid": "64485ccd-e7e2-43dd-8fac-c4399c876246",
+            "table_name": "users-table",
+            "sort_column": null,
+            "sort_direction": null,
+            "columns_order": null,
+            "columns_width": {
+                "email": 234,
+                "columns": 94,
+                "some_field": 220,
+                "my_first_column": 219
+            },
+            "visible_columns": [
+                "name",
+                "my_first_column",
+                "some_field",
+                "email"
+            ]
+        },
+        "columns": [
+            {
+                "name": "name",
+                "label": "Name",
+                "hideLabel": false,
+                "datetime": false,
+                "sortable": true,
+                "fixed": false,
+                "classes": null
+            },
+            {
+                "name": "email",
+                "label": "Email",
+                "hideLabel": false,
+                "datetime": false,
+                "sortable": true,
+                "fixed": false,
+                "classes": null
+            }
+        ],
+        "selectable_rows": false,
+        "bulk_action_links": []
+    }
+}
+
+
+{
+    "data": [
+        {
+            "uuid": null,
+            "name": "Prof. Mikayla Smith PhD",
+            "email": "whodkiewicz@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Magnus Huel",
+            "email": "marietta.murray@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Raphael Nikolaus",
+            "email": "blick.rodolfo@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Ethan Bednar",
+            "email": "werdman@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Blaise Greenholt",
+            "email": "mercedes94@example.com",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Mr. Wilton Moore I",
+            "email": "humberto17@example.com",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Dr. Lorna Lehner",
+            "email": "merl10@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Nona Macejkovic",
+            "email": "joanie08@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Prof. Santa Labadie",
+            "email": "cleo.hickle@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Therese Hamill",
+            "email": "keely52@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Gust Rogahn",
+            "email": "izaiah98@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Jamel Haag",
+            "email": "devin.ruecker@example.com",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Jerrell Weber",
+            "email": "drunolfsdottir@example.com",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Kathleen Jast",
+            "email": "bfarrell@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Ms. Clemmie Fahey",
+            "email": "ohane@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Courtney Johnson",
+            "email": "whitney72@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Lorna Douglas",
+            "email": "crippin@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Dr. Jennings Johnston V",
+            "email": "spencer.will@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Samir Huel",
+            "email": "mandy16@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Miss Alanna Powlowski DVM",
+            "email": "nick.prohaska@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Nayeli Romaguera",
+            "email": "darrick.king@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Aurelie Corkery DVM",
+            "email": "jayne86@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Deondre Macejkovic",
+            "email": "kerluke.hugh@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Dr. Anabelle Turner Jr.",
+            "email": "rolando.schoen@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Prof. Urban Funk",
+            "email": "dietrich.caleb@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Dr. Archibald Emmerich",
+            "email": "marcia.luettgen@example.com",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Juanita O'Kon PhD",
+            "email": "lhudson@example.com",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Colby Fritsch",
+            "email": "selena.grimes@example.com",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Elwin Mraz",
+            "email": "gstrosin@example.net",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        },
+        {
+            "uuid": null,
+            "name": "Ms. Abbie Pfannerstill",
+            "email": "nikolaus.marjory@example.org",
+            "additional_prop": "Krait is awesome!",
+            "action_links": []
+        }
+    ],
+    "links": {
+        "first": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=1",
+        "last": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=25",
+        "prev": null,
+        "next": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 25,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=2",
+                "label": "2",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=3",
+                "label": "3",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=4",
+                "label": "4",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=5",
+                "label": "5",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=6",
+                "label": "6",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=7",
+                "label": "7",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=8",
+                "label": "8",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=9",
+                "label": "9",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=10",
+                "label": "10",
+                "active": false
+            },
+            {
+                "url": null,
+                "label": "...",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=24",
+                "label": "24",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=25",
+                "label": "25",
+                "active": false
+            },
+            {
+                "url": "http://localhost/tables/users-table?sort_column=some_field&sort_direction=asc&ipp=30&test=query&page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "http://localhost/tables/users-table",
+        "per_page": 30,
+        "to": 30,
+        "total": 745
+    }
+}

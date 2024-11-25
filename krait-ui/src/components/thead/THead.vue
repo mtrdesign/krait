@@ -34,11 +34,20 @@ const reorderColumn = async ({ moved }: { moved: boolean }) => {
   await dispatch<SaveColumnsOrder>(SaveColumnsOrder, {});
 };
 
+const columnWidths = ref<Record<string, number>>({});
+
+// Update the resizeColumn function to store the width
 const resizeColumn = async (_e: MouseEvent, name: string, width: number) => {
+  columnWidths.value[name] = width;
   await dispatch<ResizeColumn>(ResizeColumn, {
     name,
     width,
   });
+};
+
+// Get the current width for a column
+const getColumnWidth = (columnName: string, defaultWidth: number) => {
+  return columnWidths.value[columnName] ?? defaultWidth;
 };
 
 const sortColumn = async (name: string, direction: string) => {
@@ -80,7 +89,7 @@ const sortColumn = async (name: string, direction: string) => {
             :is-resizable="!element.fixed"
             :sort-direction="sorting.direction"
             :hide-title="element.hideLabel"
-            :width="element.width ?? 100"
+            :width="getColumnWidth(element.name, element.width ?? 100)"
             @resize="resizeColumn"
             @sort="sortColumn"
           ></DynamicColumn>

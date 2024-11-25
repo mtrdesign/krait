@@ -2,8 +2,8 @@
 import {
   defineEmits,
   defineProps,
-  onMounted,
   reactive,
+  watch,
   UnwrapNestedRefs,
 } from 'vue';
 import { ArrowDown, ArrowUp } from '@components/icons';
@@ -35,7 +35,7 @@ const state: UnwrapNestedRefs<IColumnState> = reactive({
   xAxisNewCoords: null,
   rect: null,
   col: null,
-  colWidth: 'auto',
+  colWidth: props.width, // Initialize with props.width
 });
 
 const toggleSort = () => {
@@ -51,17 +51,14 @@ const toggleSort = () => {
   emit('sort', props.name, nextDirection);
 };
 
-const debouncedEmitResize = debounce((e, name, colWidth) => {
-  emit('resize', e, name, colWidth);
-}, 300);
-
 const mouseMove = (e: MouseEvent) => {
   state.xAxisNewCoords = state.xAxisCurrentCoords - e.clientX;
-  state.colWidth = Math.floor(
-    state.rect.width - (state.xAxisCurrentCoords - e.clientX),
+  const newWidth = Math.max(
+    50,
+    Math.floor(state.rect.width - (state.xAxisCurrentCoords - e.clientX)),
   );
-
-  debouncedEmitResize(e, props.name, state.colWidth);
+  state.colWidth = newWidth;
+  emit('resize', e, props.name, newWidth);
 };
 
 const resizeCols = (event: MouseEvent) => {
@@ -83,9 +80,13 @@ const resizeStop = (): void => {
   document.removeEventListener('mouseup', resizeStop);
 };
 
-onMounted(() => {
-  state.colWidth = props.width;
-});
+// Watch for width prop changes
+watch(
+  () => props.width,
+  (newWidth) => {
+    state.colWidth = newWidth;
+  },
+);
 </script>
 
 <template>
@@ -93,7 +94,7 @@ onMounted(() => {
     :key="name"
     scope="col"
     :class="{ 'd-none': !isVisible, 'fixed-column': !isResizable }"
-    :style="{ width: `${state.colWidth >= 50 ? state.colWidth : 50}px` }"
+    :style="{ width: `${Math.max(50, state.colWidth)}px` }"
   >
     <div class="d-inline-block text-truncate pe-1" style="width: 95%">
       {{ title }}

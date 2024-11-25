@@ -1,8 +1,7 @@
 import DynamicTable from './DynamicTable.vue';
 
 export const ActionsData = {
-  tableName: 'test',
-  apiEndpoint: '/records',
+  apiEndpoint: 'cats-table',
 };
 
 export default {
