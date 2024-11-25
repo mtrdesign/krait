@@ -30,7 +30,7 @@ const props = defineProps({
   apiQueryParameters: {
     type: Object,
     required: false,
-    default: {},
+    default: () => ({}),
   },
 });
 
@@ -100,10 +100,8 @@ onMounted(async () => {
   <ToastsList />
   <ConfirmationDialog />
   <div class="d-flex justify-content-end mb-3 gap-2" v-if="isAuthorized">
-    <BulkActionLinksList :table-name="apiEndpoint"></BulkActionLinksList>
-    <ColumnsSelectionDropdown
-      :table-name="apiEndpoint"
-    ></ColumnsSelectionDropdown>
+    <BulkActionLinksList :table-name="apiEndpoint" />
+    <ColumnsSelectionDropdown :table-name="apiEndpoint" />
   </div>
   <div class="table-responsive table-wrapper" ref="wrapper">
     <template v-if="isAuthorized">
