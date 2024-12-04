@@ -74,7 +74,6 @@ That's all it takes to create a fully functional dynamic DataTable! Everything i
   - Column sizing
   - Preview settings
 
-No additional setup required - you're ready to start customizing your table.
+No additional setup required - you're ready to start customizing your table just by using the `<cats-table>` VueJS component.
 
 ### Customizing the Table
-...
