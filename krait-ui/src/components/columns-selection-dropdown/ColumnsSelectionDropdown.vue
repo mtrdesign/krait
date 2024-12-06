@@ -31,9 +31,9 @@ const toggleColumn = async (e: MouseEvent, columnName: string) => {
 <template>
   <div class="dropdown">
     <button
+      id="columns-selection-dropdown"
       class="btn btn-sm btn-secondary"
       type="button"
-      id="columns-selection-dropdown"
       data-bs-toggle="dropdown"
       aria-expanded="false"
       :disabled="isLoading"
@@ -46,8 +46,8 @@ const toggleColumn = async (e: MouseEvent, columnName: string) => {
       style="z-index: 9999900"
     >
       <div
-        class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
         v-if="isLoading"
+        class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
       >
         <PulseLoader
           :loading="isLoading"
@@ -64,10 +64,10 @@ const toggleColumn = async (e: MouseEvent, columnName: string) => {
           @click="toggleColumn($event, column.name)"
         >
           <input
+            :id="`${column.name}--checkbox`"
             type="checkbox"
             :checked="visibleColumns.includes(column.name)"
             class="form-check-input"
-            :id="`${column.name}--checkbox`"
             :disabled="isLoading"
           />
           {{ column.label }}

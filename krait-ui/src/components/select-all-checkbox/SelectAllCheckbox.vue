@@ -45,9 +45,9 @@ watch(
 
 <template>
   <input
-    type="checkbox"
-    @click="toggleSelectAll"
-    :checked="isAllSelected"
     ref="checkBoxInput"
+    type="checkbox"
+    :checked="isAllSelected"
+    @click="toggleSelectAll"
   />
 </template>

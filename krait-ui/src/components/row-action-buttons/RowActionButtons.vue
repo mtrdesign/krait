@@ -43,23 +43,23 @@ const onDelete = async (url: string) => {
 <template>
   <template v-for="(url, action) in actionLinks" :key="key">
     <button
-      @click="() => followLink(url)"
-      class="btn btn-sm btn-success me-1"
       v-if="action == 'view'"
+      class="btn btn-sm btn-success me-1"
+      @click="() => followLink(url)"
     >
       <Eye :width="18" />
     </button>
     <button
-      @click="() => followLink(url)"
-      class="btn btn-sm btn-info me-1"
       v-else-if="action == 'edit'"
+      class="btn btn-sm btn-info me-1"
+      @click="() => followLink(url)"
     >
       <Pencil :width="18" />
     </button>
     <button
-      @click="() => onDelete(url)"
-      class="btn btn-sm btn-danger me-1"
       v-else-if="action == 'delete'"
+      class="btn btn-sm btn-danger me-1"
+      @click="() => onDelete(url)"
     >
       <Trash width="18" />
     </button>

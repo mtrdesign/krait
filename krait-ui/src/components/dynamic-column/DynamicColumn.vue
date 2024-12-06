@@ -17,7 +17,6 @@ interface IColumnState {
   colWidth: any;
 }
 
-const emit = defineEmits(['sort', 'resize']);
 const props = defineProps([
   'title',
   'name',
@@ -29,7 +28,7 @@ const props = defineProps([
   'sortDirection',
   'width',
 ]);
-
+const emit = defineEmits(['sort', 'resize']);
 const state: UnwrapNestedRefs<IColumnState> = reactive({
   xAxisCurrentCoords: null,
   xAxisNewCoords: null,
@@ -101,14 +100,14 @@ watch(
     </div>
     <span v-if="isSortable" class="sort" style="z-index: 1">
       <ArrowDown
-        :color="isActive ? '#0D6EFD' : '#adb5bd'"
         v-if="isActive && sortDirection === 'desc'"
+        :color="isActive ? '#0D6EFD' : '#adb5bd'"
         @click="() => emit('sort', name, 'asc')"
       ></ArrowDown>
       <ArrowUp
+        v-else
         :color="isActive ? '#0D6EFD' : '#adb5bd'"
         @click="() => emit('sort', name, 'desc')"
-        v-else
       ></ArrowUp>
     </span>
     <div

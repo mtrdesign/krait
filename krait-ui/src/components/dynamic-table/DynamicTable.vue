@@ -99,11 +99,11 @@ onMounted(async () => {
 <template>
   <ToastsList />
   <ConfirmationDialog />
-  <div class="d-flex justify-content-end mb-3 gap-2" v-if="isAuthorized">
-    <BulkActionLinksList :table-name="apiEndpoint" />
-    <ColumnsSelectionDropdown :table-name="apiEndpoint" />
+  <div v-if="isAuthorized" class="d-flex justify-content-end mb-3 gap-2">
+    <BulkActionLinksList :tableName="apiEndpoint" />
+    <ColumnsSelectionDropdown :tableName="apiEndpoint" />
   </div>
-  <div class="table-responsive table-wrapper" ref="wrapper">
+  <div ref="wrapper" class="table-responsive table-wrapper">
     <template v-if="isAuthorized">
       <div class="table-responsive table-wrapper">
         <table
@@ -112,8 +112,8 @@ onMounted(async () => {
           :class="{ 'table-secondary': isLoading }"
         >
           <THead
-            :table-name="apiEndpoint"
-            :actions-column="actionsColumn"
+            :tableName="apiEndpoint"
+            :actionsColumn="actionsColumn"
             @refreshTable="refreshTable"
           ></THead>
           <tr v-if="records.length === 0 && !isLoading">
@@ -151,8 +151,8 @@ onMounted(async () => {
                     :refreshTable="refreshTable"
                   >
                     <RowActionButtons
-                      :table-name="apiEndpoint"
-                      :action-links="record.action_links"
+                      :tableName="apiEndpoint"
+                      :actionLinks="record.action_links"
                     />
                   </slot>
                 </td>
@@ -161,7 +161,7 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Pagination :table-name="apiEndpoint" />
+      <Pagination :tableName="apiEndpoint" />
     </template>
     <ForbiddenScreen v-else />
   </div>

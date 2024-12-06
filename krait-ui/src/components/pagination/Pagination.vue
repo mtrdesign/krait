@@ -30,12 +30,12 @@ const onChange = async () => {
 
 <template>
   <div
-    class="d-flex justify-content-between mt-3"
     v-if="pagination.totalItems && pagination.totalItems > 0"
+    class="d-flex justify-content-between mt-3"
   >
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item" v-for="link in pagination.links">
+        <li v-for="link in pagination.links" class="page-item">
           <a
             class="page-link"
             :class="{
@@ -52,9 +52,9 @@ const onChange = async () => {
     <div class="form-group">
       <select
         v-model="pagination.itemsPerPage"
-        @change="onChange"
         class="form-control form-select form-select-sm"
         :disabled="isLoading"
+        @change="onChange"
       >
         <option value="30">30 records</option>
         <option value="50">50 records</option>

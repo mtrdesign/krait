@@ -98,7 +98,7 @@ export default class FetchStructure extends BaseAction<
   ) {
     const visible_columns = preview_configuration?.visible_columns;
 
-    this.context.visibleColumns.value = !!visible_columns
+    this.context.visibleColumns.value = visible_columns
       ? visible_columns
       : this.context.columns.value.map((column) => column.name);
   }
