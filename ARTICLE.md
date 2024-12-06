@@ -487,7 +487,7 @@ These examples cover the basic customization of Krait, but the framework offers 
 - **Dynamic Columns Generation**: Build fully dynamic tables with columns fetched from external services
 - **Customizing Column Behavior**: Configure which columns can be sorted or filtered
 
-For a complete overview of all features, please refer to our documentation.
+For a complete overview of all features, please refer to our [documentation](https://mtrdesign.github.io/krait/).
 
 ## Conclusion
 
