@@ -172,10 +172,8 @@ Let's add a `name`, `breed`, `country`, `profession` (yes - we all know that the
 ```
 # /app/Tables/CatsTable.php
 ...
-
 class CatsTable {
 ...
-
   function initColumns(): void
   {
     $this->column(
@@ -213,9 +211,11 @@ To enhance the functionality, we'll fetch the actual country names from a third-
 Let's add a new `attribute` function to our `CatsTable` class as follows:
 
 ```php
+# /app/Tables/CatsTable.php
+
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
-
+...
 class CatsTable {
     function getCountryCodeKraitAttribute(mixed $cat): string
     {
@@ -241,10 +241,9 @@ This example demonstrates how to create dynamic data pipelines in the table clas
 Let's examine our `CatsTableController` class in detail. By default, the controller returns the following:
 
 ```php
+# /app/Http/Controllers/Tables/CatsTableController.php
 use App\Tables\CatsTable;
-
 ...
-
 class CatsTableController {
   public function __invoke(): TableCollection
   {
@@ -270,11 +269,14 @@ For this example, we'll use an Eloquent model called `Cat`, which corresponds to
 - `country_code`
 - `profession`
 
+------------------
 #### Steps to reproduce it
 1. Create the model using `php artisan make:model Cat -m`
 2. Update the migration
 
 ```php
+# /database/migrations/xxxxxx_create_cats_table.php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -308,6 +310,8 @@ php artisan migrate
 
 4. Update the `Cat` model
 ```php
+# /app/Models/Cat.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -335,9 +339,10 @@ php artisan make:factory CatFactory
 php artisan make:seeder CatSeeder
 ```
 
-7. Edit the Factory (database/factories/CatFactory.php):
+7. Edit the Factory:
 ```php
 <?php
+# /database/factories/CatFactory.php
 
 namespace Database\Factories;
 
@@ -360,9 +365,10 @@ class CatFactory extends Factory
 }
 ```
 
-8. Edit the Seeder (database/seeders/CatSeeder.php):
+8. Edit the Seeder:
 ```php
 <?php
+# /database/seeders/CatSeeder.php
 
 namespace Database\Seeders;
 
@@ -378,9 +384,10 @@ class CatSeeder extends Seeder
 }
 ```
 
-9. Update your Model to use HasFactory (app/Models/Cat.php):
+9. Update your Model to use HasFactory:
 ```php
 <?php
+# /app/Models/Cat.php
 
 namespace App\Models;
 
@@ -405,8 +412,9 @@ class Cat extends Model
 # OR run specific seeder
 php artisan db:seed --class=CatSeeder
 ```
-Alright, now we have seeded the cats - a lot of cats!
+------------------
 
+Alright, now we have seeded the cats - a lot of cats!
 
 **Let's show them!**
 
@@ -438,8 +446,8 @@ That's it! The setup is now complete with all features working automatically:
 
 For advanced column structure customization options, please refer to our [Official Documentation](https://mtrdesign.github.io/krait/).
 
+#### A Slight Touch on the Front-end Customizations
 
-*Just a slight touch on the front-end customizations as well*
 You can customize how table rows are displayed by modifying the VueJS component at `/resources/js/components/tables/CatsTable.vue`.
 For example, let's modify the component to display "lazy cat..." for records where the profession field is empty.
 
