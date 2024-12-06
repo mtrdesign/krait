@@ -135,15 +135,13 @@ No additional setup required - you're ready to start customizing your table just
 
 ### Customizing the Table
 
-The default table template has only two columns and one additional attribute:
+The default table template starts with a basic structure of two columns and one additional attribute:
 
 ```php
 # /app/Tables/CatsTable.php
 ...
-
 class CatsTable {
 ...
-
   function initColumns(): void
   {
       $this->column(
@@ -164,13 +162,12 @@ class CatsTable {
           'additional_prop' => 'Krait is awesome!',
       ];
   }
-
-...
 }
 ```
 
-All columns are defined in the `initColumns` function, following the syntax shown above.
-Now, let's change our table a bit. Let's add a `name`, `breed`, `country`, `profession` (yes - cat's are lazy but let's assume that they can work!).
+All columns are defined in the `initColumns` function.
+Now, let's transform this into a more practical example for our cat management system.
+Let's add a `name`, `breed`, `country`, `profession` (yes - we all know that the cats are lazy but let's assume that they can work!).
 
 ```
 # /app/Tables/CatsTable.php
@@ -181,65 +178,67 @@ class CatsTable {
 
   function initColumns(): void
   {
-      $this->column(
+    $this->column(
         name: 'name',
         label: 'Name',
-      );
+        sortable: true,
+        process: fn($cat) => ucfirst($cat->name)
+    );
 
-      $this->column(
+    $this->column(
         name: 'breed',
         label: 'Breed',
-      );
+        sortable: true,
+    );
 
-      $this->column(
+    $this->column(
         name: 'country_code',
         label: 'Country',
-      )
+        sortable: true,
+    );
 
-      $this->column(
+    $this->column(
         name: 'profession',
-        label: 'Job name',
-      )
+        label: 'Job Title',
+        sortable: true,
+    );
   }
-
 ...
 }
 ```
 
-The `name` fields correspond to the property of the data records, the `label` is the front-end title.
+The `name` field specifies the property name in the data records, while the `label` field defines the display title shown in the user interface.
 
-To make it a little bit more interesting, let's get the real country name from a third-party API.
-To manipulate the `country_code` column, we can add a new `attribute` function to out `CatsTable` class like:
+To enhance the functionality, we'll fetch the actual country names from a third-party API.
+Let's add a new `attribute` function to our `CatsTable` class as follows:
 
-```
+```php
 use GuzzleHttp\Client;
-...
-
+use Illuminate\Support\Facades\Cache;
 
 class CatsTable {
-  ...
+    function getCountryCodeKraitAttribute(mixed $cat): string
+    {
+        return Cache::remember("country_{$cat->country_code}", 3600, function() use ($cat) {
+            $client = new Client();
 
-  function getCountryCodeKraitAttribute(mixed $cat) {
-    $client = new Client();
-
-    try {
-        $response = $client->get("https://restcountries.com/v3.1/alpha/{$cat->country_code}");
-        $data = json_decode($response->getBody(), true);
-        return $data[0]['name']['common'] ?? 'Unknown';
-    } catch (Exception $e) {
-        return 'Unknown';
+            try {
+                $response = $client->get(
+                    "https://restcountries.com/v3.1/alpha/{$cat->country_code}"
+                );
+                $data = json_decode($response->getBody(), true);
+                return $data[0]['name']['common'] ?? $cat->country_code;
+            } catch (Exception $e) {
+                return $cat->country_code;
+            }
+        });
     }
-  }
-
-  ...
 }
-
 ```
 
-This is just a showcase for the dynamic data pipelines creation in the table, you can image how many possible
-usages can be covered with this.
+This example demonstrates how to create dynamic data pipelines in the table class, which has many practical applications in real-world scenarios.
 
-Now, let's take a close look into our `CatsTableController` class. By default the controller returns this:
+Let's examine our `CatsTableController` class in detail. By default, the controller returns the following:
 
 ```php
 use App\Tables\CatsTable;
@@ -260,8 +259,16 @@ class CatsTableController {
 }
 ```
 
-Krait works with both Eloquent collections as well as with just regular php arrays (or Laravel collections).
-For now, let's assume the most general case - you have a Eloquent model `Cat` (and table `cats` that contains the `name`, `breed`, `country_code`, and `profession` fields).
+Krait is flexible and works with multiple data formats, including:
+- Eloquent collections
+- Regular PHP arrays
+- Laravel collections
+
+For this example, we'll use an Eloquent model called `Cat`, which corresponds to a database table `cats` containing the following fields:
+- `name`
+- `breed`
+- `country_code`
+- `profession`
 
 #### Steps to reproduce it
 1. Create the model using `php artisan make:model Cat -m`
@@ -398,12 +405,14 @@ class Cat extends Model
 # OR run specific seeder
 php artisan db:seed --class=CatSeeder
 ```
+Alright, now we have seeded the cats - a lot of cats!
 
-Alrightm now we have seeded records of cats - a lot of cats!
 
-Let's now implement them in the `CatsTableController`:
+**Let's show them!**
 
 ```php
+# /app/Http/Controllers/Tables/CatsTableController.php
+
 use App\Tables\CatsTable;
 use App\Models\Cat;
 
@@ -412,7 +421,6 @@ use App\Models\Cat;
 class CatsTableController {
   public function __invoke(): TableCollection
   {
-
     # Using query to let Krait manage the pagination
     $cats = Cat::query()
 
@@ -421,18 +429,23 @@ class CatsTableController {
 }
 ```
 
-That's it! Now we have all the data passed/processed as expected and everything is handled out-of-the-box -
-the pagination, the filtering, the user preferences, the custom columns previewing, etc.
+That's it! The setup is now complete with all features working automatically:
+- Pagination
+- Filtering
+- User preferences
+- Custom column previews
+- And more
 
-Krait offers a lot of different ways to modify the back-end columns structure, please take a look at our
-[Official Documentation](https://mtrdesign.github.io/krait/).
+For advanced column structure customization options, please refer to our [Official Documentation](https://mtrdesign.github.io/krait/).
 
 
 *Just a slight touch on the front-end customizations as well*
-All rows can be customized, using the table VueJS component - `/resources/js/components/tables/CatsTable.vue`.
-Let's modify it so it shows "lazy cat..." in all records that don't have profession assosiated.
+You can customize how table rows are displayed by modifying the VueJS component at `/resources/js/components/tables/CatsTable.vue`.
+For example, let's modify the component to display "lazy cat..." for records where the profession field is empty.
 
 ```js
+// /resources/js/components/tables/CatsTable.vue
+
 <script setup>
 defineProps({
   'filtersForm': {
@@ -460,10 +473,13 @@ defineProps({
 </template>
 ```
 
-These are the fundamental customizations of Krait, but it covers a lot of features:
-- Adding Filters Form
-- Dynamic Columns Generation (you can have 100% dynamic tables, fetching all columns from a third-party services)
-- Customizing the sortable/filterable columns
+These examples cover the basic customization of Krait, but the framework offers many more advanced features, including:
+
+- **Adding Filters Form**: Create custom search and filtering interfaces
+- **Dynamic Columns Generation**: Build fully dynamic tables with columns fetched from external services
+- **Customizing Column Behavior**: Configure which columns can be sorted or filtered
+
+For a complete overview of all features, please refer to our documentation.
 
 ## Conclusion
 
