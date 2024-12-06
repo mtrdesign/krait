@@ -141,26 +141,26 @@ The default table template starts with a basic structure of two columns and one 
 # /app/Tables/CatsTable.php
 ...
 class CatsTable {
-...
+  ...
   function initColumns(): void
   {
-      $this->column(
-          name: 'my_first_column',
-          label: 'My First Column',
-          process: fn(mixed $resource) => 'This content is processed.'
-      );
+    $this->column(
+      name: 'my_first_column',
+      label: 'My First Column',
+      process: fn(mixed $resource) => 'This content is processed.'
+    );
 
-      $this->column(
-          name: 'some_field',
-          label: 'Resource Field',
-      );
+    $this->column(
+      name: 'some_field',
+      label: 'Resource Field',
+    );
   }
 
   function additionalData(mixed $resource): array
   {
-      return [
-          'additional_prop' => 'Krait is awesome!',
-      ];
+    return [
+      'additional_prop' => 'Krait is awesome!',
+    ];
   }
 }
 ```
@@ -173,32 +173,32 @@ Let's add a `name`, `breed`, `country`, `profession` (yes - we all know that the
 # /app/Tables/CatsTable.php
 ...
 class CatsTable {
-...
+  ...
   function initColumns(): void
   {
     $this->column(
-        name: 'name',
-        label: 'Name',
-        sortable: true,
-        process: fn($cat) => ucfirst($cat->name)
+      name: 'name',
+      label: 'Name',
+      sortable: true,
+      process: fn($cat) => ucfirst($cat->name)
     );
 
     $this->column(
-        name: 'breed',
-        label: 'Breed',
-        sortable: true,
+      name: 'breed',
+      label: 'Breed',
+      sortable: true,
     );
 
     $this->column(
-        name: 'country_code',
-        label: 'Country',
-        sortable: true,
+      name: 'country_code',
+      label: 'Country',
+      sortable: true,
     );
 
     $this->column(
-        name: 'profession',
-        label: 'Job Title',
-        sortable: true,
+      name: 'profession',
+      label: 'Job Title',
+      sortable: true,
     );
   }
 ...
@@ -217,22 +217,23 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 ...
 class CatsTable {
-    function getCountryCodeKraitAttribute(mixed $cat): string
-    {
-        return Cache::remember("country_{$cat->country_code}", 3600, function() use ($cat) {
-            $client = new Client();
+  ...
+  function getCountryCodeKraitAttribute(mixed $cat): string
+  {
+    return Cache::remember("country_{$cat->country_code}", 3600, function() use ($cat) {
+      $client = new Client();
 
-            try {
-                $response = $client->get(
-                    "https://restcountries.com/v3.1/alpha/{$cat->country_code}"
-                );
-                $data = json_decode($response->getBody(), true);
-                return $data[0]['name']['common'] ?? $cat->country_code;
-            } catch (Exception $e) {
-                return $cat->country_code;
-            }
-        });
-    }
+      try {
+        $response = $client->get(
+            "https://restcountries.com/v3.1/alpha/{$cat->country_code}"
+        );
+        $data = json_decode($response->getBody(), true);
+        return $data[0]['name']['common'] ?? $cat->country_code;
+      } catch (Exception $e) {
+        return $cat->country_code;
+      }
+    });
+  }
 }
 ```
 
@@ -247,13 +248,13 @@ use App\Tables\CatsTable;
 class CatsTableController {
   public function __invoke(): TableCollection
   {
-      $items = collect([
-          [
-              'some_field' => 'Some field value'
-          ]
-      ]);
+    $items = collect([
+      [
+        'some_field' => 'Some field value'
+      ]
+    ]);
 
-      return CatsTable::from($items);
+    return CatsTable::from($items);
   }
 }
 ```
@@ -281,24 +282,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCatssTable extends Migration
+class CreateCatsTable extends Migration
 {
-    public function up()
-    {
-        Schema::create('cats', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('breed');
-            $table->string('country_code');
-            $table->string('profession');
-            $table->timestamps();
-        });
-    }
+  public function up()
+  {
+    Schema::create('cats', function (Blueprint $table) {
+      $table->id();
+      $table->string('name');
+      $table->string('breed');
+      $table->string('country_code');
+      $table->string('profession');
+      $table->timestamps();
+    });
+  }
 
-    public function down()
-    {
-        Schema::dropIfExists('cats');
-    }
+  public function down()
+  {
+    Schema::dropIfExists('cats');
+  }
 }
 ```
 
@@ -318,12 +319,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cat extends Model
 {
-    protected $fillable = [
-        'name',
-        'breed',
-        'country_code',
-        'profession'
-    ];
+  protected $fillable = [
+    'name',
+    'breed',
+    'country_code',
+    'profession'
+  ];
 }
 ```
 
@@ -351,17 +352,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CatFactory extends Factory
 {
-    protected $model = Cat::class;
+  protected $model = Cat::class;
 
-    public function definition()
-    {
-        return [
-            'name' => $this->faker->firstName,
-            'breed' => $this->faker->randomElement(['Persian', 'Siamese', 'Maine Coon', 'British Shorthair', 'Ragdoll']),
-            'country_code' => $this->faker->countryCode,
-            'profession' => $this->faker->jobTitle
-        ];
-    }
+  public function definition()
+  {
+    return [
+      'name' => $this->faker->firstName,
+      'breed' => $this->faker->randomElement(['Persian', 'Siamese', 'Maine Coon', 'British Shorthair', 'Ragdoll']),
+      'country_code' => $this->faker->countryCode,
+      'profession' => $this->faker->jobTitle
+    ];
+  }
 }
 ```
 
@@ -377,14 +378,14 @@ use Illuminate\Database\Seeder;
 
 class CatSeeder extends Seeder
 {
-    public function run()
-    {
-        Cat::factory()->count(500)->create();
-    }
+  public function run()
+  {
+    Cat::factory()->count(500)->create();
+  }
 }
 ```
 
-9. Update your Model to use HasFactory:
+9. Update your Model to use `HasFactory`:
 ```php
 <?php
 # /app/Models/Cat.php
@@ -396,22 +397,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cat extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'breed',
-        'country_code',
-        'profession'
-    ];
+  protected $fillable = [
+    'name',
+    'breed',
+    'country_code',
+    'profession'
+  ];
 }
 ```
 
 10. Run the seeder:
+
 ```bash
-# OR run specific seeder
 php artisan db:seed --class=CatSeeder
 ```
+
 ------------------
 
 Alright, now we have seeded the cats - a lot of cats!
@@ -423,16 +425,14 @@ Alright, now we have seeded the cats - a lot of cats!
 
 use App\Tables\CatsTable;
 use App\Models\Cat;
-
 ...
-
 class CatsTableController {
   public function __invoke(): TableCollection
   {
     # Using query to let Krait manage the pagination
     $cats = Cat::query()
 
-    return CatsTable::from($items);
+    return CatsTable::from($cats);
   }
 }
 ```
@@ -443,6 +443,8 @@ That's it! The setup is now complete with all features working automatically:
 - User preferences
 - Custom column previews
 - And more
+
+![Table Example](./example.png)
 
 For advanced column structure customization options, please refer to our [Official Documentation](https://mtrdesign.github.io/krait/).
 
