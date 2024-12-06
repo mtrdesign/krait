@@ -444,7 +444,7 @@ That's it! The setup is now complete with all features working automatically:
 - Custom column previews
 - And more
 
-![Table Example](./example.png)
+![Table Example](./example.png | width=250)
 
 For advanced column structure customization options, please refer to our [Official Documentation](https://mtrdesign.github.io/krait/).
 
