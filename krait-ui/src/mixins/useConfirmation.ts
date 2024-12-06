@@ -4,6 +4,7 @@ const isOpened = ref<boolean>(false);
 const question = ref<string>();
 
 let confirmResolve: any = () => {};
+
 const agree = () => {
   confirmResolve(true);
   isOpened.value = false;

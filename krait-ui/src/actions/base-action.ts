@@ -7,7 +7,7 @@ import { Table } from '~/types';
  * @class
  * @abstract
  */
-export default abstract class BaseAction<OptionsT = any, ResultT = any> {
+export default abstract class BaseAction<OptionsT, ResultT> {
   protected context: Table.ITableContext;
   protected tableProps: Table.ITableConfiguration;
   protected tableName: string;

@@ -3,7 +3,7 @@ import BaseAction from './base-action';
 
 interface IFetchRecordsOptions {
   url: string;
-  body: any;
+  body: BodyInit | null;
 }
 
 interface IFetchRecordsResult {

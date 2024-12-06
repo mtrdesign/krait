@@ -19,7 +19,7 @@ class ApiRequest extends Request {
    */
   constructor(
     url: string | URL,
-    body: any = null,
+    body: BodyInit | null = null,
     method: string = 'GET',
     headers: IHeaders = {},
   ) {
