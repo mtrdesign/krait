@@ -3,12 +3,9 @@ import { useDispatcher, useTable } from '~/mixins';
 import { HideColumn } from '~/actions';
 import { Settings } from '@components/icons';
 
-const props = defineProps({
-  tableName: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  tableName: string;
+}>();
 
 const { columns, visibleColumns, isLoading } = useTable(props.tableName);
 const { dispatch } = useDispatcher(props.tableName);
@@ -57,7 +54,7 @@ const toggleColumn = async (e: MouseEvent, columnName: string) => {
           radius="100%"
         />
       </div>
-      <li v-for="(column, index) in columns" :key="column.name">
+      <li v-for="column in columns" :key="column.name">
         <label
           :for="`${column.name}--checkbox`"
           class="form-check-label text-nowrap d-block px-2 py-1 dropdown-item fs-85"

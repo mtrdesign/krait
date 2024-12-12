@@ -7,7 +7,6 @@ import {
   UnwrapNestedRefs,
 } from 'vue';
 import { ArrowDown, ArrowUp } from '@components/icons';
-import { debounce } from '~/framework/utils';
 
 interface IColumnState {
   xAxisCurrentCoords: any;
@@ -17,18 +16,22 @@ interface IColumnState {
   colWidth: any;
 }
 
-const props = defineProps([
-  'title',
-  'name',
-  'hideTitle',
-  'isVisible',
-  'isSortable',
-  'isActive',
-  'isResizable',
-  'sortDirection',
-  'width',
-]);
-const emit = defineEmits(['sort', 'resize']);
+const props = defineProps<{
+  title: string;
+  name: string;
+  hideTitle: boolean;
+  isVisible: boolean;
+  isSortable: boolean;
+  isActive: boolean;
+  isResizable: boolean;
+  sortDirection: string | null;
+  width: number;
+}>();
+
+const emit = defineEmits<{
+  sort: [_name: string, _direction: string];
+  resize: [_e: MouseEvent, _name: string, _width: number];
+}>();
 const state: UnwrapNestedRefs<IColumnState> = reactive({
   xAxisCurrentCoords: null,
   xAxisNewCoords: null,

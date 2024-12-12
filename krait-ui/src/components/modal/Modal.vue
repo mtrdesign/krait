@@ -2,20 +2,21 @@
 import { onMounted, ref, watch } from 'vue';
 import { Modal as BSModal } from 'bootstrap';
 
-const props = defineProps({
-  isOpened: {
-    type: Boolean,
-    required: false,
-    default: false,
+const props = withDefaults(
+  defineProps<{
+    isOpened?: boolean;
+    title?: string;
+  }>(),
+  {
+    isOpened: false,
+    title: undefined,
   },
-  title: {
-    type: String,
-    required: false,
-    default: undefined,
-  },
-});
+);
 
-const emit = defineEmits(['close', 'continue']);
+const emit = defineEmits<{
+  close: [];
+  continue: [];
+}>();
 
 const modalEl = ref<HTMLDivElement>();
 const modalBS = ref<BSModal>();

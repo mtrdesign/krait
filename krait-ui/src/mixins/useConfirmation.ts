@@ -3,7 +3,7 @@ import { readonly, ref } from 'vue';
 const isOpened = ref<boolean>(false);
 const question = ref<string>();
 
-let confirmResolve: any = () => {};
+let confirmResolve: (_flag: boolean) => void = () => {};
 
 const agree = () => {
   confirmResolve(true);

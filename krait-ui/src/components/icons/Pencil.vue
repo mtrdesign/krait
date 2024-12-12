@@ -1,26 +1,18 @@
 <script setup lang="ts">
-const props = defineProps({
-  width: {
-    type: Number,
-    required: false,
-    default: 24,
+withDefaults(
+  defineProps<{
+    width?: number;
+    height?: number;
+    color?: string;
+    onClick?: () => void;
+  }>(),
+  {
+    width: 24,
+    height: 24,
+    color: '#FFF',
+    onClick: undefined,
   },
-  height: {
-    type: Number,
-    required: false,
-    default: 24,
-  },
-  color: {
-    type: String,
-    required: false,
-    default: '#FFF',
-  },
-  onClick: {
-    type: Function,
-    required: false,
-    default: undefined,
-  },
-});
+);
 </script>
 
 <template>

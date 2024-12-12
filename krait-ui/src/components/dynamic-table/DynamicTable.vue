@@ -12,27 +12,19 @@ import ConfirmationDialog from '@components/confirmation-dialog/ConfirmationDial
 import { BulkActionLinksList } from '@components/bulk-action-links';
 import { Table } from '~/types';
 
-const props = defineProps({
-  apiEndpoint: {
-    type: String,
-    required: true,
+const props = withDefaults(
+  defineProps<{
+    apiEndpoint: string;
+    filtersForm?: string;
+    actionsColumn?: boolean;
+    apiQueryParameters?: object;
+  }>(),
+  {
+    actionsColumn: false,
+    filtersForm: undefined,
+    apiQueryParameters: () => ({}),
   },
-  filtersForm: {
-    type: String,
-    required: false,
-    default: undefined,
-  },
-  actionsColumn: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-  apiQueryParameters: {
-    type: Object,
-    required: false,
-    default: () => ({}),
-  },
-});
+);
 
 const {
   columns,

@@ -2,21 +2,15 @@
 import { onMounted, ref } from 'vue';
 import { Toast } from 'bootstrap';
 
-defineProps({
-  message: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: false,
-    default: 'primary',
-  },
-  timing: {
-    type: Number,
-    required: false,
-    default: 10_000,
-  },
+interface IProps {
+  message: string;
+  type?: 'primary' | string;
+  timing?: number;
+}
+
+withDefaults(defineProps<IProps>(), {
+  type: 'primary',
+  timing: 10_000,
 });
 
 const domEl = ref<HTMLDivElement | null>(null);

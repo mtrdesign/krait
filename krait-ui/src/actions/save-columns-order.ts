@@ -1,8 +1,6 @@
 import { Config, ApiClient } from '~/framework';
 import BaseAction from './base-action';
 
-interface IReorderColumnsOptions {}
-
 interface IReorderColumnsResult {
   success: boolean;
 }
@@ -15,15 +13,13 @@ interface IReorderColumnsResult {
  * @extends BaseAction
  */
 export default class SaveColumnsOrder extends BaseAction<
-  IReorderColumnsOptions,
+  undefined,
   IReorderColumnsResult
 > {
   /**
    * Saves the columns order to the back-end.
-   *
-   * @param _options
    */
-  async process(_options: IReorderColumnsOptions) {
+  async process() {
     const orderedColumns: string[] = [];
 
     this.context.columns.value.forEach((column) => {

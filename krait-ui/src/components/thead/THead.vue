@@ -6,19 +6,19 @@ import { DynamicColumn } from '@components/dynamic-column';
 import { ResizeColumn, SortColumn, SaveColumnsOrder } from '~/actions';
 import { SelectAllCheckbox } from '@components/select-all-checkbox';
 
-const props = defineProps({
-  tableName: {
-    type: String,
-    required: true,
+const props = withDefaults(
+  defineProps<{
+    tableName: string;
+    actionsColumn?: boolean;
+  }>(),
+  {
+    actionsColumn: false,
   },
-  actionsColumn: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-});
+);
 
-const emit = defineEmits(['refreshTable']);
+const emit = defineEmits<{
+  refreshTable: [];
+}>();
 
 const { columns, visibleColumns, sorting, isSelectableRows } = useTable(
   props.tableName,
