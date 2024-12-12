@@ -14,4 +14,10 @@ runs:
       with:
         script: |
           const script = require('${{ github.action_path }}/script.js')
-          await script({github, context, core})
+          await script({
+            github,
+            context,
+            inputs: {
+              branchName: '${{ inputs.branch_name }}'
+            }
+          })

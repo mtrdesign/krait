@@ -1,7 +1,5 @@
-module.exports = async ({ github, context, core }) => {
-  const branchName = core.getInput("branch_name");
-  const tagName = `unreleased[${branchName}]`;
-
+module.exports = async ({ github, context, inputs }) => {
+  const tagName = `unreleased[${inputs.branchName}]`;
   const releases = await github.rest.repos.listReleases({
     owner: context.repo.owner,
     repo: context.repo.repo,
@@ -33,12 +31,12 @@ module.exports = async ({ github, context, core }) => {
     }
   }
 
-  console.log(`Creating a new untagged release for ${branchName}`);
+  console.log(`Creating a new untagged release for ${inputs.branchName}`);
   await github.rest.repos.createRelease({
     owner: context.repo.owner,
     repo: context.repo.repo,
     tag_name: tagName,
-    name: `Unreleased [${branchName}]`,
+    name: `Unreleased [${inputs.branchName}]`,
     draft: true,
     generate_release_notes: true,
   });
