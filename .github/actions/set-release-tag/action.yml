@@ -1,0 +1,33 @@
+name: "Set Release Tag"
+description: "Updates the tag of specific release"
+
+inputs:
+  branch_name:
+    description: "The target branch name (1.x, 2.x, etc.)"
+    required: true
+  tag_name:
+    description: "The target tag name"
+    required: true
+
+outputs:
+  release_id:
+    description: "The result from the release tag update operation"
+    value: ${{ steps.set-release-tag.outputs.result }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set release tag
+      uses: actions/github-script@v6
+      id: set-release-tag
+      with:
+        script: |
+          const script = require('${{ github.action_path }}/script.js')
+          return await script({
+            github,
+            context,
+            inputs: {
+              branchName: '${{ inputs.branch_name }}',
+              tagName: '${{ inputs.tag_name }}'
+            }
+          })

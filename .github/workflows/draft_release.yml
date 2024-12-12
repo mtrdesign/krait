@@ -1,0 +1,24 @@
+name: Draft Release
+run-name: Draft Release latest updates of ${{ github.ref_name }} (@${{ github.actor }})
+
+on:
+  push:
+    branches:
+      - "[0-9]+.x"
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  draft-release:
+    name: Draft Github Release
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create/Update Draft Release
+        uses: ./.github/actions/draft-release
+        with:
+          branch_name: ${{ github.ref_name }}
