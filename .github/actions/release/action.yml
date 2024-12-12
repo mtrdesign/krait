@@ -1,0 +1,37 @@
+name: "Release"
+description: "Release the pre-release release"
+
+inputs:
+  release_id:
+    description: "The id of the target release"
+    required: true
+  tag_name:
+    description: "The release version tag"
+    required: true
+  npm_auth_token:
+    description: "The NPM authentication token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Release the package
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const script = require('${{ github.action_path }}/script.js')
+          return await script({
+            github,
+            context,
+            inputs: {
+              releaseId: '${{ inputs.release_id }}',
+              tagName: '${{ inputs.tag_name }}',
+            }
+          })
+
+    # - name: Unpublish the beta versions
+    #   shell: bash
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ inputs.npm_auth_token }}
+    #     MAJOR_VERSION: ${{ inputs.tag_name.split('.')[0] }}
+    #   run: ${{ github.action_path }}/unpublish-beta-versions.sh

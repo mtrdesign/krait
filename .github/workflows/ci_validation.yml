@@ -31,10 +31,10 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      - name: Run Prettier Check
+      - name: Run Prettier check
         run: npm run prettier
 
-      - name: Run Lint Check
+      - name: Run Lint check
         run: npm run lint
 
       - name: Build

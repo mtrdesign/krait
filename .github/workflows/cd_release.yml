@@ -1,0 +1,199 @@
+name: Release Packages
+
+on:
+  release:
+    types: [released]
+
+env:
+  NODE_VERSION: "20.16.0"
+  PHP_VERSION: "8.2.22"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    working-directory: ./krait-ui
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  bump_version:
+    runs-on: "ubuntu-20.04"
+    name: Build UI
+    outputs:
+      version_branch: ${{ steps.get-version-details.outputs.major_version}}.x
+      release_version: ${{ steps.get-clean-version.outputs.version }}
+    steps:
+      - name: Get Github token
+        id: get-github-token
+        uses: peter-murray/workflow-application-token-action@v3
+        with:
+          application_id: ${{ vars.GH_MTR_PACKAGE_VERSIONS_APP_ID }}
+          application_private_key: ${{ secrets.GH_MTR_PACKAGE_VERSIONS_APP_SECRET }}
+
+      - name: Get release title and tag
+        id: get-version-details
+        run: |
+          echo "release_title=${{ github.event.release.name }}" >> $GITHUB_OUTPUT
+          echo "release_tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+
+          # Extract major version (handles v1.2.3-beta.0 or 1.2.3-beta.0)
+          MAJOR_VERSION=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v\{0,1\}\([0-9]\+\)[^0-9].*/\1/')
+          echo "major_version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get-version-details.outputs.major_version}}.x
+          token: ${{ steps.get-github-token.outputs.token }}
+
+      - name: Check release title format
+        env:
+          RELEASE_TITLE: ${{ steps.get-version-details.outputs.release_title }}
+        run: |
+          if [[ -z "$RELEASE_TITLE" ]]; then
+            echo "Release title cannot be empty"
+            exit 1
+          fi
+
+          TITLE_VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+(-alpha|-beta)?$"
+          if [[ ! $RELEASE_TITLE =~ $TITLE_VERSION_REGEX ]]; then
+            echo "Invalid release title format: $RELEASE_TITLE"
+            exit 1
+          else
+            echo "Release title $RELEASE_TITLE is valid"
+          fi
+
+      - name: Get the clean version
+        id: get-clean-version
+        env:
+          TAG_NAME: ${{ steps.get-version-details.outputs.tag_name }}
+        run: |
+          VERSION=$(echo "$TAG_NAME" | sed 's/^v//' | cut -d'-' -f1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update package.json version
+        env:
+          CLEAN_VERSION: ${{ steps.get-clean-version.outputs.version }}
+        run: |
+          npm version $CLEAN_VERSION
+
+      - name: Commit version bump in different branch
+        id: create-release-branch
+        env:
+          CLEAN_VERSION: ${{ steps.get-clean-version.outputs.version }}
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+          git add .
+          git commit -am "Bump version to $CLEAN_VERSION"
+          git push origin HEAD:$CLEAN_VERSION
+
+  release:
+    name: Release Package
+    runs-on: ubuntu-22.04
+    needs: [bump_version]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.bump_version.outputs.version_branch }}
+
+      - name: Download the production build
+        id: download-production-build
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs').promises;
+            const artifact_name = 'distribution-package.zip';
+            const download_path = 'krait-ui/distribution-package.zip';
+
+            // Get the release assets
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: context.payload.release.tag_name
+            });
+
+            // Find the specific asset
+            const asset = release.data.assets.find(asset => asset.name === artifact_name);
+            if (!asset) throw new Error(`Asset ${artifact_name} not found in release`);
+
+            // Download the asset
+            const response = await github.rest.repos.getReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              asset_id: asset.id,
+              headers: {
+                Accept: 'application/octet-stream'
+              }
+            });
+
+            // Save the file
+            await fs.writeFile(download_path, Buffer.from(response.data));
+            console.log(`Downloaded ${artifact_name} to ${download_path}`);
+
+            return asset.id
+
+      - name: Update zip with new package.json
+        working-directory: krait-ui
+        run: |
+          zip -u distribution-package.zip package.json package-lock.json
+
+      - name: Delete existing release asset
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const assetId = ${{ steps.download-production-build.outputs.result }}
+
+            await github.rest.repos.deleteReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              asset_id: assetId
+            });
+
+      - name: Upload an Asset in GitHub Release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const {RELEASE_ID} = process.env
+
+            const fs = require('fs').promises;
+            await github.rest.repos.uploadReleaseAsset({
+              name: 'distribution-package.zip',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ env.RELEASE_ID }},
+              data: await fs.readFile('./krait-ui/distribution-package.zip')
+            });
+        env:
+          RELEASE_ID: ${{ github.event.release.id }}
+
+      - name: Set pre-release tag
+        id: update-release
+        uses: ./.github/actions/release
+        with:
+          release_id: ${{ github.event.release.id }}
+          tag_name: ${{ needs.bump_version.outputs.release_version }}
+          node_auth_token: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Unzip the distribution build
+        working-directory: krait-ui
+        run: |
+          unzip -n distribution-package.zip
+
+      # - name: Publish the NPM package
+      #   run: npm publish --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

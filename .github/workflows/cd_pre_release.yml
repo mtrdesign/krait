@@ -1,0 +1,204 @@
+name: Pre-Release
+run-name: Pre-Release ${{ inputs.version-update }} version by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      version-update:
+        description: "Version update"
+        required: true
+        default: "no update"
+        type: choice
+        options:
+          - minor
+          - patch
+          - no update
+
+env:
+  NODE_VERSION: "20.16.0"
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  check_branch:
+    name: Check the Release Branch
+    runs-on: ubuntu-22.04
+    outputs:
+      major_version: ${{ steps.extract_major_version.outputs.version }}
+    steps:
+      - name: Check branch name format
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          if ! [[ $BRANCH_NAME =~ ^[0-9]+\.x$ ]]; then
+            echo "Error: Branch name '$BRANCH_NAME' does not match the required pattern '<major_version>.x'"
+            exit 1
+          fi
+          echo "Branch name '$BRANCH_NAME' is valid"
+
+      - name: Extract major version
+        id: extract_major_version
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          MAJOR_VERSION=$(echo $BRANCH_NAME | sed 's/\.x$//')
+          echo "version=$MAJOR_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Extracted major version: $MAJOR_VERSION"
+
+  set_version:
+    name: Set Package Version
+    runs-on: ubuntu-22.04
+    needs: [check_branch]
+    outputs:
+      version: ${{ steps.pre_release_version.outputs.version }}
+    steps:
+      - name: Get the github token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v3
+        with:
+          application_id: ${{ vars.GH_MTR_PACKAGE_VERSIONS_APP_ID }}
+          application_private_key: ${{ secrets.GH_MTR_PACKAGE_VERSIONS_APP_SECRET }}
+
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.get_workflow_token.outputs.token }}
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Configure github user
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+      - name: Ensure that the major version matches the branch
+        working-directory: krait-ui
+        env:
+          MAJOR_VERSION: ${{ needs.check_branch.outputs.major_version }}
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          if [[ "$CURRENT_VERSION" != $MAJOR_VERSION.* ]]; then
+              npm version $MAJOR_VERSION.0.0 --no-git-tag-version
+              echo "Updated version to match major version $MAJOR_VERSION"
+          else
+              echo "Version already matches major version $MAJOR_VERSION"
+          fi
+
+      - name: Update version in package.json
+        if: github.event.inputs.version-update != 'no update'
+        working-directory: krait-ui
+        env:
+          VERSION_UPDATE: ${{ github.event.inputs.version-update }}
+        run: npm version $VERSION_UPDATE --no-git-tag-version
+
+      - name: Set the version as pre-release(beta version)
+        id: pre_release_version
+        working-directory: krait-ui
+        env:
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
+        run: |
+          VERSION=$(npm version prerelease --preid=beta)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Commit the version update
+        env:
+          VERSION: ${{ steps.pre_release_version.outputs.version }}
+        run: |
+          git commit -am "[GHA] Update package version to $VERSION"
+          git push
+
+  build_ui:
+    name: Build UI Library
+    needs: [set_version]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: "krait-ui/package-lock.json"
+
+      - name: Install npm dependencies
+        working-directory: krait-ui
+        run: npm ci
+
+      - name: Build FE assets
+        working-directory: krait-ui
+        run: npm run build
+
+      - name: Zip the distribution build
+        working-directory: krait-ui
+        run: zip -9qry "distribution-package.zip" "./" -i "dist/*" "package.json" "package-lock.json"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distribution-package.zip
+          path: krait-ui/distribution-package.zip
+
+  pre_release:
+    name: Create Pre-Release
+    runs-on: ubuntu-22.04
+    needs: [set_version]
+    outputs:
+      release_id: ${{ steps.update-release.outputs.release_id }}
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Set pre-release tag
+        id: update-release
+        uses: ./.github/actions/pre-release
+        with:
+          branch_name: ${{ github.ref_name }}
+          tag_name: ${{ needs.set_version.outputs.version }}
+
+  publish_npm_package:
+    name: Publish the UI NPM package
+    runs-on: ubuntu-22.04
+    needs: [pre_release, build_ui]
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Download the distribution build
+        uses: actions/download-artifact@v4
+        with:
+          name: distribution-package.zip
+          path: krait-ui
+
+      - name: Unzip the distribution build
+        working-directory: krait-ui
+        run: unzip -n distribution-package.zip
+
+      - name: Upload an Asset in GitHub Release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const {RELEASE_ID} = process.env
+
+            const fs = require('fs').promises;
+            await github.rest.repos.uploadReleaseAsset({
+              name: 'distribution-package.zip',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ env.RELEASE_ID }},
+              data: await fs.readFile('./krait-ui/distribution-package.zip')
+            });
+        env:
+          RELEASE_ID: ${{ needs.pre_release.outputs.release_id }}
+
+      # - name: Publish the NPM package
+      #   working-directory: krait-ui
+      #   run: npm publish --access public --tag dev
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
