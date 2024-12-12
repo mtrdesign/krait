@@ -14,4 +14,4 @@ runs:
       with:
         script: |
           const script = require('${{ github.action_path }}/script.js')
-          await script({github, context})
+          await script({github, context, core})

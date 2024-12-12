@@ -1,6 +1,4 @@
-const core = require("@actions/core");
-
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, core }) => {
   const branchName = core.getInput("branch_name");
   const tagName = `unreleased[${branchName}]`;
 
