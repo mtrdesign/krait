@@ -4,11 +4,6 @@ run-name: Pre-Release ${{ inputs.version-update }} version by @${{ github.actor 
 on:
   workflow_dispatch:
     inputs:
-      description:
-        description: "Release notes"
-        type: string
-        default: ""
-        required: false
       version-update:
         description: "Version update"
         required: true
@@ -58,7 +53,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [check_branch]
     outputs:
-      release_id: ${{ steps.update_release.outputs.result }}
+      release_id: ${{ steps.update-release.outputs.release_id }}
     steps:
       - name: Get Token
         id: get_workflow_token
@@ -78,7 +73,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: "https://registry.npmjs.org"
 
       - name: Configure github user
         run: |
@@ -113,61 +107,20 @@ jobs:
           TAG=$(npm version prerelease --preid=beta)
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
-      - name: Commit the version update
-        env:
-          TAG_NAME: ${{ steps.create_tag.outputs.tag }}
-        run: |
-          git commit -am "[GHA] Update package version to $TAG_NAME"
-          git push
+      # - name: Commit the version update
+      #   env:
+      #     TAG_NAME: ${{ steps.create_tag.outputs.tag }}
+      #   run: |
+      #     git commit -am "[GHA] Update package version to $TAG_NAME"
+      #     git push
 
-      - name: Set release tag
-        id: update_release
-        uses: actions/github-script@v6
+      - name: Set pre-release tag
+        id: update-release
+        uses: ./.github/actions/set-release-tag
         with:
-          script: |
-            const {TAG_NAME, USER, DESCRIPTION} = process.env
-            const releases = await github.rest.repos.listReleases({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: "unreleased",
-            })
-            const filtered = releases.data.filter(release => release.draft == true && release.tag_name === 'unreleased');
-            let release;
-            if (filtered.length === 0) {
-                console.log("Creating a new untagged release")
-                release = await github.rest.repos.createRelease({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    tag_name: "unreleased",
-                    name: "Unreleased",
-                    draft: true,
-                    generate_release_notes: true,
-                })
-            } else {
-                release = filtered[0];
-            }
-
-            let releaseNotes = `${USER} released version ${TAG_NAME}.`;
-            if (DESCRIPTION) {
-              releaseNotes += `\n\n Release Notes:\n${DESCRIPTION}`;
-            }
-
-            github.rest.repos.updateRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: release.id,
-                name: TAG_NAME,
-                tag_name: TAG_NAME,
-                draft: false,
-                prerelease: true,
-                body: releaseNotes,
-            });
-
-            return release.id
-        env:
-          TAG_NAME: ${{ steps.create_tag.outputs.tag }}
-          USER: ${{ github.event.sender.login }}
-          DESCRIPTION: ${{ github.event.inputs.description }}
+          # branch_name: ${{ github.ref_name }}
+          branch_name: 1.x
+          tag_name: ${{ steps.create_tag.outputs.tag }}
 
   # build_ui:
   #   name: Build UI Library
