@@ -1,9 +1,10 @@
 import { ApiClient } from '~/framework';
 import BaseAction from './base-action';
+import { HTTP } from '~/types';
 
 interface IFetchRecordsOptions {
   url: string;
-  body: any;
+  body: HTTP.ApiRequestBody;
 }
 
 interface IFetchRecordsResult {

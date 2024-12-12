@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="table-responsive table-wrapper" ref="wrapper">
+  <div class="table-responsive table-wrapper">
     <div class="bg-light d-flex align-items-center justify-content-center py-5">
       <div class="d-flex flex-column justify-content-center align-items-center">
         <svg

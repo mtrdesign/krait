@@ -6,19 +6,19 @@ import { DynamicColumn } from '@components/dynamic-column';
 import { ResizeColumn, SortColumn, SaveColumnsOrder } from '~/actions';
 import { SelectAllCheckbox } from '@components/select-all-checkbox';
 
-const props = defineProps({
-  tableName: {
-    type: String,
-    required: true,
+const props = withDefaults(
+  defineProps<{
+    tableName: string;
+    actionsColumn?: boolean;
+  }>(),
+  {
+    actionsColumn: false,
   },
-  actionsColumn: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-});
+);
 
-const emit = defineEmits(['refreshTable']);
+const emit = defineEmits<{
+  refreshTable: [];
+}>();
 
 const { columns, visibleColumns, sorting, isSelectableRows } = useTable(
   props.tableName,
@@ -64,17 +64,17 @@ const sortColumn = async (name: string, direction: string) => {
   <thead>
     <tr>
       <th
+        v-if="isSelectableRows"
         class="text-nowrap"
         scope="col"
-        :style="`width: 35px`"
-        v-if="isSelectableRows"
+        style="width: 35px"
       >
-        <SelectAllCheckbox :table-name="props.tableName"></SelectAllCheckbox>
+        <SelectAllCheckbox :tableName="props.tableName"></SelectAllCheckbox>
       </th>
-      <draggable
+      <Draggable
         v-model="columns"
         tag="transition-group"
-        :scroll-sensitivity="150"
+        :scrollSensitivity="150"
         @start="dragging = true"
         @change="(args) => reorderColumn(args)"
         @end="dragging = false"
@@ -83,23 +83,23 @@ const sortColumn = async (name: string, direction: string) => {
           <DynamicColumn
             :name="element.name"
             :title="element.label"
-            :is-visible="visibleColumns.includes(element.name)"
-            :is-sortable="element.sortable"
-            :is-active="sorting.sortBy === element.name"
-            :is-resizable="!element.fixed"
-            :sort-direction="sorting.direction"
-            :hide-title="element.hideLabel"
+            :isVisible="visibleColumns.includes(element.name)"
+            :isSortable="element.sortable"
+            :isActive="sorting.sortBy === element.name"
+            :isResizable="!element.fixed"
+            :sortDirection="sorting.direction"
+            :hideTitle="element.hideLabel"
             :width="getColumnWidth(element.name, element.width ?? 100)"
             @resize="resizeColumn"
             @sort="sortColumn"
           ></DynamicColumn>
         </template>
-      </draggable>
+      </Draggable>
       <th
+        v-if="actionsColumn"
         class="text-nowrap"
         scope="col"
-        :style="`width: 100px`"
-        v-if="actionsColumn"
+        style="width: 100px"
       ></th>
     </tr>
   </thead>

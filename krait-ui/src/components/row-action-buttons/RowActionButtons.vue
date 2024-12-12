@@ -7,16 +7,10 @@ import {
 } from '~/mixins';
 import { DeleteRecord, FetchRecords } from '~/actions';
 
-const props = defineProps({
-  tableName: {
-    type: String,
-    required: true,
-  },
-  actionLinks: {
-    type: Object,
-    required: true,
-  },
-});
+const props = defineProps<{
+  tableName: string;
+  actionLinks: object;
+}>();
 
 const { dispatch } = useDispatcher(props.tableName);
 const configuration = useTableConfiguration(props.tableName);
@@ -41,27 +35,30 @@ const onDelete = async (url: string) => {
 </script>
 
 <template>
-  <template v-for="(url, action) in actionLinks" :key="key">
+  <template v-for="(url, action) in actionLinks" :key="action">
     <button
-      @click="() => followLink(url)"
-      class="btn btn-sm btn-success me-1"
       v-if="action == 'view'"
+      type="button"
+      class="btn btn-sm btn-success me-1"
+      @click="() => followLink(url)"
     >
       <Eye :width="18" />
     </button>
     <button
-      @click="() => followLink(url)"
-      class="btn btn-sm btn-info me-1"
       v-else-if="action == 'edit'"
+      type="button"
+      class="btn btn-sm btn-info me-1"
+      @click="() => followLink(url)"
     >
       <Pencil :width="18" />
     </button>
     <button
-      @click="() => onDelete(url)"
-      class="btn btn-sm btn-danger me-1"
       v-else-if="action == 'delete'"
+      type="button"
+      class="btn btn-sm btn-danger me-1"
+      @click="() => onDelete(url)"
     >
-      <Trash width="18" />
+      <Trash :width="18" />
     </button>
   </template>
 </template>

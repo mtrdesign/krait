@@ -3,12 +3,9 @@ import { useConfirmation, useDispatcher, useTable } from '~/mixins';
 import { DeleteRecord, FetchRecords } from '~/actions';
 import { Trash } from '@components/icons';
 
-const props = defineProps({
-  tableName: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  tableName: string;
+}>();
 
 const { isLoading, bulkActionLinks, selectedRows, isSelectableRows } = useTable(
   props.tableName,
@@ -34,15 +31,18 @@ const bulkDelete = async () => {
 </script>
 
 <template>
-  <div v-if="isSelectableRows">
-    <button
-      v-if="bulkActionLinks?.delete"
-      class="btn btn-danger d-flex gap-1"
-      :disabled="selectedRows.length == 0 || isLoading"
-      @click="bulkDelete"
-    >
-      <Trash width="18" />
-      Delete selected
-    </button>
+  <div>
+    <div v-if="isSelectableRows">
+      <button
+        v-if="bulkActionLinks?.delete"
+        type="button"
+        class="btn btn-danger d-flex gap-1"
+        :disabled="selectedRows.length == 0 || isLoading"
+        @click="bulkDelete"
+      >
+        <Trash :width="18" />
+        Delete selected
+      </button>
+    </div>
   </div>
 </template>

@@ -32,7 +32,7 @@ export default class FetchRecords extends BaseAction<
     if (options.url) {
       url = new URL(options.url);
     } else {
-      url = this.generateUrl(options);
+      url = this.generateUrl();
     }
 
     try {
@@ -66,6 +66,10 @@ export default class FetchRecords extends BaseAction<
    * @private
    */
   private setFilters(url: URL): void {
+    if (!this.tableProps.filtersForm) {
+      throw new Error('No filters query provided');
+    }
+
     const form = document.querySelector<HTMLFormElement>(
       this.tableProps.filtersForm,
     );

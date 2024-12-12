@@ -7,7 +7,6 @@ import {
   UnwrapNestedRefs,
 } from 'vue';
 import { ArrowDown, ArrowUp } from '@components/icons';
-import { debounce } from '~/framework/utils';
 
 interface IColumnState {
   xAxisCurrentCoords: any;
@@ -17,19 +16,22 @@ interface IColumnState {
   colWidth: any;
 }
 
-const emit = defineEmits(['sort', 'resize']);
-const props = defineProps([
-  'title',
-  'name',
-  'hideTitle',
-  'isVisible',
-  'isSortable',
-  'isActive',
-  'isResizable',
-  'sortDirection',
-  'width',
-]);
+const props = defineProps<{
+  title: string;
+  name: string;
+  hideTitle: boolean;
+  isVisible: boolean;
+  isSortable: boolean;
+  isActive: boolean;
+  isResizable: boolean;
+  sortDirection: string | null;
+  width: number;
+}>();
 
+const emit = defineEmits<{
+  sort: [_name: string, _direction: string];
+  resize: [_e: MouseEvent, _name: string, _width: number];
+}>();
 const state: UnwrapNestedRefs<IColumnState> = reactive({
   xAxisCurrentCoords: null,
   xAxisNewCoords: null,
@@ -101,14 +103,14 @@ watch(
     </div>
     <span v-if="isSortable" class="sort" style="z-index: 1">
       <ArrowDown
-        :color="isActive ? '#0D6EFD' : '#adb5bd'"
         v-if="isActive && sortDirection === 'desc'"
+        :color="isActive ? '#0D6EFD' : '#adb5bd'"
         @click="() => emit('sort', name, 'asc')"
       ></ArrowDown>
       <ArrowUp
+        v-else
         :color="isActive ? '#0D6EFD' : '#adb5bd'"
         @click="() => emit('sort', name, 'desc')"
-        v-else
       ></ArrowUp>
     </span>
     <div
