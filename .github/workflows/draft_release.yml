@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "[0-9]+.x"
+  pull_request:
 
 concurrency:
   group: release
@@ -20,3 +21,5 @@ jobs:
 
       - name: Create/Update Draft Release
         uses: ./.github/actions/draft-release
+        with:
+          branch_name: "1.x"
