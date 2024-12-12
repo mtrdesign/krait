@@ -7,7 +7,11 @@ import { tableConfigurations } from '~/mixins/useTableConfiguration';
 interface IUseDispatcher {
   dispatch: <T extends BaseAction>(
     actionClass: {
-      new (_context: Table.ITableContext, _tableName: string): T;
+      new (
+        _context: Table.ITableContext,
+        _tableName: string,
+        _props: Table.ITableConfiguration | undefined,
+      ): T;
     },
     options: Parameters<T['process']>[0],
   ) => Promise<ReturnType<T['process']> | null>;

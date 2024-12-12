@@ -1,8 +1,7 @@
-name: PR Opened
+name: CI Validation
 
 on:
   pull_request:
-    types: [ opened ]
     branches:
       - main
 
@@ -11,27 +10,32 @@ defaults:
     working-directory: ./krait-ui
 
 env:
-  NODE_VERSION: '20.16.0'
-  PHP_VERSION: '8.2.22'
+  NODE_VERSION: "20.16.0"
+  PHP_VERSION: "8.2.22"
 
 jobs:
-  run-tests:
-    runs-on: 'ubuntu-20.04'
-
+  lint-checks:
+    name: Lint Checks
+    runs-on: "ubuntu-22.04"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: "krait-ui/package-lock.json"
 
       - name: Install npm dependencies
         run: npm ci
 
       - name: Run Prettier Check
         run: npm run prettier
+
+      - name: Run Lint Check
+        run: npm run lint
 
       - name: Build
         run: npm run build

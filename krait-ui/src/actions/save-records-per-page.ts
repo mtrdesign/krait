@@ -1,8 +1,6 @@
 import { Config, ApiClient } from '~/framework';
 import BaseAction from './base-action';
 
-interface ISaveRecordsPerPageOptions {}
-
 interface ISaveRecordsPerPageResult {
   success: boolean;
 }
@@ -15,15 +13,13 @@ interface ISaveRecordsPerPageResult {
  * @extends BaseAction
  */
 export default class SaveRecordsPerPage extends BaseAction<
-  ISaveRecordsPerPageOptions,
+  undefined,
   ISaveRecordsPerPageResult
 > {
   /**
    * Saves the columns order to the back-end.
-   *
-   * @param _options
    */
-  async process(_options: ISaveRecordsPerPageOptions) {
+  async process() {
     const url = Config.kraitUrl;
     const tablePath = encodeURIComponent(encodeURIComponent(this.tableName));
     url.pathname = `${url.pathname}/preview-configurations/${tablePath}/columns/items-per-page`;

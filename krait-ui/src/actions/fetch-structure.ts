@@ -5,8 +5,6 @@ import { IColumn } from '~/types/table';
 import { IPreviewConfiguration } from '~/types/responses';
 import { UnauthorizedError } from '~/framework/exceptions';
 
-interface IFetchStructureOptions {}
-
 interface IFetchStructureResult {
   success: boolean;
 }
@@ -19,15 +17,13 @@ interface IFetchStructureResult {
  * @extends BaseAction
  */
 export default class FetchStructure extends BaseAction<
-  IFetchStructureOptions,
+  undefined,
   IFetchStructureResult
 > {
   /**
    * Gets the table's structure
-   *
-   * @param {IFetchRecordsOptions} options - The column options.
    */
-  async process(options: IFetchStructureOptions) {
+  async process() {
     const url = new URL(window.origin);
     url.pathname = `krait/table/structure`;
 
@@ -98,7 +94,7 @@ export default class FetchStructure extends BaseAction<
   ) {
     const visible_columns = preview_configuration?.visible_columns;
 
-    this.context.visibleColumns.value = !!visible_columns
+    this.context.visibleColumns.value = visible_columns
       ? visible_columns
       : this.context.columns.value.map((column) => column.name);
   }

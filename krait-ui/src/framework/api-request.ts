@@ -1,3 +1,5 @@
+import { HTTP } from '~/types';
+
 const DEFAULT_HEADERS = {
   'content-type': 'application/json',
   accept: 'application/json',
@@ -19,17 +21,20 @@ class ApiRequest extends Request {
    */
   constructor(
     url: string | URL,
-    body: any = null,
+    body: HTTP.ApiRequestBody = null,
     method: string = 'GET',
     headers: IHeaders = {},
   ) {
-    if (body !== null && typeof body !== 'string') {
-      body = JSON.stringify(body);
+    let data: string | null;
+    if (body && typeof body !== 'string') {
+      data = JSON.stringify(body);
+    } else {
+      data = body;
     }
 
     super(url, {
       method,
-      body,
+      body: data,
     });
     this.setDefaultHeaders();
     this.setAdditionalHeaders(headers);

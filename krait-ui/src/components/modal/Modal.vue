@@ -2,20 +2,21 @@
 import { onMounted, ref, watch } from 'vue';
 import { Modal as BSModal } from 'bootstrap';
 
-const emit = defineEmits(['close', 'continue']);
+const props = withDefaults(
+  defineProps<{
+    isOpened?: boolean;
+    title?: string;
+  }>(),
+  {
+    isOpened: false,
+    title: undefined,
+  },
+);
 
-const props = defineProps({
-  isOpened: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-  title: {
-    type: String,
-    required: false,
-    default: undefined,
-  },
-});
+const emit = defineEmits<{
+  close: [];
+  continue: [];
+}>();
 
 const modalEl = ref<HTMLDivElement>();
 const modalBS = ref<BSModal>();
@@ -44,10 +45,10 @@ watch(
 
 <template>
   <!-- Modal -->
-  <div class="modal fade" tabindex="-1" ref="modalEl">
+  <div ref="modalEl" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header" v-if="title">
+        <div v-if="title" class="modal-header">
           <h5 class="modal-title">{{ title }}</h5>
           <button type="button" class="btn-close" aria-label="Close"></button>
         </div>

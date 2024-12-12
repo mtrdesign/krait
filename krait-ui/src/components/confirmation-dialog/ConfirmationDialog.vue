@@ -8,9 +8,9 @@ const { isOpened, question, agree, cancel } = useConfirmation();
 <template>
   <Modal
     title="Confirmation"
+    :isOpened="isOpened"
     @close="cancel"
     @continue="agree"
-    :is-opened="isOpened"
   >
     <template #body>
       {{ question }}

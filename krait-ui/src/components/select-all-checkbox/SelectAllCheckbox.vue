@@ -2,12 +2,9 @@
 import { ref, watch } from 'vue';
 import { useTable } from '~/mixins';
 
-const props = defineProps({
-  tableName: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  tableName: string;
+}>();
 
 const { selectedRows, records } = useTable(props.tableName);
 const checkBoxInput = ref<HTMLInputElement | null>(null);
@@ -45,9 +42,9 @@ watch(
 
 <template>
   <input
-    type="checkbox"
-    @click="toggleSelectAll"
-    :checked="isAllSelected"
     ref="checkBoxInput"
+    type="checkbox"
+    :checked="isAllSelected"
+    @click="toggleSelectAll"
   />
 </template>
