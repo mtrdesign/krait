@@ -1,0 +1,23 @@
+name: "Draft Release"
+description: "Creates or updates a draft release"
+
+inputs:
+  branch_name:
+    description: "The target branch name (1.x, 2.x, etc.)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Draft github release
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const script = require('${{ github.action_path }}/script.js')
+          await script({
+            github,
+            context,
+            inputs: {
+              branchName: '${{ inputs.branch_name }}'
+            }
+          })
