@@ -48,14 +48,20 @@ module.exports = async ({ github, context, inputs }) => {
   }
 
   console.log(`Creating a new untagged release for ${inputs.branchName}`);
+  const { data: notes } = await github.rest.repos.generateReleaseNotes({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    tag_name: tagName,
+    target_commitish: inputs.branchName,
+    previous_tag_name: latestTag?.name,
+  });
   await github.rest.repos.createRelease({
     owner: context.repo.owner,
     repo: context.repo.repo,
     tag_name: tagName,
     name: `Unreleased [${inputs.branchName}]`,
+    body: notes.body,
     draft: true,
-    generate_release_notes: true,
     target_commitish: inputs.branchName,
-    previous_tag_name: latestTag?.name,
   });
 };
