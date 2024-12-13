@@ -29,9 +29,9 @@ runs:
             }
           })
 
-    - name: Unpublish the beta versions
-      shell: bash
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_auth_token }}
-        MAJOR_VERSION: ${{ inputs.tag_name.split('.')[0] }}
-      run: ${{ github.action_path }}/unpublish-beta-versions.sh
+    # - name: Unpublish the beta versions
+    #   shell: bash
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ inputs.npm_auth_token }}
+    #     MAJOR_VERSION: ${{ inputs.tag_name.split('.')[0] }}
+    #   run: ${{ github.action_path }}/unpublish-beta-versions.sh
