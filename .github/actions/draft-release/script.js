@@ -39,5 +39,6 @@ module.exports = async ({ github, context, inputs }) => {
     name: `Unreleased [${inputs.branchName}]`,
     draft: true,
     generate_release_notes: true,
+    target_commitish: inputs.branchName,
   });
 };

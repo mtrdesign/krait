@@ -1,28 +1,8 @@
 module.exports = async ({ github, context, inputs }) => {
   const majorVersion = inputs.tagName.split(".")[0];
 
-  // Get all tags
-  const { data: tags } = await github.rest.repos.listTags({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-  });
-
-  // Find latest non-beta tag for major version
-  const latestTag = tags.find(
-    (tag) =>
-      tag.name.startsWith(`${majorVersion}.`) && !tag.name.includes("-beta"),
-  );
-
-  // Generate release notes comparing with latest tag
-  const { data: releaseNotes } = await github.rest.repos.generateReleaseNotes({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    tag_name: inputs.tagName,
-    previous_tag_name: latestTag?.name,
-  });
-
   // Get current release
-  const release = await github.rest.repos.getRelease({
+  const { data: release } = await github.rest.repos.getRelease({
     owner: context.repo.owner,
     repo: context.repo.repo,
     release_id: inputs.releaseId,
@@ -32,9 +12,8 @@ module.exports = async ({ github, context, inputs }) => {
   await github.rest.repos.updateRelease({
     owner: context.repo.owner,
     repo: context.repo.repo,
-    release_id: release.data.id,
+    release_id: release.id,
     name: inputs.tagName,
-    body: releaseNotes.body,
     tag_name: inputs.tagName,
     draft: false,
     prerelease: false,
@@ -63,6 +42,10 @@ module.exports = async ({ github, context, inputs }) => {
 
   // Cleanup beta tags
   console.log("Cleaning up beta tags...");
+  const { data: tags } = await github.rest.repos.listTags({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+  });
   for (const tag of tags) {
     if (tag.name.startsWith(`${majorVersion}.`) && tag.name.includes("-beta")) {
       console.log(`Deleting beta tag: ${tag.name}`);
