@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "[0-9]+.x"
+      - "feature/1.x/gha-improvements"
 
 concurrency:
   group: release-${{ github.ref_name }}
@@ -22,4 +23,5 @@ jobs:
       - name: Create/Update Draft Release
         uses: ./.github/actions/draft-release
         with:
-          branch_name: ${{ github.ref_name }}
+          branch_name: "1.x"
+          # branch_name: ${{ github.ref_name }}
