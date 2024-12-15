@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   bump_version:
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-22.04"
     name: Build UI
     outputs:
       version_branch: ${{ steps.get-version-details.outputs.major_version}}.x
