@@ -14,6 +14,18 @@ env:
   PHP_VERSION: "8.2.22"
 
 jobs:
+  check_pr_label:
+    name: Check PR Label
+    if: github.event.pull_request.state == 'open'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR contains at least one valid label
+        uses: jesusvasquez333/verify-pr-label-action@v1.4.0
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          valid-labels: "Feature, Improvement, Dependency, Deprecated, Bug, IgnoreForRelease, Documentation, Removed, GHA"
+          disable-reviews: true
+
   lint-checks:
     name: Lint Checks
     runs-on: "ubuntu-22.04"

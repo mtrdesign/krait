@@ -1,0 +1,29 @@
+# .github/release.yml
+# Contains configure for auto generated release notes
+changelog:
+  exclude:
+    labels:
+      - IgnoreForRelease
+  categories:
+    - title: "Features"
+      labels:
+        - "Feature"
+    - title: "Improvements"
+      labels:
+        - "Improvement"
+    - title: "Bugs"
+      labels:
+        - "Bug"
+    - title: "Deprecated"
+      labels:
+        - "Deprecated"
+    - title: "Removed"
+      labels:
+        - "Removed"
+    - title: "Dependencies"
+      labels:
+        - "Dependency"
+    - title: "Other"
+      labels:
+        - "Documentation"
+        - "GHA"
