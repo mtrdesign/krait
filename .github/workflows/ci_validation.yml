@@ -17,7 +17,7 @@ jobs:
   check_pr_label:
     name: Check PR Label
     if: github.event.pull_request.state == 'open'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Check PR contains at least one valid label
         uses: jesusvasquez333/verify-pr-label-action@v1.4.0

@@ -115,8 +115,8 @@ jobs:
 
   build_ui:
     name: Build UI Library
-    needs: [set_version]
     runs-on: ubuntu-22.04
+    needs: [set_version]
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
