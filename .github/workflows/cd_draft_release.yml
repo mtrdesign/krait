@@ -1,5 +1,5 @@
 name: Draft Release
-run-name: Draft Release latest updates of ${{ github.ref_name }} (@${{ github.actor }})
+run-name: Draft Release of ${{ github.ref_name }} triggered by @${{ github.actor }}
 
 on:
   push:
@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Create/Update Draft Release
+      - name: Create/Update the draft release
         uses: ./.github/actions/draft-release
         with:
           branch_name: ${{ github.ref_name }}

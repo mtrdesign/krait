@@ -1,5 +1,5 @@
 module.exports = async ({ github, context, inputs }) => {
-  const draftTagName = `unreleased[${inputs.branchName}]`;
+  const draftTagName = `${inputs.branchName}-unreleased`;
 
   const releases = await github.rest.repos.listReleases({
     owner: context.repo.owner,

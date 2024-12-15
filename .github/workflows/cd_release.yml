@@ -26,7 +26,6 @@ jobs:
     runs-on: "ubuntu-22.04"
     outputs:
       version_branch: ${{ steps.get-version-details.outputs.major_version}}.x
-      release_version: ${{ steps.get-clean-version.outputs.version }}
     steps:
       - name: Get Github token
         id: get-github-token
@@ -35,32 +34,29 @@ jobs:
           application_id: ${{ vars.GH_MTR_PACKAGE_VERSIONS_APP_ID }}
           application_private_key: ${{ secrets.GH_MTR_PACKAGE_VERSIONS_APP_SECRET }}
 
-      - name: Get release title and tag
+      - name: Get release version details
         id: get-version-details
         run: |
-          echo "release_title=${{ github.event.release.name }}" >> $GITHUB_OUTPUT
-          echo "release_tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
-
           # Extract major version (handles v1.2.3-beta.0 or 1.2.3-beta.0)
           MAJOR_VERSION=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v\{0,1\}\([0-9]\+\)[^0-9].*/\1/')
           echo "major_version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Checkout code
+      - name: Checkout the repository
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-version-details.outputs.major_version}}.x
           token: ${{ steps.get-github-token.outputs.token }}
 
-      - name: Check release title format
+      - name: Verify the release title
         env:
-          RELEASE_TITLE: ${{ steps.get-version-details.outputs.release_title }}
+          RELEASE_TITLE: ${{ github.event.release.name }}
         run: |
           if [[ -z "$RELEASE_TITLE" ]]; then
             echo "Release title cannot be empty"
             exit 1
           fi
 
-          TITLE_VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+(-alpha|-beta)?$"
+          TITLE_VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+$"
           if [[ ! $RELEASE_TITLE =~ $TITLE_VERSION_REGEX ]]; then
             echo "Invalid release title format: $RELEASE_TITLE"
             exit 1
@@ -68,36 +64,27 @@ jobs:
             echo "Release title $RELEASE_TITLE is valid"
           fi
 
-      - name: Get the clean version
-        id: get-clean-version
-        env:
-          TAG_NAME: ${{ steps.get-version-details.outputs.tag_name }}
-        run: |
-          VERSION=$(echo "$TAG_NAME" | sed 's/^v//' | cut -d'-' -f1)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Update package.json version
         env:
-          CLEAN_VERSION: ${{ steps.get-clean-version.outputs.version }}
+          VERSION: ${{ github.event.release.tag_name }}
         run: |
-          npm version $CLEAN_VERSION
+          npm version $VERSION
 
-      - name: Commit version bump in different branch
-        id: create-release-branch
+      - name: Commit the version bump update
         env:
-          CLEAN_VERSION: ${{ steps.get-clean-version.outputs.version }}
+          VERSION: ${{ github.event.release.tag_name }}
           GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
 
           git add .
-          git commit -am "Bump version to $CLEAN_VERSION"
+          git commit -am "[GHA] Update package version to $VERSION"
           git push origin HEAD:$CLEAN_VERSION
 
   release:
@@ -153,18 +140,22 @@ jobs:
 
       - name: Delete existing release asset
         uses: actions/github-script@v6
+        env:
+          ASSET_ID: ${{ steps.download-production-build.outputs.result }}
         with:
           script: |
-            const assetId = ${{ steps.download-production-build.outputs.result }}
+            const {ASSET_ID} = process.env
 
             await github.rest.repos.deleteReleaseAsset({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              asset_id: assetId
+              asset_id: ASSET_ID
             });
 
       - name: Upload an Asset in GitHub Release
         uses: actions/github-script@v6
+        env:
+          RELEASE_ID: ${{ github.event.release.id }}
         with:
           script: |
             const {RELEASE_ID} = process.env
@@ -177,16 +168,6 @@ jobs:
               release_id: ${{ env.RELEASE_ID }},
               data: await fs.readFile('./krait-ui/distribution-package.zip')
             });
-        env:
-          RELEASE_ID: ${{ github.event.release.id }}
-
-      - name: Set pre-release tag
-        id: update-release
-        uses: ./.github/actions/release
-        with:
-          release_id: ${{ github.event.release.id }}
-          tag_name: ${{ needs.bump_version.outputs.release_version }}
-          node_auth_token: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Unzip the distribution build
         working-directory: krait-ui
@@ -197,3 +178,11 @@ jobs:
       #   run: npm publish --access public
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Release cleanup
+        id: update-release
+        uses: ./.github/actions/release-cleanup
+        with:
+          release_id: ${{ github.event.release.id }}
+          tag_name: ${{ needs.bump_version.outputs.release_version }}
+          node_auth_token: ${{ secrets.NPM_AUTH_TOKEN }}

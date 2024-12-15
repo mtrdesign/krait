@@ -1,10 +1,7 @@
-name: "Release"
-description: "Release the pre-release release"
+name: "Release cleanup"
+description: "Beta versions cleanup"
 
 inputs:
-  release_id:
-    description: "The id of the target release"
-    required: true
   tag_name:
     description: "The release version tag"
     required: true
@@ -24,7 +21,6 @@ runs:
             github,
             context,
             inputs: {
-              releaseId: '${{ inputs.release_id }}',
               tagName: '${{ inputs.tag_name }}',
             }
           })
