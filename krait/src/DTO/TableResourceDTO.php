@@ -7,7 +7,7 @@ use MtrDesign\Krait\Utils\PathUtils;
 
 /**
  * DTO Object for handling TableResource data
- * like VueJS components, Controllers, Definition Classes, etc.
+ * like Vue.js components, Controllers, Definition Classes, etc.
  */
 readonly class TableResourceDTO
 {
