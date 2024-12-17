@@ -2,6 +2,7 @@
 
 namespace MtrDesign\Krait\Services\TablesOrchestrator;
 
+use Exception;
 use FilesystemIterator;
 use MtrDesign\Krait\Services\PreviewConfigService;
 use MtrDesign\Krait\Tables\BaseTable;
@@ -33,13 +34,31 @@ class TablesOrchestrator
      *
      * @param  SplFileInfo  $table  - the table definition class file
      * @return $this
+     *
+     * @throws Exception
      */
     public function registerTable(SplFileInfo $table): TablesOrchestrator
     {
         $definitionClass = PathUtils::dirToNamespace($table->getPathname());
+        $tableCluster = new TableCluster($definitionClass);
+        $this->registerTableCluster($tableCluster);
 
-        $this->tables[$definitionClass] = new TableCluster($definitionClass);
-        $this->tables[$definitionClass]->instantiate($this->previewConfigService);
+        return $this;
+    }
+
+    /**
+     * Registers a table cluster.
+     *
+     * @param  TableCluster  $cluster  - the already built cluster
+     * @return $this
+     *
+     * @throws Exception
+     */
+    public function registerTableCluster(TableCluster $cluster): TablesOrchestrator
+    {
+        $namespace = $cluster->getDefinitionClass()->namespace;
+        $this->tables[$namespace] = $cluster;
+        $this->tables[$namespace]->instantiate($this->previewConfigService);
 
         return $this;
     }
@@ -77,7 +96,7 @@ class TablesOrchestrator
             }
         }
 
-        return null; // Return null if no table matches the name
+        return null;
     }
 
     /**
@@ -92,9 +111,15 @@ class TablesOrchestrator
             return null;
         }
 
-        $directoryIterator = new RecursiveDirectoryIterator($tablesDirectory, FilesystemIterator::SKIP_DOTS);
+        $directoryIterator = new RecursiveDirectoryIterator(
+            $tablesDirectory,
+            FilesystemIterator::SKIP_DOTS
+        );
 
-        return new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);
+        return new RecursiveIteratorIterator(
+            $directoryIterator,
+            RecursiveIteratorIterator::SELF_FIRST
+        );
     }
 
     /**

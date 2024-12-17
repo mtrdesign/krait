@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use MtrDesign\Krait\Services\TablesOrchestrator\TableCluster;
+use MtrDesign\Krait\Services\TablesOrchestrator\TablesOrchestrator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Throwable;
 
@@ -41,7 +42,7 @@ class KraitTableCommand extends Command
      *
      * @throws Exception|Throwable
      */
-    public function handle(): int
+    public function handle(TablesOrchestrator $tablesOrchestrator): int
     {
         $this->tableClass = $this->argument('table-class');
         $this->validateClass();
@@ -54,7 +55,19 @@ class KraitTableCommand extends Command
         $this->createTableDefinitionClass();
         $this->createController();
         $this->createVueComponent();
-        $this->callSilent('krait:refresh');
+
+        // Clear any cached files first
+        $this->call('route:clear');
+        $this->call('cache:clear');
+
+        // Make sure all files are written before continuing
+        clearstatcache(true);
+
+        // Register the new table cluster
+        $tablesOrchestrator->registerTableCluster($this->tableCluster);
+
+        // Now refresh after everything is in place
+        $this->call('krait:refresh');
 
         $this->components->info("The $this->tableClass table has been created successfully 🚀");
 

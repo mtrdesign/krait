@@ -115,8 +115,6 @@ class TableCluster
      * Returns the VueJS component resource.
      *
      * @return TableResourceDTO - the VueJS component resource
-     *
-     * @throws Exception
      */
     public function getVue(): TableResourceDTO
     {

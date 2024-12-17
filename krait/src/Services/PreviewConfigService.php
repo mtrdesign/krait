@@ -3,7 +3,6 @@
 namespace MtrDesign\Krait\Services;
 
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use MtrDesign\Krait\Models\KraitPreviewConfiguration;
 use MtrDesign\Krait\Tables\BaseTable;
@@ -17,6 +16,10 @@ class PreviewConfigService
 {
     /**
      * Returns the user preview configuration.
+     *
+     * @param  mixed  $user  - the target user object
+     * @param  string  $tableName  - the table name
+     * @return KraitPreviewConfiguration - the preview configuration
      */
     public function getConfiguration(mixed $user, string $tableName): KraitPreviewConfiguration
     {
@@ -50,7 +53,10 @@ class PreviewConfigService
         BaseTable $table,
     ): mixed {
         if (
-            in_array(null, [$previewConfiguration->sort_column, $previewConfiguration->sort_direction]) ||
+            in_array(null, [
+                $previewConfiguration->sort_column,
+                $previewConfiguration->sort_direction,
+            ]) ||
             ! $table->hasColumn($previewConfiguration->sort_column)
         ) {
             return $records;

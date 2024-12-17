@@ -24,11 +24,8 @@ class RefreshCommand extends Command
      */
     protected $description = 'Exposes all table vue components components.';
 
-    public function handle()
+    public function handle(TablesOrchestrator $tablesOrchestrator)
     {
-        $tableComponentsPath = resource_path('js/components/tables');
-
-        $tablesOrchestrator = app(TablesOrchestrator::class);
         $tables = $tablesOrchestrator->getTables();
         $components = [];
         foreach ($tables as $table) {

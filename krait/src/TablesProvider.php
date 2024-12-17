@@ -41,16 +41,23 @@ class TablesProvider extends ServiceProvider
                 if (! $file->isFile()) {
                     continue;
                 }
-
                 $this->tables[] = $file;
-                $tableClass = TablesOrchestrator::getTableDefinitionClass($file->getPathname());
-                $this->app->singleton($tableClass, function ($app) use ($tableClass) {
-                    $tablesOrchestrator = $app->make(TablesOrchestrator::class);
-
-                    return $tablesOrchestrator->getTable($tableClass);
-                });
+                $this->registerTable($file);
             }
         }
+    }
+
+    /**
+     * Registers a single table to the container
+     */
+    private function registerTable(SplFileInfo $file): void
+    {
+        $tableClass = TablesOrchestrator::getTableDefinitionClass($file->getPathname());
+        $this->app->singleton($tableClass, function ($app) use ($tableClass) {
+            $tablesOrchestrator = $app->make(TablesOrchestrator::class);
+
+            return $tablesOrchestrator->getTable($tableClass);
+        });
     }
 
     /**
@@ -60,6 +67,7 @@ class TablesProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Registering the tables to the orchestrator
         $tablesOrchestrator = $this->app->make(TablesOrchestrator::class);
         foreach ($this->tables as $table) {
             $tablesOrchestrator->registerTable($table);
