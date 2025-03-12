@@ -50,7 +50,7 @@ export default class FetchRecords extends BaseAction<
     }
 
     const currentUrl = new URL(window.location.href);
-    const historyState = `${currentUrl.pathname}${url.search}`;
+    const historyState = `${currentUrl.pathname}${url.search}${currentUrl.hash}`;
     history.replaceState({}, '', historyState);
 
     return {
